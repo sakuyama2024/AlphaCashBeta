@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -227,8 +228,8 @@ void ThreadIRCSeed(void* parg)
         }
         Sleep(500);
 
-        Send(hSocket, "JOIN #bitcoin\r");
-        Send(hSocket, "WHO #bitcoin\r");
+        Send(hSocket, "JOIN #alphacash\r");
+        Send(hSocket, "WHO #alphacash\r");
 
         int64 nStart = GetTime();
         string strLine;

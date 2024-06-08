@@ -21,28 +21,28 @@ I think it comes on the DVD but you can get the current version from
 http://developer.apple.com
 
 
-1.  Pick a directory to work inside.. something like ~/bitcoin works.  The
+1.  Pick a directory to work inside.. something like ~/alphacash works.  The
 structure I use looks like this:
 (~ is your home directory)
 
-~/bitcoin
-~/bitcoin/trunk         # source code
-~/bitcoin/deps          # dependencies.. like libraries and headers needed to compile
-~/bitcoin/Bitcoin.app   # the application bundle where you can run the app
+~/alphacash
+~/alphacash/trunk         # source code
+~/alphacash/deps          # dependencies.. like libraries and headers needed to compile
+~/alphacash/Alphacash.app   # the application bundle where you can run the app
 
-Just execute: mkdir ~/bitcoin
+Just execute: mkdir ~/alphacash
 This will create the top dir for you..
 
 WARNING: do not use the ~ notation with the configure scripts.. use the full
-name of the directory, for example /Users/james/bitcoin/deps for a user named
+name of the directory, for example /Users/james/alphacash/deps for a user named
 'james'.  In my examples I am using 'macosuser' so make sure you change that.
 
-2.  Check out the trunk version of the bitcoin code from subversion:
+2.  Check out the trunk version of the alphacash code from subversion:
 
-cd ~/bitcoin
-svn checkout https://bitcoin.svn.sourceforge.net/svnroot/bitcoin/trunk
+cd ~/alphacash
+svn checkout https://alphacash.svn.sourceforge.net/svnroot/alphacash/trunk
 
-This will make ~/bitcoin/trunk for you with all the files from subversion. 
+This will make ~/alphacash/trunk for you with all the files from subversion. 
 
 3.  Get and build the dependencies
 
@@ -53,12 +53,12 @@ Boost
 Download from http://www.boost.org/users/download/
 I'm assuming it ended up in ~/Downloads..
 
-mkdir ~/bitcoin/deps
-cd ~/bitcoin/deps
+mkdir ~/alphacash/deps
+cd ~/alphacash/deps
 tar xvjf ~/Downloads/boost_1_42_0.tar.bz2
 cd boost_1_42_0
 ./bootstrap.sh
-./bjam architecture=combined address-model=32_64 macosx-version=10.6 macosx-version-min=10.5 link=static runtime-link=static --toolset=darwin --prefix=/Users/macosuser/bitcoin/deps install
+./bjam architecture=combined address-model=32_64 macosx-version=10.6 macosx-version-min=10.5 link=static runtime-link=static --toolset=darwin --prefix=/Users/macosuser/alphacash/deps install
 
 This part takes a while.. use your judgement and fix it if something doesn't
 build for some reason.
@@ -82,23 +82,23 @@ We would like to build this as a 32 bit/64 bit library so we actually build it
 2 times and join it together here..  If you downloaded with safari it already
 uncompressed it so it will just be a tar not a tar.gz
 
-cd ~/bitcoin/deps
+cd ~/alphacash/deps
 tar xvf ~/Downloads/openssl-1.0.0.tar
 mv openssl-1.0.0 openssl-1.0.0-i386
 tar xvf ~/Downloads/openssl-1.0.0.tar
 mv openssl-1.0.0 openssl-1.0.0-x86_64
 # build i386 (32 bit intel) binary
 cd openssl-1.0.0-i386
-./Configure --prefix=/Users/macosuser/bitcoin/deps --openssldir=/Users/macosuser/deps/openssl darwin-i386-cc && make
+./Configure --prefix=/Users/macosuser/alphacash/deps --openssldir=/Users/macosuser/deps/openssl darwin-i386-cc && make
 make install # only do this on one of the architectures, to install the headers
 cd ..
 # build x86_64 (64 bit intel) binary
 cd openssl-1.0.0-x86_64
-./Configure --prefix=/Users/macosuser/bitcoin/deps --openssldir=/Users/macosuser/deps/openssl darwin64-x86_64-cc && make
+./Configure --prefix=/Users/macosuser/alphacash/deps --openssldir=/Users/macosuser/deps/openssl darwin64-x86_64-cc && make
 cd ..
 
 # combine the libs
-cd ~/bitcoin/deps
+cd ~/alphacash/deps
 lipo -arch i386 openssl-1.0.0-i386/libcrypto.a -arch x86_64 openssl-1.0.0-x86_64/libcrypto.a -o lib/libcrypto.a -create
 lipo -arch i386 openssl-1.0.0-i386/libssl.a -arch x86_64 openssl-1.0.0-x86_64/libssl.a -o lib/libssl.a -create
 
@@ -118,10 +118,10 @@ Berkeley DB
 
 Download from http://freshmeat.net/projects/berkeleydb/
 
-cd ~/bitcoin/deps
+cd ~/alphacash/deps
 tar xvf ~/Downloads/db-4.8.26.tar
 cd db-4.8.26/build_unix
-../dist/configure --prefix=/Users/macosuser/bitcoin/deps --enable-cxx && make && make install
+../dist/configure --prefix=/Users/macosuser/alphacash/deps --enable-cxx && make && make install
 
 
 wxWidgets
@@ -131,14 +131,14 @@ This is the big one..
 
 Check it out from svn
 
-cd ~/bitcoin/deps
+cd ~/alphacash/deps
 svn checkout http://svn.wxwidgets.org/svn/wx/wxWidgets/trunk wxWidgets-trunk
 
 This will make a wxWidgets-trunk directory in deps.
 
 Use this script snippet, change your prefix to whatever your dir is:
 
-PREFIX=~/bitcoin/deps
+PREFIX=~/alphacash/deps
 SRCDIR="$PREFIX/wxWidgets-trunk"
 BUILDDIR="$SRCDIR/macbuild"
 
@@ -190,28 +190,28 @@ make install
 
 
 
-Now you should be able to build bitcoin
+Now you should be able to build alphacash
 
-cd ~/bitcoin/trunk
-make -f makefile.osx bitcoin
+cd ~/alphacash/trunk
+make -f makefile.osx alphacash
 
 Before you can run it, you need to create an application bundle for Mac OS.
 Create the directories in terminal using mkdir and copy the files into place.
-They are available at http://heliacal.net/~solar/bitcoin/mac-build/
-You need the Info.plist and the .ins file.  The Contents/MacOS/bitcoin file is
+They are available at http://heliacal.net/~solar/alphacash/mac-build/
+You need the Info.plist and the .ins file.  The Contents/MacOS/alphacash file is
 the output of the build.
 Your directory structure should look like this:
 
-Bitcoin.app
-Bitcoin.app/Contents
-Bitcoin.app/Contents/Info.plist
-Bitcoin.app/Contents/MacOS
-Bitcoin.app/Contents/MacOS/bitcoin
-Bitcoin.app/Contents/Resources
-Bitcoin.app/Contents/Resources/BitcoinAppIcon.icns
+Alphacash.app
+Alphacash.app/Contents
+Alphacash.app/Contents/Info.plist
+Alphacash.app/Contents/MacOS
+Alphacash.app/Contents/MacOS/alphacash
+Alphacash.app/Contents/Resources
+Alphacash.app/Contents/Resources/AlphacashAppIcon.icns
 
-To run it you can just click the Bitcoin.app in Finder, or just do open
-~/bitcoin/Bitcoin.app
+To run it you can just click the Alphacash.app in Finder, or just do open
+~/alphacash/Alphacash.app
 If you want to run it with arguments you can just run it without backgrounding
 by specifying the full name in terminal:
-~/bitcoin/Bitcoin.app/Contents/MacOS/bitcoin -addnode=192.75.207.66
+~/alphacash/Alphacash.app/Contents/MacOS/alphacash -addnode=192.75.207.66

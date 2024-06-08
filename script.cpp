@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -918,7 +919,7 @@ bool Solver(const CScript& scriptPubKey, vector<pair<opcodetype, valtype> >& vSo
         // Standard tx, sender provides pubkey, receiver adds signature
         vTemplates.push_back(CScript() << OP_PUBKEY << OP_CHECKSIG);
 
-        // Bitcoin address tx, sender provides hash of pubkey, receiver provides signature and pubkey
+        // Alphacash address tx, sender provides hash of pubkey, receiver provides signature and pubkey
         vTemplates.push_back(CScript() << OP_DUP << OP_HASH160 << OP_PUBKEYHASH << OP_EQUALVERIFY << OP_CHECKSIG);
     }
 

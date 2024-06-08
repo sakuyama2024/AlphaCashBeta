@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024  Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -110,11 +111,11 @@ using namespace boost;
 
 #include "xpm/addressbook16.xpm"
 #include "xpm/addressbook20.xpm"
-#include "xpm/bitcoin16.xpm"
-#include "xpm/bitcoin20.xpm"
-#include "xpm/bitcoin32.xpm"
-#include "xpm/bitcoin48.xpm"
-#include "xpm/bitcoin80.xpm"
+#include "xpm/alphacash16.xpm"
+#include "xpm/alphacash20.xpm"
+#include "xpm/alphacash32.xpm"
+#include "xpm/alphacash48.xpm"
+#include "xpm/alphacash80.xpm"
 #include "xpm/check.xpm"
 #include "xpm/send16.xpm"
 #include "xpm/send16noshadow.xpm"

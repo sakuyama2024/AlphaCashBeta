@@ -1,4 +1,5 @@
 // Copyright (c) 2009 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -256,15 +257,15 @@ inline bool AddressToHash160(const string& str, uint160& hash160Ret)
     return AddressToHash160(str.c_str(), hash160Ret);
 }
 
-inline bool IsValidBitcoinAddress(const char* psz)
+inline bool IsValidAlphacashAddress(const char* psz)
 {
     uint160 hash160;
     return AddressToHash160(psz, hash160);
 }
 
-inline bool IsValidBitcoinAddress(const string& str)
+inline bool IsValidAlphacashAddress(const string& str)
 {
-    return IsValidBitcoinAddress(str.c_str());
+    return IsValidAlphacashAddress(str.c_str());
 }
 
 

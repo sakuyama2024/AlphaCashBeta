@@ -53,7 +53,7 @@ The UI layout is edited with wxFormBuilder.  The project file is
 uiproject.fbp.  It generates uibase.cpp and uibase.h, which define base
 classes that do the rote work of constructing all the UI elements.
 
-The release is built with GCC and then "strip bitcoin.exe" to strip the debug
+The release is built with GCC and then "strip alphacash.exe" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 
@@ -67,7 +67,7 @@ nmake -f makefile.vc
 
 OpenSSL
 -------
-Bitcoin does not use any encryption.  If you want to do a no-everything
+Alphacash does not use any encryption.  If you want to do a no-everything
 build of OpenSSL to exclude encryption routines, a few patches are required.
 (instructions for OpenSSL v0.9.8k)
 

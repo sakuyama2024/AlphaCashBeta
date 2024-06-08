@@ -7,23 +7,23 @@ BUILD ?= debug
 # Debug mode settings
 DEBUGFLAGS = -g
 DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
--I/usr/local/opt/berkeley-db/include \
--I/usr/local/opt/crypto++/include/cryptopp \
--I/usr/local/include/boost \
+-I/opt/homebrew/opt/berkeley-db/include \
+-I/usr/local/include/cryptopp \
+-I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
--I/usr/local/lib//wx/include/osx_cocoa-unicode-3.2 \
--I/usr/local/include/wx-3.2 \
+-I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
+-I/opt/homebrew/include/wx-3.2 \
 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
 
 # Release mode settings
 RELEASEFLAGS = -O3
 RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
--I/usr/local/opt/berkeley-db/include \
--I/usr/local/opt/crypto++/include/cryptopp \
--I/usr/local/include/boost -I/opt/homebrew/opt/boost/include/boost \
+-I/opt/homebrew/opt/berkeley-db/include \
+-I/usr/local/include/cryptopp \
+-I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
--I/usr/local/lib/wx/include/osx_cocoa-unicode-3.2 \
--I/usr/local/include/wx-3.2 \
+-I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
+-I/opt/homebrew/include/wx-3.2 \
 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
 
 # Choose the appropriate flags
@@ -33,8 +33,8 @@ else ifeq ($(BUILD),release)
     CXXFLAGS = $(RELEASE_CXXFLAGS)
 endif
 
-LIBPATHS = -L/usr/lib -L/usr/local/lib -L/usr/local/opt/crypto++/lib -L/usr/local/opt/berkeley-db/lib \
--L/usr/local/opt/boost/lib  -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
+LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/berkeley-db/lib \
+-L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
 LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
 -framework CoreFoundation  -framework IOKit -framework Carbon -framework Cocoa \

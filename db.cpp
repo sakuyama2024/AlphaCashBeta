@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -601,7 +602,7 @@ bool CWalletDB::LoadWallet()
                 ssKey >> strKey;
 
                 // Menu state
-                if (strKey == "fGenerateBitcoins")  ssValue >> fGenerateBitcoins;
+                if (strKey == "fGenerateAlphas")  ssValue >> fGenerateAlphas;
 
                 // Options
                 if (strKey == "nTransactionFee")    ssValue >> nTransactionFee;
@@ -619,7 +620,7 @@ bool CWalletDB::LoadWallet()
     }
 
     printf("nFileVersion = %d\n", nFileVersion);
-    printf("fGenerateBitcoins = %d\n", fGenerateBitcoins);
+    printf("fGenerateAlphas = %d\n", fGenerateAlphas);
     printf("nTransactionFee = %" PRI64d"\n", nTransactionFee);
     printf("addrIncoming = %s\n", addrIncoming.ToString().c_str());
     printf("fMinimizeToTray = %d\n", fMinimizeToTray);

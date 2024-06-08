@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -248,9 +249,9 @@ CMainFrame::CMainFrame(wxWindow* parent) : CMainFrameBase(parent)
     m_choiceFilter->SetSelection(0);
     double dResize = 1.0;
 #ifdef __WXMSW__
-    SetIcon(wxICON(bitcoin));
+    SetIcon(wxICON(alphacash));
 #else
-    SetIcon(bitcoin80_xpm);
+    SetIcon(alphacash80_xpm);
     SetBackgroundColour(m_toolBar->GetBackgroundColour());
     wxFont fontTmp = m_staticText41->GetFont();
     fontTmp.SetFamily(wxFONTFAMILY_TELETYPE);
@@ -618,7 +619,7 @@ bool CMainFrame::InsertTransaction(const CWalletTx& wtx, bool fNew, int nIndex)
         }
         else
         {
-            // Received by Bitcoin Address
+            // Received by Alphacash Address
             if (!fShowReceived)
                 return false;
             foreach(const CTxOut& txout, wtx.vout)
@@ -705,7 +706,7 @@ bool CMainFrame::InsertTransaction(const CWalletTx& wtx, bool fNew, int nIndex)
                 }
                 else
                 {
-                    // Sent to Bitcoin Address
+                    // Sent to Alphacash Address
                     uint160 hash160;
                     if (ExtractHash160(txout.scriptPubKey, hash160))
                         strAddress = Hash160ToAddress(hash160);
@@ -1035,9 +1036,9 @@ void CMainFrame::OnPaintListCtrl(wxPaintEvent& event)
 
     // Update status bar
     string strGen = "";
-    if (fGenerateBitcoins)
+    if (fGenerateAlphas)
         strGen = _("    Generating");
-    if (fGenerateBitcoins && vNodes.empty())
+    if (fGenerateAlphas && vNodes.empty())
         strGen = _("(not connected)");
     m_statusBar->SetStatusText(strGen, 1);
 
@@ -1086,12 +1087,12 @@ void CMainFrame::OnMenuFileExit(wxCommandEvent& event)
 void CMainFrame::OnMenuOptionsGenerate(wxCommandEvent& event)
 {
     // Options->Generate Coins
-    GenerateBitcoins(event.IsChecked());
+    GenerateAlphas(event.IsChecked());
 }
 
 void CMainFrame::OnUpdateUIOptionsGenerate(wxUpdateUIEvent& event)
 {
-    event.Check(fGenerateBitcoins);
+    event.Check(fGenerateAlphas);
 }
 
 void CMainFrame::OnMenuOptionsChangeYourAddress(wxCommandEvent& event)
@@ -1587,8 +1588,8 @@ void COptionsDialog::OnButtonApply(wxCommandEvent& event)
         nLimitProcessors = m_spinCtrlLimitProcessors->GetValue();
         walletdb.WriteSetting("nLimitProcessors", nLimitProcessors);
     }
-    if (fGenerateBitcoins && (fLimitProcessors ? nLimitProcessors : INT_MAX) > nPrevMaxProc)
-        GenerateBitcoins(fGenerateBitcoins);
+    if (fGenerateAlphas && (fLimitProcessors ? nLimitProcessors : INT_MAX) > nPrevMaxProc)
+        GenerateAlphas(fGenerateAlphas);
 
     if (fTmpStartOnSystemStartup != m_checkBoxStartOnSystemStartup->GetValue())
     {
@@ -1699,11 +1700,11 @@ void CSendDialog::OnTextAddress(wxCommandEvent& event)
 {
     // Check mark
     event.Skip();
-    bool fBitcoinAddress = IsValidBitcoinAddress(m_textCtrlAddress->GetValue());
-    m_bitmapCheckMark->Show(fBitcoinAddress);
+    bool fAlphacashAddress = IsValidAlphacashAddress(m_textCtrlAddress->GetValue());
+    m_bitmapCheckMark->Show(fAlphacashAddress);
 
-    // Grey out message if bitcoin address
-    bool fEnable = !fBitcoinAddress;
+    // Grey out message if alphacash address
+    bool fEnable = !fAlphacashAddress;
     m_staticTextFrom->Enable(fEnable);
     m_textCtrlFrom->Enable(fEnable);
     m_staticTextMessage->Enable(fEnable);
@@ -1714,7 +1715,7 @@ void CSendDialog::OnTextAddress(wxCommandEvent& event)
         strFromSave    = m_textCtrlFrom->GetValue();
         strMessageSave = m_textCtrlMessage->GetValue();
         m_textCtrlFrom->SetValue(_("Will appear as \"From: Unknown\""));
-        m_textCtrlMessage->SetValue(_("Can't include a message when sending to a Bitcoin address"));
+        m_textCtrlMessage->SetValue(_("Can't include a message when sending to an Alphacash address"));
     }
     else if (fEnable && !fEnabledPrev)
     {
@@ -1781,13 +1782,13 @@ void CSendDialog::OnButtonSend(wxCommandEvent& event)
         return;
     }
 
-    // Parse bitcoin address
+    // Parse alphacash address
     uint160 hash160;
-    bool fBitcoinAddress = AddressToHash160(strAddress, hash160);
+    bool fAlphacashAddress = AddressToHash160(strAddress, hash160);
 
-    if (fBitcoinAddress)
+    if (fAlphacashAddress)
     {
-        // Send to bitcoin address
+        // Send to alphacash address
         CScript scriptPubKey;
         scriptPubKey << OP_DUP << OP_HASH160 << hash160 << OP_EQUALVERIFY << OP_CHECKSIG;
 
@@ -2078,12 +2079,13 @@ void CSendingDialog::OnReply2(CDataStream& vRecv)
         }
         CKey key;
         int64 nFeeRequired;
-        if (!CreateTransaction(scriptPubKey, nPrice, wtx, key, nFeeRequired))
+        bool bAlphafail;
+        if (!CreateTransaction(scriptPubKey, nPrice, wtx, key, nFeeRequired, bAlphafail))
         {
             if (nPrice + nFeeRequired > GetBalance())
                 Error(strprintf(_("This is an oversized transaction that requires a transaction fee of %s"), FormatMoney(nFeeRequired).c_str()));
-            else
-                Error(_("Transaction creation failed"));
+            else if (bAlphafail)
+                Error(strprintf(_("Alpahcash supports only single input transactions")));
             return;
         }
 
@@ -2197,7 +2199,7 @@ CAddressBookDialog::CAddressBookDialog(wxWindow* parent, const wxString& strInit
     m_listCtrlSending->InsertColumn(1, _("Address"), wxLIST_FORMAT_LEFT, 350);
     m_listCtrlSending->SetFocus();
     m_listCtrlReceiving->InsertColumn(0, _("Label"), wxLIST_FORMAT_LEFT, 200);
-    m_listCtrlReceiving->InsertColumn(1, _("Bitcoin Address"), wxLIST_FORMAT_LEFT, 350);
+    m_listCtrlReceiving->InsertColumn(1, _("Alphacash Address"), wxLIST_FORMAT_LEFT, 350);
     m_listCtrlReceiving->SetFocus();
 
     // Fill listctrl with address book data
@@ -2458,11 +2460,11 @@ void CMyTaskBarIcon::Show(bool fShow)
     static char pszPrevTip[200];
     if (fShow)
     {
-        string strTooltip = _("Bitcoin");
-        if (fGenerateBitcoins)
-            strTooltip = _("Bitcoin - Generating");
-        if (fGenerateBitcoins && vNodes.empty())
-            strTooltip = _("Bitcoin - (not connected)");
+        string strTooltip = _("Alphacash");
+        if (fGenerateAlphas)
+            strTooltip = _("Alphacash - Generating");
+        if (fGenerateAlphas && vNodes.empty())
+            strTooltip = _("Alphacash - (not connected)");
 
         // Optimization, only update when changed, using char array to be reentrant
         if (strncmp(pszPrevTip, strTooltip.c_str(), sizeof(pszPrevTip)-1) != 0)
@@ -2473,7 +2475,7 @@ void CMyTaskBarIcon::Show(bool fShow)
             // we use the main icon, so we hand it one with only 16x16
             SetIcon(wxICON(favicon), strTooltip);
 #else
-            SetIcon(bitcoin80_xpm, strTooltip);
+            SetIcon(alphacash80_xpm, strTooltip);
 #endif
         }
     }
@@ -2517,12 +2519,12 @@ void CMyTaskBarIcon::Restore()
 
 void CMyTaskBarIcon::OnMenuGenerate(wxCommandEvent& event)
 {
-    GenerateBitcoins(event.IsChecked());
+    GenerateAlphas(event.IsChecked());
 }
 
 void CMyTaskBarIcon::OnUpdateUIGenerate(wxUpdateUIEvent& event)
 {
-    event.Check(fGenerateBitcoins);
+    event.Check(fGenerateAlphas);
 }
 
 void CMyTaskBarIcon::OnMenuExit(wxCommandEvent& event)
@@ -2539,9 +2541,9 @@ void CMyTaskBarIcon::UpdateTooltip()
 wxMenu* CMyTaskBarIcon::CreatePopupMenu()
 {
     wxMenu* pmenu = new wxMenu;
-    pmenu->Append(ID_TASKBAR_RESTORE, _("&Open Bitcoin"));
+    pmenu->Append(ID_TASKBAR_RESTORE, _("&Open Alphacash"));
     pmenu->Append(ID_TASKBAR_OPTIONS, _("O&ptions..."));
-    pmenu->AppendCheckItem(ID_TASKBAR_GENERATE, _("&Generate Coins"))->Check(fGenerateBitcoins);
+    pmenu->AppendCheckItem(ID_TASKBAR_GENERATE, _("&Generate Coins"))->Check(fGenerateAlphas);
 #ifndef __WXMAC_OSX__ // Mac has built-in quit menu
     pmenu->AppendSeparator();
     pmenu->Append(ID_TASKBAR_EXIT, _("E&xit"));

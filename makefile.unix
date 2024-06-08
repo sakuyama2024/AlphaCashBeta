@@ -34,7 +34,7 @@ HEADERS=headers.h strlcpy.h serialize.h uint256.h util.h key.h bignum.h base58.h
     script.h db.h net.h irc.h main.h rpc.h uibase.h ui.h init.h sha.h
 
 
-all: bitcoin
+all: alphacash
 
 
 headers.h.gch: headers.h $(HEADERS)
@@ -56,14 +56,14 @@ OBJS= \
     obj/rpc.o \
     obj/init.o
 
-bitcoin: $(OBJS) obj/ui.o obj/uibase.o obj/sha.o
+alphacash: $(OBJS) obj/ui.o obj/uibase.o obj/sha.o
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
 
 obj/nogui/%.o: %.cpp $(HEADERS)
 	g++ -c $(CFLAGS) -DwxUSE_GUI=0 -o $@ $<
 
-bitcoind: $(OBJS:obj/%=obj/nogui/%) obj/sha.o
+alphacashd: $(OBJS:obj/%=obj/nogui/%) obj/sha.o
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ -l wx_baseud-2.9 $(LIBS)
 
 

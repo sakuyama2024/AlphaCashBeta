@@ -1,4 +1,4 @@
-bitcoin               ICON    "rc/bitcoin.ico"
+alphacash               ICON    "rc/alphacash.ico"
 
 #include "wx/msw/wx.rc"
 

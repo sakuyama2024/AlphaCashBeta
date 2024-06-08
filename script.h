@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -551,7 +552,7 @@ public:
     }
 
 
-    uint160 GetBitcoinAddressHash160() const
+    uint160 GetAlphacashAddressHash160() const
     {
         opcodetype opcode;
         vector<unsigned char> vch;
@@ -566,32 +567,32 @@ public:
         return hash160;
     }
 
-    string GetBitcoinAddress() const
+    string GetAlphacashAddress() const
     {
-        uint160 hash160 = GetBitcoinAddressHash160();
+        uint160 hash160 = GetAlphacashAddressHash160();
         if (hash160 == 0)
             return "";
         return Hash160ToAddress(hash160);
     }
 
-    void SetBitcoinAddress(const uint160& hash160)
+    void SetAlphacashAddress(const uint160& hash160)
     {
         this->clear();
         *this << OP_DUP << OP_HASH160 << hash160 << OP_EQUALVERIFY << OP_CHECKSIG;
     }
 
-    void SetBitcoinAddress(const vector<unsigned char>& vchPubKey)
+    void SetAlphacashAddress(const vector<unsigned char>& vchPubKey)
     {
-        SetBitcoinAddress(Hash160(vchPubKey));
+        SetAlphacashAddress(Hash160(vchPubKey));
     }
 
-    bool SetBitcoinAddress(const string& strAddress)
+    bool SetAlphacashAddress(const string& strAddress)
     {
         this->clear();
         uint160 hash160;
         if (!AddressToHash160(strAddress, hash160))
             return false;
-        SetBitcoinAddress(hash160);
+        SetAlphacashAddress(hash160);
         return true;
     }
 

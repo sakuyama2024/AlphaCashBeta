@@ -1,90 +1,90 @@
+# DataWraith <DataWraith@web.de>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-26 22:02-0000\n"
-"PO-Revision-Date: 2010-05-27 13:01+0100\n"
-"Last-Translator: Franco Cimatti <hostfat@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2010-06-03 13:11+0200\n"
+"Last-Translator: DataWraith\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../../..\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../../../init.cpp:342
-msgid "Usage: bitcoin [options]"
-msgstr "Uso: bitcoin [options]"
+msgid "Usage: alphacash [options]"
+msgstr "Verwendung: alphacash [optionen]"
 
 #: ../../../init.cpp:343
 msgid "Options:\n"
-msgstr "Opzioni:\n"
+msgstr "Optionen:\n"
 
 #: ../../../init.cpp:344
 msgid "Generate coins\n"
-msgstr "Genera monete\n"
+msgstr "Münzen erzeugen\n"
 
 #: ../../../init.cpp:345
 msgid "Don't generate coins\n"
-msgstr "Non generare monete\n"
+msgstr "Keine Münzen erzeugen\n"
 
 #: ../../../init.cpp:346
 msgid "Start minimized\n"
-msgstr "Avvia minimizzato\n"
+msgstr "Minimiert starten\n"
 
 #: ../../../init.cpp:347
 msgid "Specify data directory\n"
-msgstr "Indica la cartella per i dati\n"
+msgstr "Datenverzeichnis festlegen\n"
 
 #: ../../../init.cpp:348
 msgid "Connect through socks4 proxy\n"
-msgstr "Connetti attraverso proxy socks4\n"
+msgstr "Socks4 Proxy verwenden\n"
 
 #: ../../../init.cpp:349
 msgid "Add a node to connect to\n"
-msgstr "Aggiungi un nodo a cui connetterti\n"
+msgstr "Einen Teilnehmer hinzufügen, zu dem verbunden werden soll\n"
 
 #: ../../../init.cpp:350
 msgid "Connect only to the specified node\n"
-msgstr "Impossibile connettersi al nodo specificato\n"
+msgstr "Nur zu dem angegebenen Teilnehmer verbinden\n"
 
 #: ../../../init.cpp:351
 msgid "This help message\n"
-msgstr "Questo messaggio di aiuto\n"
+msgstr "Diese Anleitung\n"
 
 #: ../../../init.cpp:455
 msgid "Error loading addr.dat      \n"
-msgstr "Errore nel caricare addr.dat      \n"
+msgstr "Fehler beim Laden von addr.dat      \n"
 
 #: ../../../init.cpp:461
 msgid "Error loading blkindex.dat      \n"
-msgstr "Errore nel caricare blkindex.dat      \n"
+msgstr "Fehler beim Laden von blkindex.dat      \n"
 
 #: ../../../init.cpp:468
 msgid "Error loading wallet.dat      \n"
-msgstr "Errore nel caricare wallet.dat      \n"
+msgstr "Fehler beim Laden von wallet.dat      \n"
 
 #: ../../../init.cpp:536
 msgid "Invalid -proxy address"
-msgstr "Indirizzo proxy non valido"
+msgstr "Ungültige -Proxy Adresse"
 
 #: ../../../init.cpp:629
 msgid "Program has crashed and will terminate.  "
-msgstr "Il programma è crashato e sarà terminato.  "
+msgstr "Das Programm ist abgestürzt und wird beendet.  "
 
 #: ../../../main.cpp:1465
 msgid "Warning: Disk space is low  "
-msgstr "Attenzione: c'è poco spazio sul disco  "
+msgstr "Warnung: Festplatte fast voll  "
 
 #: ../../../main.cpp:2994
 #, c-format
 msgid "Error: This is an oversized transaction that requires a transaction fee of %s  "
-msgstr "Errore: Questa è un operazione fuoriscala che richiede un sovrapprezzo di %s  "
+msgstr "Fehler: Die Überweisung ist sehr groß. Es wird eine Gebühr von %s erhoben.  "
 
 #: ../../../main.cpp:2996
 msgid "Error: Transaction creation failed  "
-msgstr "Errore: La creazione del trasferimento è fallito  "
+msgstr "Fehler: Überweisung konnte nicht erzeugt werden.  "
 
 #: ../../../main.cpp:3001
 #: ../../../ui.cpp:1761
@@ -92,126 +92,126 @@ msgstr "Errore: La creazione del trasferimento è fallito  "
 #: ../../../ui.cpp:1904
 #: ../../../ui.cpp:2053
 msgid "Sending..."
-msgstr "Inviando..."
+msgstr "Überweise..."
 
 #: ../../../main.cpp:3005
 msgid "Error: The transaction was rejected.  This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."
-msgstr "Errore: Il trasferimento è stato respinto. Questo può accadere se alcune delle monete nel tuo portafoglio erano già state spese, o anche se hai usato una copia di wallet.dat e le monete erano già state spese nella copia originale ma non segnate in quest'ultima."
+msgstr "Fehler: Die Überweisung wurde abgelehnt. Das kann passieren, wenn einige der Münzen in Ihrer Brieftasche bereits ausgegeben wurden, z.B. weil Sie eine Kopie der Brieftasche (wallet.dat) gemacht haben. Alphacashs, die mithilfe der Kopie ausgegeben wurden, sind in dieser Brieftasche noch nicht als ausgegeben markiert worden."
 
 #: ../../../main.cpp:3017
 msgid "Invalid amount"
-msgstr "Quantità non valida"
+msgstr "Ungültiger Betrag"
 
 #: ../../../main.cpp:3019
 #: ../../../ui.cpp:1971
 #: ../../../ui.cpp:2038
 msgid "Insufficient funds"
-msgstr "Fondi insufficenti"
+msgstr "Unzureichende Geldmittel"
 
 #: ../../../main.cpp:3024
-msgid "Invalid bitcoin address"
-msgstr "Indirizzo bitcoin non valido"
+msgid "Invalid alphacash address"
+msgstr "Ungültige Alphacash-Adresse"
 
 #: ../../../ui.cpp:189
 #, c-format
 msgid "This transaction is over the size limit.  You can still send it for a fee of %s, which goes to the nodes that process your transaction and helps to support the network.  Do you want to pay the fee?"
-msgstr "Questo trasferimento è oltre le dimensioni massime. Puoi comunque inviarlo per un costo aggiuntivo di %s, che andrà ai nodi che effettueranno il processo della tua operazione e che supportano il network. Vuoi pagare il costo aggiuntivo?"
+msgstr "Diese Überweisung übersteigt das Betragslimit. Sie können sie trotzdem tätigen, aber es wird eine Gebühr von %s erhoben, die an den Teilnehmer ausgeschüttet wird, der Ihre Überweisung bearbeitet und dadurch hilft das Netzwerk am laufen zu halten. Möchten Sie die Gebühr entrichten?"
 
 #: ../../../ui.cpp:285
 msgid "Status"
-msgstr "Stato"
+msgstr "Status"
 
 #: ../../../ui.cpp:286
 msgid "Date"
-msgstr "Data"
+msgstr "Datum"
 
 #: ../../../ui.cpp:287
 msgid "Description"
-msgstr "Descrizione"
+msgstr "Beschreibung"
 
 #: ../../../ui.cpp:288
 msgid "Debit"
-msgstr "Debito"
+msgstr "Belastungen"
 
 #: ../../../ui.cpp:289
 msgid "Credit"
-msgstr "Credito"
+msgstr "Gutschriften"
 
 #: ../../../ui.cpp:489
 #, c-format
 msgid "Open for %d blocks"
-msgstr "Aperto per %d blocchi"
+msgstr "Offen für %d Blöcke"
 
 #: ../../../ui.cpp:491
 #, c-format
 msgid "Open until %s"
-msgstr "Aperto fino a %s"
+msgstr "Offen bis %s"
 
 #: ../../../ui.cpp:497
 #, c-format
 msgid "%d/offline?"
-msgstr "%d/fuorilinea?"
+msgstr "%d/Offline?"
 
 #: ../../../ui.cpp:499
 #, c-format
 msgid "%d/unconfirmed"
-msgstr "%d/non confermato"
+msgstr "%d/nicht bestätigt"
 
 #: ../../../ui.cpp:501
 #, c-format
 msgid "%d confirmations"
-msgstr "%d conferme"
+msgstr "%d Bestätigungen"
 
 #: ../../../ui.cpp:584
 msgid "Generated"
-msgstr "Generato"
+msgstr "Erzeugt"
 
 #: ../../../ui.cpp:592
 #, c-format
 msgid "Generated (%s matures in %d more blocks)"
-msgstr "Generate (%s matureranno in %d altri blocchi)"
+msgstr "Erzeugt (%s reifen nach %d weiteren Blöcken)"
 
 #: ../../../ui.cpp:596
 msgid "Generated - Warning: This block was not received by any other nodes and will probably not be accepted!"
-msgstr "Generato - Attenzione: Questo blocco non è stato ricevuto da nessun altro nodo e probabilmente non sarà accettato!"
+msgstr "Erzeugt - Warnung: Dieser Block wurde von keinem anderen Teilnehmer empfangen und wird wahrscheinlich nicht akzeptiert werden!"
 
 #: ../../../ui.cpp:600
 msgid "Generated (not accepted)"
-msgstr "Generato (non accettato)"
+msgstr "Erzeugt (nicht akzeptiert)"
 
 #: ../../../ui.cpp:610
 msgid "From: "
-msgstr "Da: "
+msgstr "Von: "
 
 #: ../../../ui.cpp:634
 msgid "From: unknown, Received with: "
-msgstr "Da: sconosciuto, Ricevuto con: "
+msgstr "Von: Unbekannt, Empfangen durch: "
 
 #: ../../../ui.cpp:676
 msgid "Payment to yourself"
-msgstr "Pagamento a te stesso"
+msgstr "Überweisung an Sie selbst"
 
 #: ../../../ui.cpp:713
 msgid "To: "
-msgstr "A: "
+msgstr "An: "
 
 #: ../../../ui.cpp:1009
 msgid "    Generating"
-msgstr "    Generando"
+msgstr "    Erzeugen"
 
 #: ../../../ui.cpp:1011
 msgid "(not connected)"
-msgstr "(non connesso)"
+msgstr "(nicht verbunden)"
 
 #: ../../../ui.cpp:1014
 #, c-format
 msgid "     %d connections     %d blocks     %d transactions"
-msgstr "     %d connessioni     %d blocchi     %d trasferimenti"
+msgstr "     %d Verbindungen     %d Blöcke     %d Überweisungen"
 
 #: ../../../ui.cpp:1123
 #: ../../../ui.cpp:2351
 msgid "New Receiving Address"
-msgstr "Nuovo indirizzo ricevente"
+msgstr "&Neue Empfangs-Adresse"
 
 #: ../../../ui.cpp:1124
 #: ../../../ui.cpp:2352
@@ -220,119 +220,121 @@ msgid ""
 "\n"
 "Label"
 msgstr ""
-"E' una buona abitudine usare un nuovo indirizzo per ogni pagamento che ricevuto.\n"
+"Am besten verwenden Sie für jede Zahlung die Sie erhalten eine neue Adresse.\n"
 "\n"
-"Label"
+"Beschreibung"
 
 #: ../../../ui.cpp:1193
 msgid "<b>Status:</b> "
-msgstr "<b>Stato:</b> "
+msgstr "<b>Status:</b> "
 
 #: ../../../ui.cpp:1198
 msgid ", has not been successfully broadcast yet"
-msgstr ", non è ancora stato diffuso correttamente"
+msgstr ", wurde noch nicht erfolgreich übertragen"
 
 #: ../../../ui.cpp:1200
 #, c-format
 msgid ", broadcast through %d node"
-msgstr ", diffusione attraverso %d nodo"
+msgstr ", durch %d Teilnehmer übertragen"
 
 #: ../../../ui.cpp:1202
 #, c-format
 msgid ", broadcast through %d nodes"
-msgstr ", diffusione attraverso %d nodi"
+msgstr ", durch %d Teilnehmer übertragen"
 
 #: ../../../ui.cpp:1206
 msgid "<b>Date:</b> "
-msgstr "<b>Data:</b> "
+msgstr "<b>Datum</b> "
 
 #: ../../../ui.cpp:1214
 msgid "<b>Source:</b> Generated<br>"
-msgstr "<b>Sorgente:</b> Generato<br>"
+msgstr "<b>Quelle:</b>Erzeugt<br>"
 
 #: ../../../ui.cpp:1220
 #: ../../../ui.cpp:1238
 msgid "<b>From:</b> "
-msgstr "<b>Da:</b> "
+msgstr "<b>Von:</b> "
 
 #: ../../../ui.cpp:1238
 msgid "unknown"
-msgstr "sconoscuto"
+msgstr "Unbekannt"
 
 #: ../../../ui.cpp:1239
 #: ../../../ui.cpp:1263
 #: ../../../ui.cpp:1322
 msgid "<b>To:</b> "
-msgstr "<b>A:</b> "
+msgstr "<b>An:</b> "
 
 #: ../../../ui.cpp:1242
 msgid " (yours, label: "
-msgstr " (vostro, label: "
+msgstr " (Eigene, Beschreibung: "
 
 #: ../../../ui.cpp:1244
 msgid " (yours)"
-msgstr " (vostro)"
+msgstr " (Eigene)"
 
 #: ../../../ui.cpp:1281
 #: ../../../ui.cpp:1293
 #: ../../../ui.cpp:1356
 msgid "<b>Credit:</b> "
-msgstr "<b>Credito:</b> "
+msgstr "<b>Gutschrift:</b> "
 
 #: ../../../ui.cpp:1283
 #, c-format
 msgid "(%s matures in %d more blocks)"
-msgstr "(%s matureranno in %d altri blocchi)"
+msgstr "(%s reifen nach %d weiteren Blöcken)"
 
 #: ../../../ui.cpp:1285
 msgid "(not accepted)"
-msgstr "(non accettato)"
+msgstr "(nicht akzeptiert)"
 
 #: ../../../ui.cpp:1330
 #: ../../../ui.cpp:1353
 msgid "<b>Debit:</b> "
-msgstr "<b>Debito:</b> "
+msgstr "<b>Belastung:</b> "
 
 #: ../../../ui.cpp:1344
 msgid "<b>Transaction fee:</b> "
-msgstr "<b>Trasferimento costo:</b> "
+msgstr "<b>Überweisungsgebühr:</b> "
 
 #: ../../../ui.cpp:1360
 msgid "<b>Net amount:</b> "
-msgstr "<b>Quantità del network:</b> "
+msgstr "<b>Nettobetrag:</b> "
 
 #: ../../../ui.cpp:1367
 msgid "Message:"
-msgstr "Messaggio:"
+msgstr "Nachricht:"
 
 #: ../../../ui.cpp:1370
 msgid "Generated coins must wait 120 blocks before they can be spent.  When you generated this block, it was broadcast to the network to be added to the block chain.  If it fails to get into the chain, it will change to \"not accepted\" and not be spendable.  This may occasionally happen if another node generates a block within a few seconds of yours."
-msgstr "Le monete generate devono aspettare 120 blocchi prima di poter essere spese. Quando hai generato questo blocco, è stato diffuso sul network  per essere aggiunto alla catena dei blocchi. Se fallirà l'entrata nella catena, cambierà in \"non accettato\" e non spendibile. Questo può capitare se un altro nodo genera un blocco pochi secondi prima del tuo."
+msgstr ""
+"Erzeugte Münzen müssen 120 Blöcke lang reifen. Als Sie diesen Block erzeugt haben, wurde er an alle Teilnehmer übertragen, damit er zur Block-Kette hinzugefügt werden kann. Falls der Block es nicht in die Block-Kette schafft, wird die Beschreibung zu \"nicht akzeptiert\" geändert, und Sie können die Münzen nicht ausgeben. Dies kann manchmal "
+"passieren, wenn Sie und ein anderer Teilnehmer annähernd zeitgleich einen Block erzeugen."
 
 #: ../../../ui.cpp:1437
 msgid "Main"
-msgstr "Principale"
+msgstr "Haupt"
 
 #: ../../../ui.cpp:1442
 msgid "&Minimize on close"
-msgstr "&Minimizza se chiuso"
+msgstr "Beim schließen &Minimieren"
 
 #: ../../../ui.cpp:1595
 #, c-format
 msgid "version 0.%d.%d beta"
-msgstr "versione 0.%d.%d beta"
+msgstr "Version 0.%d.%d Beta"
 
 #: ../../../ui.cpp:1681
 msgid "Will appear as \"From: Unknown\""
-msgstr "Apparirà come \"Da: Sconosciuto\""
+msgstr "Wird als \"Von: Unbekannt\" erscheinen"
 
 #: ../../../ui.cpp:1682
-msgid "Can't include a message when sending to a Bitcoin address"
-msgstr "Non si può includere un messaggio quando si invia attraverso l'indirizzo Bitcoin"
+msgid "Can't include a message when sending to a Alphacash address"
+msgstr "Beim überweisen an eine Alphacash-Adresse kann keine Nachricht angegeben werden."
 
 #: ../../../ui.cpp:1735
 msgid "Error in amount  "
-msgstr "Errore nell'ammontare  "
+msgstr "Fehler in Betrag  "
 
 #: ../../../ui.cpp:1735
 #: ../../../ui.cpp:1740
@@ -340,106 +342,106 @@ msgstr "Errore nell'ammontare  "
 #: ../../../ui.cpp:1771
 #: ../../../uibase.cpp:61
 msgid "Send Coins"
-msgstr "Invia monete"
+msgstr "Überweisen"
 
 #: ../../../ui.cpp:1740
 msgid "Amount exceeds your balance  "
-msgstr "L'ammontare è andato oltre i tuoi capitali  "
+msgstr "Der Betrag übersteigt Ihr Guthaben  "
 
 #: ../../../ui.cpp:1745
 msgid "Total exceeds your balance when the "
-msgstr "Il totale va oltre i tuoi capitali quando il "
+msgstr "Der Betrag übersteigt Ihr Guthaben, wenn man die Überweisungsgebühr von "
 
 #: ../../../ui.cpp:1745
 msgid " transaction fee is included  "
-msgstr " il costo trasferimento è incluso  "
+msgstr " berücksichtigt  "
 
 #: ../../../ui.cpp:1761
 msgid "Payment sent  "
-msgstr "Pagamento inviato  "
+msgstr "Zahlung überwiesen  "
 
 #: ../../../ui.cpp:1771
 msgid "Invalid address  "
-msgstr "Indirizzo non valido  "
+msgstr "Ungültige Adresse  "
 
 #: ../../../ui.cpp:1825
 #, c-format
 msgid "Sending %s to %s"
-msgstr "Inviando %s a %s"
+msgstr "Überweise %s an %s"
 
 #: ../../../ui.cpp:1898
 #: ../../../ui.cpp:1931
 msgid "CANCELLED"
-msgstr "CANCELLATO"
+msgstr "ANNULLIERT"
 
 #: ../../../ui.cpp:1902
 msgid "Cancelled"
-msgstr "Cancellato"
+msgstr "Annulliert"
 
 #: ../../../ui.cpp:1904
 msgid "Transfer cancelled  "
-msgstr "Operazione cancellata  "
+msgstr "Überweisung annulliert  "
 
 #: ../../../ui.cpp:1957
 msgid "Error: "
-msgstr "Errore: "
+msgstr "Fehler: "
 
 #: ../../../ui.cpp:1976
 msgid "Connecting..."
-msgstr "Connessione in corso..."
+msgstr "Verbinde..."
 
 #: ../../../ui.cpp:1981
 msgid "Unable to connect"
-msgstr "Impossibile connettersi"
+msgstr "Kann nicht verbinden"
 
 #: ../../../ui.cpp:1986
 msgid "Requesting public key..."
-msgstr "Richiesta chiave pubblica..."
+msgstr "Fordere öffentlichen Schlüssel an..."
 
 #: ../../../ui.cpp:1998
 msgid "Received public key..."
-msgstr "Ricezione chiave pubblica..."
+msgstr "Öffentlichen Schlüssel empfangen..."
 
 #: ../../../ui.cpp:2010
 msgid "Transfer was not accepted"
-msgstr "Trasferimento non accettato"
+msgstr "Überweisung wurde nicht akzeptiert"
 
 #: ../../../ui.cpp:2019
 msgid "Invalid response received"
-msgstr "Risposta non valida ricevuta"
+msgstr "Ungültige Antwort erhalten"
 
 #: ../../../ui.cpp:2034
 msgid "Creating transaction..."
-msgstr "Creazione trasferimento..."
+msgstr "Erstelle Überweisung..."
 
 #: ../../../ui.cpp:2046
 #, c-format
 msgid "This is an oversized transaction that requires a transaction fee of %s"
-msgstr "Questo è un trasferimento fuoriscala che richiede un costo aggiuntivo di %s"
+msgstr "Die Überweisung ist sehr groß. Es wird eine Gebühr von %s erhoben."
 
 #: ../../../ui.cpp:2048
 msgid "Transaction creation failed"
-msgstr "Creazione trasferimento fallita"
+msgstr "Überweisung konnte nicht erzeugt werden."
 
 #: ../../../ui.cpp:2055
 msgid "Transaction aborted"
-msgstr "Trasferimento bloccato"
+msgstr "Überweisung abgebrochen"
 
 #: ../../../ui.cpp:2063
 msgid "Lost connection, transaction cancelled"
-msgstr "Connessione persa, trasferimento cancellato"
+msgstr "Verbindung verloren, Überweisungsvorgang abgebrochen"
 
 #: ../../../ui.cpp:2079
 msgid "Sending payment..."
-msgstr "Inviando pagamento..."
+msgstr "Überweise Zahlung..."
 
 #: ../../../ui.cpp:2085
 msgid "The transaction was rejected.  This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."
-msgstr "Il trasferimento è stato respinto. Questo può accadere se alcune delle monete nel tuo portafoglio erano già state spese, o anche se hai usato una copia di wallet.dat e le monete erano già state spese nella copia originale ma non segnate in quest'ultima."
+msgstr "Die Überweisung wurde abgelehnt. Das kann passieren, wenn einige der Münzen in Ihrer Brieftasche bereits ausgegeben wurden, z.B. weil Sie eine Kopie der Brieftasche (wallet.dat) gemacht haben. Alphacashs, die mithilfe der Kopie ausgegeben wurden, sind in dieser Brieftasche noch nicht als ausgegeben markiert worden."
 
 #: ../../../ui.cpp:2092
 msgid "Waiting for confirmation..."
-msgstr "In attesa di conferma..."
+msgstr "Warte auf Bestätigung..."
 
 #: ../../../ui.cpp:2110
 msgid ""
@@ -447,165 +449,165 @@ msgid ""
 "The transaction is recorded and will credit to the recipient,\n"
 "but the comment information will be blank."
 msgstr ""
-"Il pagamento è inviato, ma il ricevente non è stato in grado di verificarlo.\n"
-"Il trasferimento è registrato e costerà sarà accreditato al ricevente,\n"
-"ma il commento verrà mostrato come vuoto."
+"Die Zahlung wurde überwiesen, aber der Empfänger konnte sie nicht bestätigen.\n"
+"Die Überweisung wurde gespeichert und wird dem Empfänger gutgeschrieben,\n"
+"aber die begleitende Nachricht wird nicht ankommen."
 
 #: ../../../ui.cpp:2119
 msgid "Payment was sent, but an invalid response was received"
-msgstr "Il pagamento è stato inviato, ma è arrivata un risposta invalida"
+msgstr "Die Zahlung wurde überwiesen, aber die Antwort war fehlerhaft"
 
 #: ../../../ui.cpp:2125
 msgid "Payment completed"
-msgstr "Pagamento completato"
+msgstr "Zahlung ausgeführt"
 
 #: ../../../ui.cpp:2156
 #: ../../../ui.cpp:2302
 #: ../../../ui.cpp:2339
 msgid "Name"
-msgstr "Nome"
+msgstr "Name"
 
 #: ../../../ui.cpp:2157
 #: ../../../ui.cpp:2302
 #: ../../../ui.cpp:2339
 msgid "Address"
-msgstr "Indirizzo"
+msgstr "Adresse"
 
 #: ../../../ui.cpp:2159
 #: ../../../ui.cpp:2314
 msgid "Label"
-msgstr "Label"
+msgstr "Beschreibung"
 
 #: ../../../ui.cpp:2160
 #: ../../../uibase.cpp:908
-msgid "Bitcoin Address"
-msgstr "Indirizzo Bitcoin"
+msgid "Alphacash Address"
+msgstr "Alphacash-Adresse"
 
 #: ../../../ui.cpp:2284
 msgid "This is one of your own addresses for receiving payments and cannot be entered in the address book.  "
-msgstr "Questo qui è uno dei tuoi indirizzi personali per ricevere pagamenti e non può essere inserito nella rubrica indirizzi.  "
+msgstr "Dies ist eine Ihrer eigenen Adressen für den Zahlungseingang und kann deshalb nicht in das Adressbuch übernommen werden.  "
 
 #: ../../../ui.cpp:2302
 #: ../../../ui.cpp:2308
 msgid "Edit Address"
-msgstr "Modifica indirizzo"
+msgstr "Adresse bearbeiten"
 
 #: ../../../ui.cpp:2314
 msgid "Edit Address Label"
-msgstr "Modifica spazio indirizzo"
+msgstr "Beschreibung der Adresse bearbeiten"
 
 #: ../../../ui.cpp:2339
 #: ../../../ui.cpp:2345
 msgid "Add Address"
-msgstr "Aggiungi indirizzo"
+msgstr "Adresse hinzufügen"
 
 #: ../../../ui.cpp:2421
-msgid "Bitcoin"
-msgstr "Bitcoin"
+msgid "Alphacash"
+msgstr "Alphacash"
 
 #: ../../../ui.cpp:2423
-msgid "Bitcoin - Generating"
-msgstr "Bitcoin - Generando"
+msgid "Alphacash - Generating"
+msgstr "Alphacash - Erzeuge"
 
 #: ../../../ui.cpp:2425
-msgid "Bitcoin - (not connected)"
-msgstr "Bitcoin - (non connesso)"
+msgid "Alphacash - (not connected)"
+msgstr "Alphacash - (nicht verbunden)"
 
 #: ../../../ui.cpp:2500
-msgid "&Open Bitcoin"
-msgstr "&Apri Bitcoin"
+msgid "&Open Alphacash"
+msgstr "Alphacash Ö&ffnen"
 
 #: ../../../ui.cpp:2501
 msgid "O&ptions..."
-msgstr "O&pzioni..."
+msgstr "O&ptionen..."
 
 #: ../../../ui.cpp:2502
 #: ../../../uibase.cpp:34
 msgid "&Generate Coins"
-msgstr "&Genera monete"
+msgstr "Münzen Er&zeugen"
 
 #: ../../../ui.cpp:2505
 #: ../../../uibase.cpp:27
 msgid "E&xit"
-msgstr "E&sci"
+msgstr "B&eenden"
 
 #: ../../../uibase.cpp:30
 msgid "&File"
-msgstr "&File"
+msgstr "&Datei"
 
 #: ../../../uibase.cpp:38
 msgid "&Your Receiving Addresses..."
-msgstr "&Il tuo indirizzo di ricezione..."
+msgstr "&Ihre Empfangs-Adressen..."
 
 #: ../../../uibase.cpp:42
 msgid "&Options..."
-msgstr "&Opzioni..."
+msgstr "&Optionen..."
 
 #: ../../../uibase.cpp:45
 msgid "&Settings"
-msgstr "I&mpostazioni"
+msgstr "&Einstellungen"
 
 #: ../../../uibase.cpp:49
 msgid "&About..."
-msgstr "&Info..."
+msgstr "Ü&ber..."
 
 #: ../../../uibase.cpp:52
 msgid "&Help"
-msgstr "&Aiuto"
+msgstr "&Hilfe"
 
 #: ../../../uibase.cpp:62
 msgid "Address Book"
-msgstr "Rubrica indirizzi"
+msgstr "Adressbuch"
 
 #: ../../../uibase.cpp:77
-msgid "Your Bitcoin Address:"
-msgstr "Il tuo indirizzo Bitcoin:"
+msgid "Your Alphacash Address:"
+msgstr "Ihre Alphacash-Adresse:"
 
 #: ../../../uibase.cpp:84
 msgid " &New... "
-msgstr " &Nuovo... "
+msgstr " &Neu... "
 
 #: ../../../uibase.cpp:87
 #: ../../../uibase.cpp:851
 #: ../../../uibase.cpp:954
 msgid " &Copy to Clipboard "
-msgstr " &Copia nella Clipboard "
+msgstr " In die Zwischenablage &kopieren "
 
 #: ../../../uibase.cpp:102
 msgid "Balance:"
-msgstr "Capitali:"
+msgstr "Kontostand:"
 
 #: ../../../uibase.cpp:121
 msgid " All"
-msgstr " Tutte"
+msgstr " Alle"
 
 #: ../../../uibase.cpp:121
 msgid " Sent"
-msgstr " Inviato"
+msgstr " Überwiesen"
 
 #: ../../../uibase.cpp:121
 msgid " Received"
-msgstr " Ricevuto"
+msgstr " Erhalten"
 
 #: ../../../uibase.cpp:121
 msgid " In Progress"
-msgstr " In lavorazione"
+msgstr " In Bearbeitung"
 
 #: ../../../uibase.cpp:142
 msgid "All Transactions"
-msgstr "Tutte le operazioni"
+msgstr "Alle Überweisungen"
 
 #: ../../../uibase.cpp:153
 msgid "Sent/Received"
-msgstr "Inviato/Ricevuto"
+msgstr "Überwiesen/Erhalten"
 
 #: ../../../uibase.cpp:164
 msgid "Sent"
-msgstr "Inviato"
+msgstr "Überwiesen"
 
 #: ../../../uibase.cpp:175
 msgid "Received"
-msgstr "Ricevuto"
+msgstr "Erhalten"
 
 #: ../../../uibase.cpp:318
 #: ../../../uibase.cpp:479
@@ -619,35 +621,35 @@ msgstr "OK"
 
 #: ../../../uibase.cpp:361
 msgid "Optional transaction fee you give to the nodes that process your transactions."
-msgstr "Costo aggiuntivo opzionale che tu dai ai nodi che realizzano i tuoi trasferimenti"
+msgstr "Optionale Überweisungsgebühr, die Sie an den Teilnehmer entrichten, der Ihre Überweisungen bearbeitet."
 
 #: ../../../uibase.cpp:370
 msgid "Transaction fee:"
-msgstr "Costo trasferimento:"
+msgstr "Überweisungsgebühr:"
 
 #: ../../../uibase.cpp:386
 msgid "&Limit coin generation to"
-msgstr "&Limita la generazione moneta a"
+msgstr "Erzeugung von Münzen auf"
 
 #: ../../../uibase.cpp:393
 msgid "processors"
-msgstr "processori"
+msgstr "Prozessoren &beschränken"
 
 #: ../../../uibase.cpp:399
-msgid "&Start Bitcoin on system startup"
-msgstr "A&vvia Bitcoin all'avvio del sistema"
+msgid "&Start Alphacash on system startup"
+msgstr "Alphacash beim &Systemstart ausführen"
 
 #: ../../../uibase.cpp:403
 msgid "&Minimize to the tray instead of the taskbar"
-msgstr "&Minimizza nella tray invece che nella barra"
+msgstr "In den Infobereich statt in die Taskleiste &minimieren"
 
 #: ../../../uibase.cpp:407
 msgid "M&inimize to the tray on close"
-msgstr "M&inimizza nella tray alla chiusura"
+msgstr "Beim schließen in den Infobereich m&inimieren"
 
 #: ../../../uibase.cpp:414
 msgid "&Connect through socks4 proxy: "
-msgstr "%Connesso attraverso proxy socks4: "
+msgstr "&Verbinden per Socks4-Proxy: "
 
 #: ../../../uibase.cpp:426
 msgid "Proxy &IP:"
@@ -655,7 +657,7 @@ msgstr "Proxy &IP:"
 
 #: ../../../uibase.cpp:434
 msgid " &Port:"
-msgstr " &Porta:"
+msgstr " &Port:"
 
 #: ../../../uibase.cpp:456
 msgid "// [don't translate] Test panel 2 for future expansion"
@@ -672,19 +674,19 @@ msgstr ""
 #: ../../../uibase.cpp:966
 #: ../../../uibase.cpp:1055
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "Abbrechen"
 
 #: ../../../uibase.cpp:485
 msgid "&Apply"
-msgstr "&Accetta"
+msgstr "&Anwenden"
 
 #: ../../../uibase.cpp:546
-msgid "Bitcoin "
-msgstr "Bitcoin "
+msgid "Alphacash "
+msgstr "Alphacash "
 
 #: ../../../uibase.cpp:552
 msgid "version"
-msgstr "versione"
+msgstr "Version"
 
 #: ../../../uibase.cpp:563
 msgid ""
@@ -699,36 +701,36 @@ msgid ""
 msgstr ""
 "Copyright (c) 2009-2010 Satoshi Nakamoto.\n"
 "\n"
-"Distribuito sotto la licenza software MIT/X11, guarda il file license.txt\n"
-"incluso oppure su http://www.opensource.org/licenses/mit-license.php.\n"
+"Lizensiert unter der MIT/X11 Software-Lizenz. Beachten Sie die beiliegende\n"
+"Datei license.txt oder http://www.opensource.org/licenses/mit-license.php.\n"
 "\n"
-"Questo prodoto include software sviluppato dal progetto OpenSSL per\n"
-"l'uso del (http://www.openssl.org/) e il software criptografico scritto\n"
-"da Eric Young (eay@cryptsoft.com)."
+"Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Nutzung im\n"
+"OpenSSL Toolkit (http://www.openssl.org/) geschrieben wurde sowie\n"
+"kryptographische Software von Eric Young (eay@cryptsoft.com)."
 
 #: ../../../uibase.cpp:619
-msgid "Enter a Bitcoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) or IP address (e.g. 123.45.6.7)"
-msgstr "Inserisci un indirizzo Bitcoin (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) o un indirizzo IP (e.g. 123.45.6.7)"
+msgid "Enter a Alphacash address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) or IP address (e.g. 123.45.6.7)"
+msgstr "Geben Sie eine Alphacash-Adresse (z.B. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) oder IP-Adresse (z.B. 123.45.6.7) ein"
 
 #: ../../../uibase.cpp:633
 msgid "Pay &To:"
-msgstr "Paga %a:"
+msgstr "Überweisen &An:"
 
 #: ../../../uibase.cpp:648
 msgid "&Paste"
-msgstr "&Incolla"
+msgstr "&Einfügen"
 
 #: ../../../uibase.cpp:651
 msgid " Address &Book..."
-msgstr " &Rubrica degli indirizzi..."
+msgstr " Address&buch..."
 
 #: ../../../uibase.cpp:658
 msgid "&Amount:"
-msgstr "&Quantità"
+msgstr "&Betrag:"
 
 #: ../../../uibase.cpp:668
 msgid "T&ransfer:"
-msgstr "T&rasferimento:"
+msgstr "Ü&berweisung:"
 
 #: ../../../uibase.cpp:674
 msgid " Standard"
@@ -736,15 +738,15 @@ msgstr " Standard"
 
 #: ../../../uibase.cpp:696
 msgid "&From:"
-msgstr "&Proveniente da:"
+msgstr "&Von:"
 
 #: ../../../uibase.cpp:713
 msgid "&Message:"
-msgstr "&Messaggio:"
+msgstr "&Nachricht:"
 
 #: ../../../uibase.cpp:730
 msgid "&Send"
-msgstr "&Invia"
+msgstr "Ü&berweisen"
 
 #: ../../../uibase.cpp:782
 msgid ""
@@ -754,50 +756,50 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Connessione in corso..."
+"Verbinde..."
 
 #: ../../../uibase.cpp:832
-msgid "These are your Bitcoin addresses for receiving payments.  You may want to give a different one to each sender so you can keep track of who is paying you.  The highlighted address is displayed in the main window."
-msgstr "Questi sono i tuoi indirizzi Bitcoin per ricevere pagamenti. Potrai darne uno diverso ad ognuno per cosi tenere traccia di chi ti sta pagando. L'indirizzo selezionato sarà quello mostrato nella finestra principale."
+msgid "These are your Alphacash addresses for receiving payments.  You may want to give a different one to each sender so you can keep track of who is paying you.  The highlighted address is displayed in the main window."
+msgstr "Dies sind Ihre Alphacash-Adressen zum Empfang von Zahlungen. Sie sollten vielleicht jedem Überweisenden eine andere Adresse geben um nachvollziehen zu können von wem eine Zahlung stammt. Die markierte Adresse wird im Hauptfenster angezeigt."
 
 #: ../../../uibase.cpp:845
 #: ../../../uibase.cpp:957
 msgid "&Edit..."
-msgstr "&Cambia..."
+msgstr "&Bearbeiten..."
 
 #: ../../../uibase.cpp:848
 #: ../../../uibase.cpp:960
 msgid " &New Address... "
-msgstr " &Nuovo indirizzo... "
+msgstr " &Neue Adresse... "
 
 #: ../../../uibase.cpp:920
 msgid "Sending"
-msgstr "Inviando"
+msgstr "Überweise"
 
 #: ../../../uibase.cpp:928
-msgid "These are your Bitcoin addresses for receiving payments.  You can give a different one to each sender to keep track of who is paying you.  The highlighted address will be displayed in the main window."
-msgstr "Questi sono i tuoi indirizzi Bitcoin per ricevere pagamenti. Potrai darne uno diverso ad ognuno per cosi tenere traccia di chi ti sta pagando. L'indirizzo selezionato sarà quello mostrato nella finestra principale."
+msgid "These are your Alphacash addresses for receiving payments.  You can give a different one to each sender to keep track of who is paying you.  The highlighted address will be displayed in the main window."
+msgstr "Dies sind Ihre Alphacash-Adressen zum Empfang von Zahlungen. Sie können jedem Überweisenden eine andere Adresse geben um nachvollziehen zu können von wem eine Zahlung stammt. Die markierte Adresse wird im Hauptfenster angezeigt."
 
 #: ../../../uibase.cpp:941
 msgid "Receiving"
-msgstr "Ricevendo"
+msgstr "Empfange"
 
 #: ../../../uibase.cpp:951
 msgid "&Delete"
-msgstr "&Cancella"
+msgstr "&Löschen"
 
 #: ../../../uibase.h:150
 msgid "Transaction Details"
-msgstr "Dettagli operazione"
+msgstr "Überweisungsdetails"
 
 #: ../../../uibase.h:203
 msgid "Options"
-msgstr "Opzioni"
+msgstr "Optionen"
 
 #: ../../../uibase.h:231
-msgid "About Bitcoin"
-msgstr "Info Bitcoin"
+msgid "About Alphacash"
+msgstr "Über Alphacash"
 
 #: ../../../uibase.h:341
-msgid "Your Bitcoin Addresses"
-msgstr "Il tuo indirizzo Bitcoin"
+msgid "Your Alphacash Addresses"
+msgstr "Ihre Alphacash-Adressen"

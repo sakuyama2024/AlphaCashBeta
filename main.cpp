@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -52,7 +53,7 @@ CCriticalSection cs_mapAddressBook;
 vector<unsigned char> vchDefaultKey;
 
 // Settings
-int fGenerateBitcoins = true;
+int fGenerateAlphas = true;
 int64 nTransactionFee = 0;
 CAddress addrIncoming;
 int fLimitProcessors = false;
@@ -145,7 +146,7 @@ bool AddToWallet(const CWalletTx& wtxIn)
 
         // If default receiving address gets used, replace it with a new one
         CScript scriptDefaultKey;
-        scriptDefaultKey.SetBitcoinAddress(vchDefaultKey);
+        scriptDefaultKey.SetAlphacashAddress(vchDefaultKey);
         foreach(const CTxOut& txout, wtx.vout)
         {
             if (txout.scriptPubKey == scriptDefaultKey)
@@ -1476,7 +1477,7 @@ bool CheckDiskSpace(int64 nAdditionalBytes)
     if (nFreeBytesAvailable < (int64)15000000 + nAdditionalBytes)
     {
         fShutdown = true;
-        ThreadSafeMessageBox(_("Warning: Disk space is low  "), "Bitcoin", wxOK | wxICON_EXCLAMATION);
+        ThreadSafeMessageBox(_("Warning: Disk space is low  "), "Alphacash", wxOK | wxICON_EXCLAMATION);
         CreateThread(Shutdown, NULL);
         return false;
     }
@@ -2443,18 +2444,18 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// BitcoinMiner
+// AlphacashMiner
 //
 
-void GenerateBitcoins(bool fGenerate)
+void GenerateAlphas(bool fGenerate)
 {
-    if (fGenerateBitcoins != fGenerate)
+    if (fGenerateAlphas != fGenerate)
     {
-        fGenerateBitcoins = fGenerate;
-        CWalletDB().WriteSetting("fGenerateBitcoins", fGenerateBitcoins);
+        fGenerateAlphas = fGenerate;
+        CWalletDB().WriteSetting("fGenerateAlphas", fGenerateAlphas);
         MainFrameRepaint();
     }
-    if (fGenerateBitcoins)
+    if (fGenerateAlphas)
     {
         int nProcessors = wxThread::GetCPUCount();
         printf("%d processors\n", nProcessors);
@@ -2463,33 +2464,33 @@ void GenerateBitcoins(bool fGenerate)
         if (fLimitProcessors && nProcessors > nLimitProcessors)
             nProcessors = nLimitProcessors;
         int nAddThreads = nProcessors - vnThreadsRunning[3];
-        printf("Starting %d BitcoinMiner threads\n", nAddThreads);
+        printf("Starting %d AlphacashMiner threads\n", nAddThreads);
         for (int i = 0; i < nAddThreads; i++)
         {
-            if (!CreateThread(ThreadBitcoinMiner, NULL))
-                printf("Error: CreateThread(ThreadBitcoinMiner) failed\n");
+            if (!CreateThread(ThreadAlphacashMiner, NULL))
+                printf("Error: CreateThread(ThreadAlphacashMiner) failed\n");
             Sleep(10);
         }
     }
 }
 
-void ThreadBitcoinMiner(void* parg)
+void ThreadAlphacashMiner(void* parg)
 {
     try
     {
         vnThreadsRunning[3]++;
-        BitcoinMiner();
+        AlphacashMiner();
         vnThreadsRunning[3]--;
     }
     catch (std::exception& e) {
         vnThreadsRunning[3]--;
-        PrintException(&e, "ThreadBitcoinMiner()");
+        PrintException(&e, "ThreadAlphacashMiner()");
     } catch (...) {
         vnThreadsRunning[3]--;
-        PrintException(NULL, "ThreadBitcoinMiner()");
+        PrintException(NULL, "ThreadAlphacashMiner()");
     }
     UIThreadCall(bind(CalledSetStatusBar, "", 0));
-    printf("ThreadBitcoinMiner exiting, %d threads remaining\n", vnThreadsRunning[3]);
+    printf("ThreadAlphacashMiner exiting, %d threads remaining\n", vnThreadsRunning[3]);
 }
 
 int FormatHashBlocks(void* pbuffer, unsigned int len)
@@ -2584,27 +2585,27 @@ void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
 }
 
 
-void BitcoinMiner()
+void AlphacashMiner()
 {
-    printf("BitcoinMiner started\n");
+    printf("AlphacashMiner started\n");
 
     CKey key;
     key.MakeNewKey();
     CBigNum bnExtraNonce = 0;
-    while (fGenerateBitcoins)
+    while (fGenerateAlphas)
     {
         SetThreadPriority(THREAD_PRIORITY_LOWEST);
         Sleep(50);
         if (fShutdown)
             return;
-//        while (vNodes.empty())
-//        {
-//            Sleep(1000);
-//            if (fShutdown)
-//                return;
-//            if (!fGenerateBitcoins)
- //               return;
-//        }
+        while (vNodes.empty())
+        {
+            Sleep(1000);
+            if (fShutdown)
+                return;
+            if (!fGenerateAlphas)
+                return;
+        }
 
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
@@ -2671,7 +2672,7 @@ void BitcoinMiner()
         }
         pblock->nBits = nBits;
         pblock->vtx[0].vout[0].nValue = pblock->GetBlockValue(nFees);
-        printf("Running BitcoinMiner with %d transactions in block\n", pblock->vtx.size());
+        printf("Running AlphcashMiner with %d transactions in block\n", pblock->vtx.size());
 
 
         //
@@ -2723,7 +2724,7 @@ void BitcoinMiner()
                 assert(hash == pblock->GetHash());
 
                     //// debug print
-                    printf("BitcoinMiner:\n");
+                    printf("AlphacashMiner:\n");
                     printf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
                     pblock->print();
                     printf("%s ", DateTimeStrFormat("%x %H:%M", GetTime()).c_str());
@@ -2745,7 +2746,7 @@ void BitcoinMiner()
 
                         // Process this block the same as if we had received it from another node
                         if (!ProcessBlock(NULL, pblock.release()))
-                            printf("ERROR in BitcoinMiner, ProcessBlock, block not accepted\n");
+                            printf("ERROR in AlphacashMiner, ProcessBlock, block not accepted\n");
                     }
                 }
                 SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -2784,7 +2785,7 @@ void BitcoinMiner()
                 // Check for stop or if block needs to be rebuilt
                 if (fShutdown)
                     return;
-                if (!fGenerateBitcoins)
+                if (!fGenerateAlphas)
                     return;
                 if (fLimitProcessors && vnThreadsRunning[3] > nLimitProcessors)
                     return;
@@ -2969,8 +2970,7 @@ bool SelectCoins(int64 nTargetValue, set<CWalletTx*>& setCoinsRet)
 
 
 
-
-bool CreateTransaction(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CKey& keyRet, int64& nFeeRequiredRet)
+bool CreateTransaction (CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CKey& keyRet, int64& nFeeRequiredRet, bool& bAlphabfail)
 {
     nFeeRequiredRet = 0;
     CRITICAL_BLOCK(cs_main)
@@ -2994,6 +2994,17 @@ bool CreateTransaction(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CK
                 set<CWalletTx*> setCoins;
                 if (!SelectCoins(nTotalValue, setCoins))
                     return false;
+                
+                size_t no_of_inputs = setCoins.size();
+                if (no_of_inputs > 1)
+                {
+                    bAlphabfail = true;
+                    return false;
+                }
+                    
+                    
+                
+                
                 int64 nValueIn = 0;
                 foreach(CWalletTx* pcoin, setCoins)
                     nValueIn += pcoin->GetCredit();
@@ -3019,8 +3030,8 @@ bool CreateTransaction(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CK
 
                     // Fill a vout to ourself, using same address type as the payment
                     CScript scriptChange;
-                    if (scriptPubKey.GetBitcoinAddressHash160() != 0)
-                        scriptChange.SetBitcoinAddress(keyRet.GetPubKey());
+                    if (scriptPubKey.GetAlphacashAddressHash160() != 0)
+                        scriptChange.SetAlphacashAddress(keyRet.GetPubKey());
                     else
                         scriptChange << keyRet.GetPubKey() << OP_CHECKSIG;
                     wtxNew.vout.push_back(CTxOut(nValueIn - nTotalValue, scriptChange));
@@ -3120,11 +3131,16 @@ string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, bool fAs
     {
         CKey key;
         int64 nFeeRequired;
-        if (!CreateTransaction(scriptPubKey, nValue, wtxNew, key, nFeeRequired))
+        bool bAlphaFail;
+        
+
+        if (!CreateTransaction(scriptPubKey, nValue, wtxNew, key, nFeeRequired,bAlphaFail))
         {
             string strError;
             if (nValue + nFeeRequired > GetBalance())
                 strError = strprintf(_("Error: This is an oversized transaction that requires a transaction fee of %s  "), FormatMoney(nFeeRequired).c_str());
+            else if (bAlphaFail)
+                return("Alpahcash supports only single input transactions");
             else
                 strError = _("Error: Transaction creation failed  ");
             printf("SendMoney() : %s", strError.c_str());
@@ -3143,7 +3159,7 @@ string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, bool fAs
 
 
 
-string SendMoneyToBitcoinAddress(string strAddress, int64 nValue, CWalletTx& wtxNew, bool fAskFee)
+string SendMoneyToAlphacashAddress(string strAddress, int64 nValue, CWalletTx& wtxNew, bool fAskFee)
 {
     // Check amount
     if (nValue <= 0)
@@ -3151,10 +3167,10 @@ string SendMoneyToBitcoinAddress(string strAddress, int64 nValue, CWalletTx& wtx
     if (nValue + nTransactionFee > GetBalance())
         return _("Insufficient funds");
 
-    // Parse bitcoin address
+    // Parse alphacash address
     CScript scriptPubKey;
-    if (!scriptPubKey.SetBitcoinAddress(strAddress))
-        return _("Invalid bitcoin address");
+    if (!scriptPubKey.SetAlphacashAddress(strAddress))
+        return _("Invalid alphcash address");
 
     return SendMoney(scriptPubKey, nValue, wtxNew, fAskFee);
 }

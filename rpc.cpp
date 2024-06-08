@@ -1,4 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
+// Copytrigh (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -67,11 +68,11 @@ Value stop(const Array& params, bool fHelp)
     if (fHelp || params.size() != 0)
         throw runtime_error(
             "stop\n"
-            "Stop bitcoin server.");
+            "Stop alphacash server.");
 
     // Shutdown will take long enough that the response should get back
     CreateThread(Shutdown, NULL);
-    return "bitcoin server stopping";
+    return "alphacash server stopping";
 }
 
 
@@ -149,7 +150,7 @@ Value getgenerate(const Array& params, bool fHelp)
             "getgenerate\n"
             "Returns true or false.");
 
-    return (bool)fGenerateBitcoins;
+    return (bool)fGenerateAlphas;
 }
 
 
@@ -174,7 +175,7 @@ Value setgenerate(const Array& params, bool fHelp)
             CWalletDB().WriteSetting("nLimitProcessors", nLimitProcessors = nGenProcLimit);
     }
 
-    GenerateBitcoins(fGenerate);
+    GenerateAlphas(fGenerate);
     return Value::null;
 }
 
@@ -190,7 +191,7 @@ Value getinfo(const Array& params, bool fHelp)
     obj.push_back(Pair("blocks",        (int)nBestHeight + 1));
     obj.push_back(Pair("connections",   (int)vNodes.size()));
     obj.push_back(Pair("proxy",         (fUseProxy ? addrProxy.ToStringIPPort() : string())));
-    obj.push_back(Pair("generate",      (bool)fGenerateBitcoins));
+    obj.push_back(Pair("generate",      (bool)fGenerateAlphas));
     obj.push_back(Pair("genproclimit",  (int)(fLimitProcessors ? nLimitProcessors : -1)));
     obj.push_back(Pair("difficulty",    (double)GetDifficulty()));
     return obj;
@@ -202,7 +203,7 @@ Value getnewaddress(const Array& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getnewaddress [label]\n"
-            "Returns a new bitcoin address for receiving payments.  "
+            "Returns a new alphacash address for receiving payments.  "
             "If [label] is specified (recommended), it is added to the address book "
             "so payments received with the address will be labeled.");
 
@@ -223,7 +224,7 @@ Value setlabel(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
-            "setlabel <bitcoinaddress> <label>\n"
+            "setlabel <alphacashaddress> <label>\n"
             "Sets the label associated with the given address.");
 
     string strAddress = params[0].get_str();
@@ -240,7 +241,7 @@ Value getlabel(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "getlabel <bitcoinaddress>\n"
+            "getlabel <alphacashaddress>\n"
             "Returns the label associated with the given address.");
 
     string strAddress = params[0].get_str();
@@ -275,9 +276,9 @@ Value getaddressesbylabel(const Array& params, bool fHelp)
             const string& strName = item.second;
             if (strName == strLabel)
             {
-                // We're only adding valid bitcoin addresses and not ip addresses
+                // We're only adding valid alphacash addresses and not ip addresses
                 CScript scriptPubKey;
-                if (scriptPubKey.SetBitcoinAddress(strAddress))
+                if (scriptPubKey.SetAlphacashAddress(strAddress))
                     ret.push_back(strAddress);
             }
         }
@@ -290,7 +291,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
-            "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to]\n"
+            "sendtoaddress <alphacashaddress> <amount> [comment] [comment-to]\n"
             "<amount> is a real and is rounded to the nearest 0.01");
 
     string strAddress = params[0].get_str();
@@ -307,7 +308,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
         wtx.mapValue["to"]      = params[3].get_str();
 
-    string strError = SendMoneyToBitcoinAddress(strAddress, nAmount, wtx);
+    string strError = SendMoneyToAlphacashAddress(strAddress, nAmount, wtx);
     if (strError != "")
         throw runtime_error(strError);
     return "sent";
@@ -339,14 +340,14 @@ Value getreceivedbyaddress(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
-            "getreceivedbyaddress <bitcoinaddress> [minconf=1]\n"
-            "Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations.");
+            "getreceivedbyaddress <alphacashaddress> [minconf=1]\n"
+            "Returns the total amount received by <alphacashaddress> in transactions with at least [minconf] confirmations.");
 
-    // Bitcoin address
+    // Alphacash address
     string strAddress = params[0].get_str();
     CScript scriptPubKey;
-    if (!scriptPubKey.SetBitcoinAddress(strAddress))
-        throw runtime_error("Invalid bitcoin address");
+    if (!scriptPubKey.SetAlphacashAddress(strAddress))
+        throw runtime_error("Invalid alphacash address");
     if (!IsMine(scriptPubKey))
         return (double)0.0;
 
@@ -394,9 +395,9 @@ Value getreceivedbylabel(const Array& params, bool fHelp)
             const string& strName = item.second;
             if (strName == strLabel)
             {
-                // We're only counting our own valid bitcoin addresses and not ip addresses
+                // We're only counting our own valid alphacash addresses and not ip addresses
                 CScript scriptPubKey;
-                if (scriptPubKey.SetBitcoinAddress(strAddress))
+                if (scriptPubKey.SetAlphacashAddress(strAddress))
                     if (IsMine(scriptPubKey))
                         setPubKey.insert(scriptPubKey);
             }
@@ -468,8 +469,8 @@ Value ListReceived(const Array& params, bool fByLabels)
 
             foreach(const CTxOut& txout, wtx.vout)
             {
-                // Only counting our own bitcoin addresses and not ip addresses
-                uint160 hash160 = txout.scriptPubKey.GetBitcoinAddressHash160();
+                // Only counting our own alphacash addresses and not ip addresses
+                uint160 hash160 = txout.scriptPubKey.GetAlphacashAddressHash160();
                 if (hash160 == 0 || !mapPubKeys.count(hash160)) // IsMine
                     continue;
 
@@ -930,7 +931,7 @@ int CommandLineRPC(int argc, char *argv[])
             if (fWindows && fGUI)
                 // Windows GUI apps can't print to command line,
                 // so settle for a message box yuck
-                MyMessageBox(strResult.c_str(), "Bitcoin", wxOK);
+                MyMessageBox(strResult.c_str(), "Alphacash", wxOK);
             else
                 fprintf(stdout, "%s\n", strResult.c_str());
         }
@@ -938,7 +939,7 @@ int CommandLineRPC(int argc, char *argv[])
     }
     catch (std::exception& e) {
         if (fWindows && fGUI)
-            MyMessageBox(strprintf("error: %s\n", e.what()).c_str(), "Bitcoin", wxOK);
+            MyMessageBox(strprintf("error: %s\n", e.what()).c_str(), "Alphacash", wxOK);
         else
             fprintf(stderr, "error: %s\n", e.what());
     } catch (...) {

@@ -35,7 +35,7 @@
             <property name="size">723,484</property>
             <property name="style">wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER</property>
             <property name="subclass"></property>
-            <property name="title">Bitcoin</property>
+            <property name="title">Alphacash</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -143,10 +143,10 @@
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
-                        <property name="id">wxID_OPTIONSGENERATEBITCOINS</property>
+                        <property name="id">wxID_OPTIONSGENERATEALPHACASHS</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">&amp;Generate Coins</property>
-                        <property name="name">m_menuOptionsGenerateBitcoins</property>
+                        <property name="name">m_menuOptionsGenerateAlphacashs</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
@@ -362,7 +362,7 @@
                                 <property name="font"></property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Your Bitcoin Address:</property>
+                                <property name="label">Your Alphacash Address:</property>
                                 <property name="maximum_size"></property>
                                 <property name="minimum_size"></property>
                                 <property name="name">m_staticText32</property>
@@ -2070,7 +2070,7 @@
                                                         <property name="font"></property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">&amp;Start Bitcoin on system startup</property>
+                                                        <property name="label">&amp;Start Alphacash on system startup</property>
                                                         <property name="maximum_size"></property>
                                                         <property name="minimum_size"></property>
                                                         <property name="name">m_checkBoxStartOnSystemStartup</property>
@@ -2869,7 +2869,7 @@
             <property name="size">532,315</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">About Bitcoin</property>
+            <property name="title">About Alphacash</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -3016,7 +3016,7 @@
                                                         <property name="font">Tahoma,90,92,10,74,0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">Bitcoin </property>
+                                                        <property name="label">Alphacash </property>
                                                         <property name="maximum_size"></property>
                                                         <property name="minimum_size"></property>
                                                         <property name="name">m_staticText40</property>
@@ -3365,7 +3365,7 @@
                                 <property name="font"></property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Enter a Bitcoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) or IP address (e.g. 123.45.6.7)</property>
+                                <property name="label">Enter a Alphacash address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJED9L) or IP address (e.g. 123.45.6.7)</property>
                                 <property name="maximum_size"></property>
                                 <property name="minimum_size"></property>
                                 <property name="name">m_staticTextInstructions</property>
@@ -4626,7 +4626,7 @@
             <property name="size">610,390</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</property>
             <property name="subclass"></property>
-            <property name="title">Your Bitcoin Addresses</property>
+            <property name="title">Your Alphacash Addresses</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -4688,7 +4688,7 @@
                         <property name="font"></property>
                         <property name="hidden">0</property>
                         <property name="id">wxID_ANY</property>
-                        <property name="label">These are your Bitcoin addresses for receiving payments.  You may want to give a different one to each sender so you can keep track of who is paying you.  The highlighted address is displayed in the main window.</property>
+                        <property name="label">These are your Alphacash addresses for receiving payments.  You may want to give a different one to each sender so you can keep track of who is paying you.  The highlighted address is displayed in the main window.</property>
                         <property name="maximum_size"></property>
                         <property name="minimum_size"></property>
                         <property name="name">m_staticText45</property>
@@ -5259,7 +5259,7 @@
                                             <property name="font"></property>
                                             <property name="hidden">1</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">Bitcoin Address</property>
+                                            <property name="label">Alphacash Address</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
                                             <property name="name">m_staticText55</property>
@@ -5443,7 +5443,7 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">These are your Bitcoin addresses for receiving payments.  You can give a different one to each sender to keep track of who is paying you.  The highlighted address will be displayed in the main window.</property>
+                                            <property name="label">These are your Alphacash addresses for receiving payments.  You can give a different one to each sender to keep track of who is paying you.  The highlighted address will be displayed in the main window.</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
                                             <property name="name">m_staticText45</property>

@@ -32,7 +32,7 @@ HEADERS=headers.h strlcpy.h serialize.h uint256.h util.h key.h bignum.h base58.h
     script.h db.h net.h irc.h main.h rpc.h uibase.h ui.h init.h sha.h
 
 
-all: bitcoin.exe
+all: alphacash.exe
 
 
 .cpp{obj}.obj:
@@ -61,7 +61,7 @@ obj\uibase.obj: $(HEADERS)
 obj\sha.obj: sha.cpp sha.h
     cl $(CFLAGS) /O2 /Fo$@ %s
 
-obj\ui.res: ui.rc  rc/bitcoin.ico rc/check.ico rc/send16.bmp rc/send16mask.bmp rc/send16masknoshadow.bmp rc/send20.bmp rc/send20mask.bmp rc/addressbook16.bmp rc/addressbook16mask.bmp rc/addressbook20.bmp rc/addressbook20mask.bmp
+obj\ui.res: ui.rc  rc/alphacash.ico rc/check.ico rc/send16.bmp rc/send16mask.bmp rc/send16masknoshadow.bmp rc/send20.bmp rc/send20mask.bmp rc/addressbook16.bmp rc/addressbook16mask.bmp rc/addressbook20.bmp rc/addressbook20mask.bmp
     rc $(INCLUDEPATHS) $(WXDEFS) /Fo$@ %s
 
 OBJS= \
@@ -74,7 +74,7 @@ OBJS= \
     obj\rpc.obj \
     obj\init.obj
 
-bitcoin.exe: $(OBJS) obj\ui.obj obj\uibase.obj obj\sha.obj obj\ui.res
+alphacash.exe: $(OBJS) obj\ui.obj obj\uibase.obj obj\sha.obj obj\ui.res
     link /nologo /DEBUG /SUBSYSTEM:WINDOWS /OUT:$@ $(LIBPATHS) $** $(LIBS)
 
 
@@ -97,7 +97,7 @@ obj\nogui\rpc.obj: $(HEADERS)
 
 obj\nogui\init.obj: $(HEADERS)
 
-bitcoind.exe: $(OBJS:obj\=obj\nogui\) obj\sha.obj obj\ui.res
+alphacashd.exe: $(OBJS:obj\=obj\nogui\) obj\sha.obj obj\ui.res
     link /nologo /DEBUG /OUT:$@ $(LIBPATHS) $** $(LIBS)
 
 

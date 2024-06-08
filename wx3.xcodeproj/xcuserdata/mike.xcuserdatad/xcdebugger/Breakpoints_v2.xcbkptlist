@@ -336,7 +336,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2451"
             endingLineNumber = "2451"
-            landmarkName = "GenerateBitcoins(fGenerate)"
+            landmarkName = "GenerateAlphas(fGenerate)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -719,7 +719,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2589"
             endingLineNumber = "2589"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -735,7 +735,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2469"
             endingLineNumber = "2469"
-            landmarkName = "GenerateBitcoins(fGenerate)"
+            landmarkName = "GenerateAlphas(fGenerate)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -751,7 +751,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2596"
             endingLineNumber = "2596"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -767,15 +767,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2609"
             endingLineNumber = "2609"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "618705FE-3F4E-4C02-ACFC-360B872B6040 - 8904217f781e98da"
+                  uuid = "618705FE-3F4E-4C02-ACFC-360B872B6040 - 15ed27bb4dd50c19"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -786,11 +786,11 @@
                   offsetFromSymbolStart = "360">
                </Location>
                <Location
-                  uuid = "618705FE-3F4E-4C02-ACFC-360B872B6040 - 8904217f781e98da"
+                  uuid = "618705FE-3F4E-4C02-ACFC-360B872B6040 - 15ed27bb4dd50c19"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -815,15 +815,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2715"
             endingLineNumber = "2715"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "79224C24-B020-4656-85C8-DA6895D98B94 - 8904217f781e9630"
+                  uuid = "79224C24-B020-4656-85C8-DA6895D98B94 - 15ed27bb4dd502f3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -834,11 +834,11 @@
                   offsetFromSymbolStart = "2860">
                </Location>
                <Location
-                  uuid = "79224C24-B020-4656-85C8-DA6895D98B94 - 8904217f781e9630"
+                  uuid = "79224C24-B020-4656-85C8-DA6895D98B94 - 15ed27bb4dd502f3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -943,15 +943,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2602"
             endingLineNumber = "2602"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "4D6DB0ED-D9C7-41ED-8FD6-170C98D948A3 - 8904217f781e99a1"
+                  uuid = "4D6DB0ED-D9C7-41ED-8FD6-170C98D948A3 - 15ed27bb4dd50d62"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -962,11 +962,11 @@
                   offsetFromSymbolStart = "280">
                </Location>
                <Location
-                  uuid = "4D6DB0ED-D9C7-41ED-8FD6-170C98D948A3 - 8904217f781e98da"
+                  uuid = "4D6DB0ED-D9C7-41ED-8FD6-170C98D948A3 - 15ed27bb4dd50c19"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -991,15 +991,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2792"
             endingLineNumber = "2792"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 8904217f781e8023"
+                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 15ed27bb4dd514e0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1010,11 +1010,11 @@
                   offsetFromSymbolStart = "5188">
                </Location>
                <Location
-                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 8904217f781e8023"
+                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 15ed27bb4dd514e0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1025,11 +1025,11 @@
                   offsetFromSymbolStart = "5084">
                </Location>
                <Location
-                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 8904217f781e8002"
+                  uuid = "020113C3-783F-4B6E-8F03-A7CCD79CE15A - 15ed27bb4dd514c1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1287,7 +1287,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2672"
             endingLineNumber = "2672"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1303,7 +1303,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2720"
             endingLineNumber = "2720"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1319,15 +1319,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2790"
             endingLineNumber = "2790"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 8904217f781e8065"
+                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 15ed27bb4dd514a6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1338,11 +1338,11 @@
                   offsetFromSymbolStart = "5060">
                </Location>
                <Location
-                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 8904217f781e8065"
+                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 15ed27bb4dd514a6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1353,11 +1353,11 @@
                   offsetFromSymbolStart = "18816">
                </Location>
                <Location
-                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 8904217f781e8797"
+                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 15ed27bb4dd51354"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1368,11 +1368,11 @@
                   offsetFromSymbolStart = "18816">
                </Location>
                <Location
-                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 8904217f781e8676"
+                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 15ed27bb4dd512b5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1383,11 +1383,11 @@
                   offsetFromSymbolStart = "18816">
                </Location>
                <Location
-                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 8904217f781e8797"
+                  uuid = "A44EFECA-E9E9-482C-9640-B55D6D396534 - 15ed27bb4dd51354"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1412,15 +1412,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2788"
             endingLineNumber = "2788"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 8904217f781e81a7"
+                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 15ed27bb4dd51564"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1431,11 +1431,11 @@
                   offsetFromSymbolStart = "4980">
                </Location>
                <Location
-                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 8904217f781e81a7"
+                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 15ed27bb4dd51564"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1446,11 +1446,11 @@
                   offsetFromSymbolStart = "18576">
                </Location>
                <Location
-                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 8904217f781e87d9"
+                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 15ed27bb4dd5131a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1461,11 +1461,11 @@
                   offsetFromSymbolStart = "18576">
                </Location>
                <Location
-                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 8904217f781e87b8"
+                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 15ed27bb4dd5137b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1476,11 +1476,11 @@
                   offsetFromSymbolStart = "18576">
                </Location>
                <Location
-                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 8904217f781e87d9"
+                  uuid = "25EE625D-1F88-417D-9E55-068EBAD60FC1 - 15ed27bb4dd5131a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1505,15 +1505,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2786"
             endingLineNumber = "2786"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "74D4ADFE-3F3B-455A-BDE8-EAAF5CC96F69 - 8904217f781e81e9"
+                  uuid = "74D4ADFE-3F3B-455A-BDE8-EAAF5CC96F69 - 15ed27bb4dd5152a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1524,11 +1524,11 @@
                   offsetFromSymbolStart = "4944">
                </Location>
                <Location
-                  uuid = "74D4ADFE-3F3B-455A-BDE8-EAAF5CC96F69 - 8904217f781e81e9"
+                  uuid = "74D4ADFE-3F3B-455A-BDE8-EAAF5CC96F69 - 15ed27bb4dd5152a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BitcoinMiner()"
+                  symbolName = "AlphacashMiner()"
                   moduleName = "wx3"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mike/Code/wx3/main.cpp"
@@ -1553,7 +1553,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2796"
             endingLineNumber = "2796"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1569,7 +1569,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2794"
             endingLineNumber = "2794"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1585,7 +1585,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2818"
             endingLineNumber = "2818"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1601,7 +1601,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2808"
             endingLineNumber = "2808"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1633,7 +1633,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2727"
             endingLineNumber = "2727"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1649,7 +1649,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2729"
             endingLineNumber = "2729"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1901,7 +1901,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2718"
             endingLineNumber = "2718"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1917,7 +1917,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2717"
             endingLineNumber = "2717"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1933,7 +1933,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2770"
             endingLineNumber = "2770"
-            landmarkName = "BitcoinMiner()"
+            landmarkName = "AlphacashMiner()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

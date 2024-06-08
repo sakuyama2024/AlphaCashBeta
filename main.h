@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -42,7 +43,7 @@ extern CCriticalSection cs_mapAddressBook;
 extern vector<unsigned char> vchDefaultKey;
 
 // Settings
-extern int fGenerateBitcoins;
+extern int fGenerateAlphas;
 extern int64 nTransactionFee;
 extern CAddress addrIncoming;
 extern int fLimitProcessors;
@@ -70,14 +71,14 @@ bool ProcessMessages(CNode* pfrom);
 bool ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv);
 bool SendMessages(CNode* pto, bool fSendTrickle);
 int64 GetBalance();
-bool CreateTransaction(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CKey& keyRet, int64& nFeeRequiredRet);
+bool CreateTransaction(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, CKey& keyRet, int64& nFeeRequiredRet, bool& bAlpha_fail);
 bool CommitTransaction(CWalletTx& wtxNew, const CKey& key);
 bool BroadcastTransaction(CWalletTx& wtxNew);
 string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, bool fAskFee=false);
-string SendMoneyToBitcoinAddress(string strAddress, int64 nValue, CWalletTx& wtxNew, bool fAskFee=false);
-void GenerateBitcoins(bool fGenerate);
-void ThreadBitcoinMiner(void* parg);
-void BitcoinMiner();
+string SendMoneyToAlphacashAddress(string strAddress, int64 nValue, CWalletTx& wtxNew, bool fAskFee=false);
+void GenerateAlphas(bool fGenerate);
+void ThreadAlphacashMiner(void* parg);
+void AlphacashMiner();
 
 
 

@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2024 Makoto Sakuyama
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -997,8 +998,8 @@ void ThreadOpenConnections2(void* parg)
 
                 // If we have IRC, we'll be notified when they first come online,
                 // and again every 24 hours by the refresh broadcast.
-                if (nGotIRCAddresses > 0 && vNodes.size() >= 2 && nSinceLastSeen > 24 * 60 * 60)
-                    continue;
+                //if (nGotIRCAddresses > 0 && vNodes.size() >= 2 && nSinceLastSeen > 24 * 60 * 60)
+                //    continue;
 
                 // Only try the old stuff if we don't have enough connections
                 if (vNodes.size() >= 8 && nSinceLastSeen > 24 * 60 * 60)
@@ -1203,7 +1204,7 @@ bool BindListenPort(string& strError)
     {
         int nErr = WSAGetLastError();
         if (nErr == WSAEADDRINUSE)
-            strError = strprintf("Unable to bind to port %d on this computer.  Bitcoin is probably already running.", ntohs(sockaddr.sin_port));
+            strError = strprintf("Unable to bind to port %d on this computer.  Alphacash is probably already running.", ntohs(sockaddr.sin_port));
         else
             strError = strprintf("Error: Unable to bind to port %d on this computer (bind returned error %d)", ntohs(sockaddr.sin_port), nErr);
         printf("%s\n", strError.c_str());
@@ -1329,7 +1330,7 @@ void StartNode(void* parg)
         printf("Error: CreateThread(ThreadMessageHandler) failed\n");
 
     // Generate coins in the background
-    GenerateBitcoins(fGenerateBitcoins);
+    GenerateAlphas(fGenerateAlphas);
 
     //
     // Thread monitoring
@@ -1398,7 +1399,7 @@ bool StopNode()
     if (vnThreadsRunning[0] > 0) printf("ThreadSocketHandler still running\n");
     if (vnThreadsRunning[1] > 0) printf("ThreadOpenConnections still running\n");
     if (vnThreadsRunning[2] > 0) printf("ThreadMessageHandler still running\n");
-    if (vnThreadsRunning[3] > 0) printf("ThreadBitcoinMiner still running\n");
+    if (vnThreadsRunning[3] > 0) printf("ThreadAlphacashMiner still running\n");
     if (vnThreadsRunning[4] > 0) printf("ThreadRPCServer still running\n");
     while (vnThreadsRunning[2] > 0 || vnThreadsRunning[4] > 0)
         Sleep(20);

@@ -2,10 +2,10 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
-# Mac OS X makefile for bitcoin
+# Mac OS X makefile for alphacash
 # Laszlo Hanyecz (solar@heliacal.net)
 
-DEPSDIR=/Users/macosuser/bitcoin/deps
+DEPSDIR=/Users/macosuser/alphacash/deps
 
 INCLUDEPATHS= \
  -I"$(DEPSDIR)/include"
@@ -30,7 +30,7 @@ HEADERS=headers.h strlcpy.h serialize.h uint256.h util.h key.h bignum.h base58.h
     script.h db.h net.h irc.h main.h rpc.h uibase.h ui.h init.h sha.h
 
 
-all: bitcoin
+all: alphacash
 
 
 obj/%.o: %.cpp $(HEADERS)
@@ -49,14 +49,14 @@ OBJS= \
     obj/rpc.o \
     obj/init.o
 	
-bitcoin: $(OBJS) obj/ui.o obj/uibase.o obj/sha.o
+alphacash: $(OBJS) obj/ui.o obj/uibase.o obj/sha.o
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
 
 obj/nogui/%.o: %.cpp $(HEADERS)
 	g++ -c $(CFLAGS) -DwxUSE_GUI=0 -o $@ $<
 
-bitcoind: $(OBJS:obj/%=obj/nogui/%) obj/sha.o
+alphacashd: $(OBJS:obj/%=obj/nogui/%) obj/sha.o
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
 

@@ -41,7 +41,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #define wxID_MAINFRAME 1000
-#define wxID_OPTIONSGENERATEBITCOINS 1001
+#define wxID_OPTIONSGENERATEALPHACASHS 1001
 #define wxID_BUTTONSEND 1002
 #define wxID_BUTTONRECEIVE 1003
 #define wxID_TEXTCTRLADDRESS 1004
@@ -125,7 +125,7 @@ class CMainFrameBase : public wxFrame
 		wxListCtrl* m_listCtrlSentReceived;
 		wxListCtrl* m_listCtrlSent;
 		wxListCtrl* m_listCtrlReceived;
-		CMainFrameBase( wxWindow* parent, wxWindowID id = wxID_MAINFRAME, const wxString& title = _("Bitcoin"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 723,484 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		CMainFrameBase( wxWindow* parent, wxWindowID id = wxID_MAINFRAME, const wxString& title = _("Alphacash"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 723,484 ), long style = wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		~CMainFrameBase();
 	
 };
@@ -227,7 +227,7 @@ class CAboutDialogBase : public wxDialog
 	
 	public:
 		wxStaticText* m_staticTextVersion;
-		CAboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About Bitcoin"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 532,315 ), long style = wxDEFAULT_DIALOG_STYLE );
+		CAboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About Alphacash"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 532,315 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~CAboutDialogBase();
 	
 };
@@ -337,7 +337,7 @@ class CYourAddressDialogBase : public wxDialog
 		
 	
 	public:
-		CYourAddressDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Your Bitcoin Addresses"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 610,390 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		CYourAddressDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Your Alphacash Addresses"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 610,390 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~CYourAddressDialogBase();
 	
 };
