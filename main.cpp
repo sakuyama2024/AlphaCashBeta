@@ -22,7 +22,8 @@ unsigned int nTransactionsUpdated = 0;
 map<COutPoint, CInPoint> mapNextTx;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-const uint256 hashGenesisBlock("0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
+//const uint256 hashGenesisBlock("0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
+const uint256 hashGenesisBlock("0x000000002ed4ae75a75ff7c755ddff6a92c77bbf9f621384585b434da0974bf7");
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 uint256 hashBestChain = 0;
@@ -794,10 +795,10 @@ uint256 GetOrphanRoot(const CBlock* pblock)
 
 int64 CBlock::GetBlockValue(int64 nFees) const
 {
-    int64 nSubsidy = 50 * COIN;
+    int64 nSubsidy = 10 * COIN;
 
     // Subsidy is cut in half every 4 years
-    nSubsidy >>= (nBestHeight / 210000);
+    nSubsidy >>= (nBestHeight / 210000*5);
 
     return nSubsidy + nFees;
 }
@@ -805,7 +806,7 @@ int64 CBlock::GetBlockValue(int64 nFees) const
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast)
 {
     const unsigned int nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-    const unsigned int nTargetSpacing = 10 * 60;
+    const unsigned int nTargetSpacing = 2 * 60;
     const unsigned int nInterval = nTargetTimespan / nTargetSpacing;
 
     // Genesis block
@@ -1525,8 +1526,15 @@ FILE* AppendBlockFile(unsigned int& nFileRet)
     }
 }
 
+
+
+
+bool RegenerateGenesisBlock();
+
 bool LoadBlockIndex(bool fAllowNew)
 {
+ //   RegenerateGenesisBlock();
+    
     //
     // Load block index
     //
@@ -1544,49 +1552,38 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
 
 
-        // Genesis Block:
-        // GetHash()      = 0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
-        // hashMerkleRoot = 0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
-        // txNew.vin[0].scriptSig     = 486604799 4 0x736B6E616220726F662074756F6C69616220646E6F63657320666F206B6E697262206E6F20726F6C6C65636E61684320393030322F6E614A2F33302073656D695420656854
-        // txNew.vout[0].nValue       = 5000000000
-        // txNew.vout[0].scriptPubKey = 0x5F1DF16B2B704C8A578D0BBAF74D385CDE12C11EE50455F3C438EF4C3FBCF649B6DE611FEAE06279A60939E028A8D65C10B73071A6F16719274855FEB0FD8A6704 OP_CHECKSIG
-        // block.nVersion = 1
-        // block.nTime    = 1231006505
-        // block.nBits    = 0x1d00ffff
-        // block.nNonce   = 2083236893
-        // CBlock(hash=000000000019d6, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=4a5e1e, nTime=1231006505, nBits=1d00ffff, nNonce=2083236893, vtx=1)
-        //   CTransaction(hash=4a5e1e, ver=1, vin.size=1, vout.size=1, nLockTime=0)
-        //     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73)
-        //     CTxOut(nValue=50.00000000, scriptPubKey=0x5F1DF16B2B704C8A578D0B)
-        //   vMerkleTree: 4a5e1e
-
         // Genesis block
-        const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+        //const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+        const char* pszTimestamp = "Financial Times 25/May/2024 What went wrong with capitalism";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 50 * COIN;
+        txNew.vout[0].nValue = 10 * COIN;
         CBigNum bnPubKey;
         bnPubKey.SetHex("0x5F1DF16B2B704C8A578D0BBAF74D385CDE12C11EE50455F3C438EF4C3FBCF649B6DE611FEAE06279A60939E028A8D65C10B73071A6F16719274855FEB0FD8A6704");
         txNew.vout[0].scriptPubKey = CScript() << bnPubKey << OP_CHECKSIG;
+        
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1231006505;
+        block.nTime    = 1716649459;
         block.nBits    = 0x1d00ffff;
-        block.nNonce   = 2083236893;
-
+        block.nNonce   = 717013103;
+        
+/*
             //// debug print
             printf("%s\n", block.GetHash().ToString().c_str());
             printf("%s\n", block.hashMerkleRoot.ToString().c_str());
             printf("%s\n", hashGenesisBlock.ToString().c_str());
             txNew.vout[0].scriptPubKey.print();
             block.print();
-            assert(block.hashMerkleRoot == uint256("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
-
+        
+   */
+        
+        assert(block.hashMerkleRoot == uint256("0xc61f9003735f01c77c4a8b3554b86b8bda7ce1f3854f1e657abfad6f49462614"));
         assert(block.GetHash() == hashGenesisBlock);
 
         // Start new block file
@@ -2493,6 +2490,7 @@ void ThreadAlphacashMiner(void* parg)
     printf("ThreadAlphacashMiner exiting, %d threads remaining\n", vnThreadsRunning[3]);
 }
 
+
 int FormatHashBlocks(void* pbuffer, unsigned int len)
 {
     unsigned char* pdata = (unsigned char*)pbuffer;
@@ -2509,51 +2507,8 @@ int FormatHashBlocks(void* pbuffer, unsigned int len)
 }
 
 
-/*
-inline unsigned int ByteReverse(unsigned int value) {
-    value = (value >> 24) |
-            ((value & 0x00FF0000) >> 8) |
-            ((value & 0x0000FF00) << 8) |
-            (value << 24);
-    return value;
-}
 
-// Function to determine the endianness
-bool IsLittleEndian() {
-    unsigned int num = 1;
-    return *(char*)&num == 1;
-}
 
-void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout) {
-    unsigned int* pinput = (unsigned int*)pin;
-    unsigned int* pstate = (unsigned int*)pout;
-
-    // Initialize the SHA-256 context
-    SHA256_CTX ctx;
-    SHA256_Init(&ctx);
-
-    if (IsLittleEndian()) {
-        for (unsigned int n = 0; n < nBlocks; n++) {
-            unsigned int pbuf[16];
-            for (unsigned int i = 0; i < 16; i++) {
-                pbuf[i] = ByteReverse(pinput[n * 16 + i]);
-            }
-            SHA256_Update(&ctx, pbuf, sizeof(pbuf));
-        }
-        // Finalize the SHA-256 context
-        SHA256_Final((unsigned char*)pstate, &ctx);
-        for (unsigned int i = 0; i < 8; i++) {
-            pstate[i] = ByteReverse(pstate[i]);
-        }
-    } else {
-        for (unsigned int n = 0; n < nBlocks; n++) {
-            SHA256_Update(&ctx, pinput + n * 16, 16 * sizeof(unsigned int));
-        }
-        // Finalize the SHA-256 context
-        SHA256_Final((unsigned char*)pstate, &ctx);
-    }
-}
-*/
 
 using CryptoPP::ByteReverse;
 static int detectlittleendian = 1;
@@ -2583,6 +2538,8 @@ void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
             CryptoPP::SHA256::Transform(pstate, pinput + n * 16);
     }
 }
+
+
 
 
 void AlphacashMiner()
@@ -2789,8 +2746,8 @@ void AlphacashMiner()
                     return;
                 if (fLimitProcessors && vnThreadsRunning[3] > nLimitProcessors)
                     return;
-//                if (vNodes.empty())
-//                    break;
+                if (vNodes.empty())
+                    break;
                 if (tmp.block.nNonce == 0)
                     break;
                 if (nTransactionsUpdated != nTransactionsUpdatedLast && GetTime() - nStart > 60)
@@ -2821,20 +2778,84 @@ void AlphacashMiner()
         }
     }
 }
+bool RegenerateGenesisBlock()
+{
+        // Genesis block
+//        const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+        const char* pszTimestamp = "Financial Times 25/May/2024 What went wrong with capitalism";
+        CTransaction txNew;
+        txNew.vin.resize(1);
+        txNew.vout.resize(1);
+        txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+        txNew.vout[0].nValue = 10 * COIN;
+        CBigNum bnPubKey;
+         bnPubKey.SetHex("0x5F1DF16B2B704C8A578D0BBAF74D385CDE12C11EE50455F3C438EF4C3FBCF649B6DE611FEAE06279A60939E028A8D65C10B73071A6F16719274855FEB0FD8A6704");
+    
+        txNew.vout[0].scriptPubKey = CScript() << bnPubKey << OP_CHECKSIG;
+        
+        CBlock block;
+        block.vtx.push_back(txNew);
+        block.hashPrevBlock = 0;
+        block.hashMerkleRoot = block.BuildMerkleTree();
+        block.nVersion = 1;
+        block.nTime    = 1716649459;
+        block.nBits    = 0x1d00ffff;
+        block.nNonce   = 0;
+    
+ //       auto_ptr<CBlock> pblock(&block);
+ //       if (!pblock.get())
+ //           throw;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        struct unnamed1
+        {
+            struct unnamed2
+            {
+                int nVersion;
+                uint256 hashPrevBlock;
+                uint256 hashMerkleRoot;
+                unsigned int nTime;
+                unsigned int nBits;
+                unsigned int nNonce;
+            }
+            block;
+            unsigned char pchPadding0[64];
+            uint256 hash1;
+            unsigned char pchPadding1[64];
+        }
+        tmp;
+    
+        tmp.block.nVersion       = block.nVersion;
+        tmp.block.hashPrevBlock  = block.hashPrevBlock;
+        tmp.block.hashMerkleRoot = block.hashMerkleRoot;
+        tmp.block.nTime          = block.nTime;
+        tmp.block.nBits          = block.nBits ;
+        tmp.block.nNonce         = block.nNonce;
+    
+        unsigned int nBlocks0 = FormatHashBlocks(&tmp.block, sizeof(tmp.block));
+        unsigned int nBlocks1 = FormatHashBlocks(&tmp.hash1, sizeof(tmp.hash1));
+    
+        uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+        uint256 hash;
+    
+    loop
+    {
+        BlockSHA256(&tmp.block, nBlocks0, &tmp.hash1);
+        BlockSHA256(&tmp.hash1, nBlocks1, &hash);
+    
+        if (hash <= hashTarget)
+        {
+            
+            block.nNonce = tmp.block.nNonce;
+//            pblock->nNonce = tmp.block.nNonce;
+            assert(hash == block.GetHash());
+            printf ("nonce found: %u\n", block.nNonce);
+            printf ("hash = %s\n",hash.ToString().c_str());
+            printf ("Merkle hash = %s\n",tmp.block.hashMerkleRoot.ToString().c_str());
+            break;
+        }
+        ++tmp.block.nNonce;
+    }
+}
 
 
 
@@ -3170,7 +3191,7 @@ string SendMoneyToAlphacashAddress(string strAddress, int64 nValue, CWalletTx& w
     // Parse alphacash address
     CScript scriptPubKey;
     if (!scriptPubKey.SetAlphacashAddress(strAddress))
-        return _("Invalid alphcash address");
+        return _("Invalid alphacash address");
 
     return SendMoney(scriptPubKey, nValue, wtxNew, fAskFee);
 }

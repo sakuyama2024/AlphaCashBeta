@@ -106,10 +106,12 @@ class CBigNum
         }
         return *this;
     }
+
     
     CBigNum(char n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(char) : BN_new failed"); if (n >= 0) setulong(n); else setint64(n); }
     
+
     void setint64(int64_t n)
     {
         unsigned char pch[sizeof(n) + 6];
@@ -145,7 +147,7 @@ class CBigNum
         if (!BN_mpi2bn(pch, p - pch, bn))
             throw bignum_error("CBigNum conversion from int64_t : BN_mpi2bn failed");
     }
-    
+
     
     CBigNum(const std::vector<unsigned char>& vch)
     {
@@ -248,8 +250,6 @@ class CBigNum
         return BN_get_word(bn);
     }
     
-
-
     CBigNum(short n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(short) : BN_new failed"); if (n >= 0) setulong(n); else setint64(n); }
     
@@ -273,9 +273,11 @@ class CBigNum
     
     CBigNum(unsigned long n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(unsigned long) : BN_new failed"); setulong(n); }
-    
+ 
+ 
     CBigNum(uint64_t n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(uint64_t) : BN_new failed"); setuint64(n); }
+ 
     
     explicit CBigNum(uint256 n) { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(uint256) : BN_new failed"); setuint256(n); }
 

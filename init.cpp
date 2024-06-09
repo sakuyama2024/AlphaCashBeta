@@ -198,6 +198,8 @@ IMPLEMENT_APP(CMyApp)
 
 bool CMyApp::Initialize(int& argc, wxChar** argv)
 {
+    
+    wxSizerFlags::DisableConsistencyChecks();
     if (argc > 1 && argv[1][0] != '-' && (!fWindows || argv[1][0] != '/') &&
         wxString(argv[1]) != "start")
     {

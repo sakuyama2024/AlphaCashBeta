@@ -1,65 +1,67 @@
-# Copyright (c) 2009-2010 Satoshi Nakamoto
-# Distributed under the MIT/X11 software license, see the accompanying
-# file license.txt or http://www.opensource.org/licenses/mit-license.php.
+# Compiler and flags
+CXX = g++
 
-# Mac OS X makefile for alphacash
-# Laszlo Hanyecz (solar@heliacal.net)
+# Default build mode
+BUILD ?= debug
 
-DEPSDIR=/Users/macosuser/alphacash/deps
+# Debug mode settings
+DEBUGFLAGS = -g
+DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
+-I/usr/local/opt/berkeley-db/include \
+-I/usr/local/opt/crypto++/include/cryptopp \
+-I/usr/local/include/boost \
+-I/opt/homebrew/opt/openssl@3/include \
+-I/usr/local/lib//wx/include/osx_cocoa-unicode-3.2 \
+-I/usr/local/include/wx-3.2 \
+-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
 
-INCLUDEPATHS= \
- -I"$(DEPSDIR)/include"
+# Release mode settings
+RELEASEFLAGS = -O3
+RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
+-I/usr/local/opt/berkeley-db/include \
+-I/usr/local/opt/crypto++/include/cryptopp \
+-I/usr/local/include/boost -I/opt/homebrew/opt/boost/include/boost \
+-I/opt/homebrew/opt/openssl@3/include \
+-I/usr/local/lib/wx/include/osx_cocoa-unicode-3.2 \
+-I/usr/local/include/wx-3.2 \
+-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
 
-LIBPATHS= \
- -L"$(DEPSDIR)/lib"
+# Choose the appropriate flags
+ifeq ($(BUILD),debug)
+    CXXFLAGS = $(DEBUG_CXXFLAGS)
+else ifeq ($(BUILD),release)
+    CXXFLAGS = $(RELEASE_CXXFLAGS)
+endif
 
-WXLIBS=$(shell $(DEPSDIR)/bin/wx-config --libs --static)
+LIBPATHS = -L/usr/lib -L/usr/local/lib -L/usr/local/opt/crypto++/lib -L/usr/local/opt/berkeley-db/lib \
+-L/usr/local/opt/boost/lib  -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
-LIBS= -dead_strip \
- $(DEPSDIR)/lib/libdb_cxx-4.8.a \
- $(DEPSDIR)/lib/libboost_system.a \
- $(DEPSDIR)/lib/libboost_filesystem.a \
- $(DEPSDIR)/lib/libcrypto.a 
+LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
+-framework CoreFoundation  -framework IOKit -framework Carbon -framework Cocoa \
+-framework QuartzCore -framework AudioToolbox -framework System -framework OpenGL \
+-lwx_osx_cocoau_xrc-3.2 -lwx_osx_cocoau_html-3.2 -lwx_osx_cocoau_qa-3.2 \
+-lwx_osx_cocoau_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
 
-WXDEFS=$(shell $(DEPSDIR)/bin/wx-config --cxxflags) -DNOPCH -DMSG_NOSIGNAL=0
+# Header files
+HEADERS = headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
+bignum.h script.h db.h base58.h net.h market.h rpc.h
 
-DEBUGFLAGS=-g -DwxDEBUG_LEVEL=0
-# ppc doesn't work because we don't support big-endian
-CFLAGS=-mmacosx-version-min=10.5 -arch i386 -arch x86_64 -O2 -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) $(WXDEFS) $(INCLUDEPATHS)
-HEADERS=headers.h strlcpy.h serialize.h uint256.h util.h key.h bignum.h base58.h \
-    script.h db.h net.h irc.h main.h rpc.h uibase.h ui.h init.h sha.h
+# Source files
+SRC_FILES = util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
+init.cpp rpc.cpp
 
+# Object files
+OBJS = $(SRC_FILES:.cpp=.o)
 
-all: alphacash
+# Target to build the executable
+alphacashd: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
+# Pattern rule for object files
+%.o: %.cpp $(HEADERS)
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
-obj/%.o: %.cpp $(HEADERS)
-	g++ -c $(CFLAGS) -o $@ $<
-
-obj/sha.o: sha.cpp sha.h
-	g++ -c $(CFLAGS) -O3 -o $@ $<
-
-OBJS= \
-    obj/util.o \
-    obj/script.o \
-    obj/db.o \
-    obj/net.o \
-    obj/irc.o \
-    obj/main.o \
-    obj/rpc.o \
-    obj/init.o
-	
-alphacash: $(OBJS) obj/ui.o obj/uibase.o obj/sha.o
-	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
-
-
-obj/nogui/%.o: %.cpp $(HEADERS)
-	g++ -c $(CFLAGS) -DwxUSE_GUI=0 -o $@ $<
-
-alphacashd: $(OBJS:obj/%=obj/nogui/%) obj/sha.o
-	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
-
-
+# Clean up
 clean:
-	-rm -f obj/*.o
-	-rm -f obj/nogui/*.o
+	rm -f *.o alphacashd
+

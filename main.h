@@ -18,7 +18,7 @@ class CKeyItem;
 static const unsigned int MAX_SIZE = 0x02000000;
 static const int64 COIN = 100000000;
 static const int64 CENT = 1000000;
-static const int COINBASE_MATURITY = 100;
+static const int COINBASE_MATURITY = 100*5;
 
 static const CBigNum bnProofOfWorkLimit(~uint256(0) >> 32);
 //static const uint256 bnProofOfWorkLimit = (~uint256(0) >> 32);
