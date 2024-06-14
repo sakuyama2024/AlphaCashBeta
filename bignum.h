@@ -259,9 +259,16 @@ class CBigNum
     CBigNum(long n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(long) : BN_new failed"); if (n >= 0) setulong(n); else setint64(n); }
     
+    CBigNum(long long n) {
+      bn = BN_new();
+      if (!bn) throw bignum_error("CBigNum::CBigNum(long long) : BN_new failed");
+      setint64(n);
+  }
+
+ /*
     CBigNum(int64_t n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(int64_t) : BN_new failed"); setint64(n); }
-
+*/
     CBigNum(unsigned char n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(unsigned char) : BN_new failed"); setulong(n); }
     
@@ -274,10 +281,18 @@ class CBigNum
     CBigNum(unsigned long n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(unsigned long) : BN_new failed"); setulong(n); }
  
+    
+    CBigNum(unsigned long long n) {
+        bn = BN_new();
+        if (!bn) throw bignum_error("CBigNum::CBigNum(unsigned long long) : BN_new failed");
+        setuint64(n);
+    }
+    
+/*
  
     CBigNum(uint64_t n)
     { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(uint64_t) : BN_new failed"); setuint64(n); }
- 
+ */
     
     explicit CBigNum(uint256 n) { bn = BN_new(); if (!bn) throw bignum_error("CBigNum::CBigNum(uint256) : BN_new failed"); setuint256(n); }
 

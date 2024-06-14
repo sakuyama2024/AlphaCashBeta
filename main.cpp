@@ -1533,7 +1533,7 @@ bool RegenerateGenesisBlock();
 
 bool LoadBlockIndex(bool fAllowNew)
 {
- //   RegenerateGenesisBlock();
+//    RegenerateGenesisBlock();
     
     //
     // Load block index
@@ -1765,11 +1765,14 @@ bool ProcessMessages(CNode* pfrom)
         {
             // Rewind and wait for rest of message
             ///// need a mechanism to give up waiting for overlong message size error
-            vRecv.insert(vRecv.begin(), vHeaderSave.begin(), vHeaderSave.end());
+//            vRecv.insert(vRecv.begin(), vHeaderSave.begin(), vHeaderSave.end());
+            vRecv.insert(vRecv.begin(), vHeaderSave.data(), vHeaderSave.data() + vHeaderSave.size());
             break;
         }
 
         // Copy message to its own buffer
+        
+        
         CDataStream vMsg(vRecv.begin(), vRecv.begin() + nMessageSize, vRecv.nType, vRecv.nVersion);
         vRecv.ignore(nMessageSize);
 
