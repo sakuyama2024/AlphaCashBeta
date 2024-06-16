@@ -23,7 +23,8 @@ map<COutPoint, CInPoint> mapNextTx;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
 //const uint256 hashGenesisBlock("0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
-const uint256 hashGenesisBlock("0x000000002ed4ae75a75ff7c755ddff6a92c77bbf9f621384585b434da0974bf7");
+//const uint256 hashGenesisBlock("0x000000002ed4ae75a75ff7c755ddff6a92c77bbf9f621384585b434da0974bf7");
+const uint256 hashGenesisBlock("0x0000000cd159482c9663a50e6a23a63155f9477384843473b784449b897569bf");
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 uint256 hashBestChain = 0;
@@ -805,8 +806,8 @@ int64 CBlock::GetBlockValue(int64 nFees) const
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast)
 {
-    const unsigned int nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-    const unsigned int nTargetSpacing = 2 * 60;
+    const unsigned int nTargetTimespan = 14 * 24 * 60 * 60 / 5; // two weeks divied by 5
+    const unsigned int nTargetSpacing = 2 * 60;   //two minutes
     const unsigned int nInterval = nTargetTimespan / nTargetSpacing;
 
     // Genesis block
@@ -1526,14 +1527,12 @@ FILE* AppendBlockFile(unsigned int& nFileRet)
     }
 }
 
-
-
-
 bool RegenerateGenesisBlock();
+
 
 bool LoadBlockIndex(bool fAllowNew)
 {
-//    RegenerateGenesisBlock();
+ //      RegenerateGenesisBlock();
     
     //
     // Load block index
@@ -1569,9 +1568,12 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1716649459;
-        block.nBits    = 0x1d00ffff;
-        block.nNonce   = 717013103;
+//        block.nTime    = 1716649459;
+        block.nTime    = 1718524492;
+//        block.nBits    = 0x1d00ffff;
+        block.nBits    = 0x1d0fffff;
+//        block.nNonce   = 717013103;
+        block.nNonce   = 40358186;
         
 /*
             //// debug print
@@ -1583,7 +1585,10 @@ bool LoadBlockIndex(bool fAllowNew)
         
    */
         
+//        assert(block.hashMerkleRoot == uint256("0xc61f9003735f01c77c4a8b3554b86b8bda7ce1f3854f1e657abfad6f49462614"));
+        
         assert(block.hashMerkleRoot == uint256("0xc61f9003735f01c77c4a8b3554b86b8bda7ce1f3854f1e657abfad6f49462614"));
+        
         assert(block.GetHash() == hashGenesisBlock);
 
         // Start new block file
@@ -2558,7 +2563,8 @@ void AlphacashMiner()
         Sleep(50);
         if (fShutdown)
             return;
-        while (vNodes.empty())
+        
+ /*       while (vNodes.empty())
         {
             Sleep(1000);
             if (fShutdown)
@@ -2566,10 +2572,15 @@ void AlphacashMiner()
             if (!fGenerateAlphas)
                 return;
         }
+  */
 
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
-        unsigned int nBits = GetNextWorkRequired(pindexPrev);
+//        unsigned int nBits = GetNextWorkRequired(pindexPrev);
+        //unsigned int nBits = 0x1d00000f;
+        //unsigned int nBits = 0x1d00ffff;
+        unsigned int nBits = 0x1d0fffff;
+ 
 
 
         //
@@ -2673,6 +2684,8 @@ void AlphacashMiner()
         int64 nStart = GetTime();
         uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
         uint256 hash;
+        
+//        printf("hash target:  %s\n", hashTarget.GetHex().c_str());
         loop
         {
             BlockSHA256(&tmp.block, nBlocks0, &tmp.hash1);
@@ -2749,8 +2762,8 @@ void AlphacashMiner()
                     return;
                 if (fLimitProcessors && vnThreadsRunning[3] > nLimitProcessors)
                     return;
-                if (vNodes.empty())
-                    break;
+//                if (vNodes.empty())
+//                    break;
                 if (tmp.block.nNonce == 0)
                     break;
                 if (nTransactionsUpdated != nTransactionsUpdatedLast && GetTime() - nStart > 60)
@@ -2781,6 +2794,31 @@ void AlphacashMiner()
         }
     }
 }
+bool CalculateDifficultyTargets()
+{
+    
+    unsigned int nBits=0x1d00000f;
+    uint256 hashTarget = CBigNum().SetCompact(nBits).getuint256();
+    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
+    
+    nBits=0x1d00ffff;
+    hashTarget = CBigNum().SetCompact(nBits).getuint256();
+    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
+    
+    nBits=0x1e00ffff;
+    hashTarget = CBigNum().SetCompact(nBits).getuint256();
+    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
+    
+    nBits=0x1f00ffff;
+    hashTarget = CBigNum().SetCompact(nBits).getuint256();
+    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
+    
+    
+    
+    return false;
+    
+}
+
 bool RegenerateGenesisBlock()
 {
         // Genesis block
@@ -2801,8 +2839,10 @@ bool RegenerateGenesisBlock()
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1716649459;
-        block.nBits    = 0x1d00ffff;
+ //       block.nTime    = 1716649459;
+        block.nTime    = 1718524492;
+ //       block.nBits    = 0x1d00ffff;
+        block.nBits    = 0x1d0fffff;
         block.nNonce   = 0;
     
  //       auto_ptr<CBlock> pblock(&block);
