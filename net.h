@@ -54,6 +54,7 @@ bool StopNode();
 // The characters are rarely used upper ascii, not valid as UTF-8, and produce
 // a large 4-byte int at any alignment.
 //static const char pchMessageStart[4] = { 0xf9, 0xbe, 0xb4, 0xd9 };
+//magic
 static const unsigned char pchMessageStart[4] = { 0xd9, 0xb4, 0xbe, 0xf9 };
 
 class CMessageHeader
