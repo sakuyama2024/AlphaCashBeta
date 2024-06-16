@@ -58,7 +58,7 @@ vector<unsigned char> vchDefaultKey;
 int fGenerateAlphas = true;
 int64 nTransactionFee = 0;
 CAddress addrIncoming;
-int fLimitProcessors = false;
+int fLimitProcessors = true;
 int nLimitProcessors = 1;
 int fMinimizeToTray = true;
 int fMinimizeOnClose = true;
@@ -2793,30 +2793,6 @@ void AlphacashMiner()
             }
         }
     }
-}
-bool CalculateDifficultyTargets()
-{
-    
-    unsigned int nBits=0x1d00000f;
-    uint256 hashTarget = CBigNum().SetCompact(nBits).getuint256();
-    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
-    
-    nBits=0x1d00ffff;
-    hashTarget = CBigNum().SetCompact(nBits).getuint256();
-    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
-    
-    nBits=0x1e00ffff;
-    hashTarget = CBigNum().SetCompact(nBits).getuint256();
-    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
-    
-    nBits=0x1f00ffff;
-    hashTarget = CBigNum().SetCompact(nBits).getuint256();
-    printf("hash target:  %s\n", hashTarget.GetHex().c_str());
-    
-    
-    
-    return false;
-    
 }
 
 bool RegenerateGenesisBlock()
