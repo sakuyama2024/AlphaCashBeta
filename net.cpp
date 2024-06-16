@@ -688,8 +688,38 @@ void ThreadSocketHandler2(void* parg)
 
 unsigned int pnSeed[] =
 {
-    0x6e2d52c3, 
+    0x6e2d52c3,0x9e8d3f5c,0x9d0ffbcd
 };
+
+// Function to convert hex seed to string IP
+std::string ConvertSeedToIP(unsigned int seed) {
+    unsigned char bytes[4];
+    bytes[0] = seed & 0xFF;
+    bytes[1] = (seed >> 8) & 0xFF;
+    bytes[2] = (seed >> 16) & 0xFF;
+    bytes[3] = (seed >> 24) & 0xFF;
+    std::ostringstream ip;
+    ip << static_cast<int>(bytes[3]) << "."
+       << static_cast<int>(bytes[2]) << "."
+       << static_cast<int>(bytes[1]) << "."
+       << static_cast<int>(bytes[0]);
+    return ip.str();
+}
+
+// Function to get the list of seed nodes
+std::vector<std::string> GetSeedNodes() {
+    std::vector<std::string> seeds;
+    for (unsigned int seed : pnSeed) {
+        seeds.push_back(ConvertSeedToIP(seed));
+    }
+    return seeds;
+}
+
+// Function to check if an address is a seed node
+bool IsSeedNode(const std::string& ip) {
+    std::vector<std::string> seeds = GetSeedNodes();
+    return std::find(seeds.begin(), seeds.end(), ip) != seeds.end();
+}
 
 
 void ThreadOpenConnections(void* parg)
