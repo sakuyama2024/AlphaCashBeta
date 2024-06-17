@@ -102,12 +102,17 @@ Value getconnectioncount(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
-            "getconnectioncount\n"
-            "Returns the number of connections to other nodes.");
+            "getconnectionaddresses\n"
+            "Returns a list of IP addresses of the connections to other nodes.");
 
-    return (int)vNodes.size();
+    Array connections;
+    for (const CNode* pnode : vNodes)
+    {
+        connections.push_back(pnode->addr.ToStringIP());
+    }
+
+    return connections;
 }
-
 
 double GetDifficulty()
 {
