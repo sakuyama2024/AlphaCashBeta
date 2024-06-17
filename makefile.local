@@ -44,7 +44,7 @@ LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl 
 
 # Header files
 HEADERS = headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
-bignum.h script.h db.h base58.h net.h market.h rpc.h
+bignum.h script.h db.h base58.h net.h  market.h rpc.h
 
 # Source files
 SRC_FILES = util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
@@ -52,6 +52,11 @@ init.cpp rpc.cpp
 
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
+
+
+# Target to build the executable
+alphacash: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
 # Target to build the executable
 alphacashd: $(OBJS)
@@ -63,5 +68,5 @@ alphacashd: $(OBJS)
 
 # Clean up
 clean:
-	rm -f *.o alphacashd
+	rm -f *.o alphacashd alphacash
 
