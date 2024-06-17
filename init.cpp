@@ -619,5 +619,5 @@ void CMyApp::OnUnhandledException()
 
 void CMyApp::OnFatalException()
 {
-    wxMessageBox(_("Program has crashed and will terminate.  "), "Alphcash", wxOK | wxICON_ERROR);
+    wxMessageBox(_("Program has crashed and will terminate.  "), "Alphacash", wxOK | wxICON_ERROR);
 }
