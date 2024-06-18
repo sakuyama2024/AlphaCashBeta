@@ -2462,8 +2462,8 @@ void GenerateAlphas(bool fGenerate)
     }
     if (fGenerateAlphas)
     {
-        int nProcessors = wxThread::GetCPUCount();
-        printf("%d processors\n", nProcessors);
+        int nProcessors = 1;
+//        printf("%d processors\n", nProcessors);
         if (nProcessors < 1)
             nProcessors = 1;
         if (fLimitProcessors && nProcessors > nLimitProcessors)
