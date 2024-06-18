@@ -467,6 +467,7 @@ public:
             return error("CTransaction::CheckTransaction() : vin or vout empty");
 
         // Check for negative values
+        int64 nValueOut = 0;
         foreach(const CTxOut& txout, vout)
         {
             if (txout.nValue < 0)
@@ -479,6 +480,7 @@ public:
             if (nValueOut > MAX_MONEY)
                 return error("CTransaction::CheckTransaction() : txout total too high");
         }
+
         if (IsCoinBase())
         {
             if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 100)
