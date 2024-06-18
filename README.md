@@ -3,11 +3,14 @@ Abstract: Alphacash is a censorship resistant peer-to-peer electronic cashsystem
 
 The initial code is a fork of Bitcoin 0.3. The key change is in the transaction validation code - transactions are only valid if they have single input. Next step is to plug in a state tree to allow horizontal scaling i.e. the UTXO set can be "decomposed" and distributed amongst many machines operating in parallel.
 
+                size_t no_of_inputs = setCoins.size();
+                if (no_of_inputs > 1)
+                    return false;
+
 Other changes
 
 block time is set to 2 mins, with 10 ALPHA paid per block. Difficulty adjustment occurs every 2 weeks/5.
-Initially dificulty is set to 1d0fffff which equals approx 2 minutes on 5 machines running a single cpu miner
-Eventually others will come and the difficulty will take care of itself but likely we start with a small community doing cpu mining on laptops. 
+Initially dificulty is set to 1d0fffff which equals approx 2 minutes per block on 5 machines running a single cpu miner Eventually others will come and the difficulty will rise but no point wasting energy until then.
 
 Genesis Block "Financial Times 25/May/2024 What went wrong with capitalism"
 
