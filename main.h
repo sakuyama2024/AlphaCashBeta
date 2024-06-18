@@ -18,6 +18,7 @@ class CKeyItem;
 static const unsigned int MAX_SIZE = 0x02000000;
 static const int64 COIN = 100000000;
 static const int64 CENT = 1000000;
+static const int64 MAX_MONEY = 21000000 * COIN;
 static const int COINBASE_MATURITY = 100;     //ALPHA keep the same number of blocks
 
 static const CBigNum bnProofOfWorkLimit(~uint256(0) >> 28);
@@ -467,9 +468,17 @@ public:
 
         // Check for negative values
         foreach(const CTxOut& txout, vout)
+        {
             if (txout.nValue < 0)
                 return error("CTransaction::CheckTransaction() : txout.nValue negative");
-
+            
+            if (txout.nValue > MAX_MONEY)
+                return error("CTransaction::CheckTransaction() : txout.nValue too high");
+            
+            nValueOut += txout.nValue;
+            if (nValueOut > MAX_MONEY)
+                return error("CTransaction::CheckTransaction() : txout total too high");
+        }
         if (IsCoinBase())
         {
             if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 100)
