@@ -17,18 +17,6 @@ CMyTaskBarIcon* ptaskbaricon = NULL;
 bool fClosedToTray = false;
 
 
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-//
-// Util
-//
-
 void HandleCtrlA(wxKeyEvent& event)
 {
     // Ctrl-a select all
@@ -914,7 +902,7 @@ void ThreadDelayedRepaint(void* parg)
             nLastRepaint = nNeedRepaint;
             if (pframeMain)
             {
-                printf("DelayedRepaint\n");
+//                printf("DelayedRepaint\n");
                 pframeMain->fRefresh = true;
                 pframeMain->Refresh(); // Request a paint event
                 pframeMain->Update();  // Immediately process the paint event
@@ -940,7 +928,7 @@ void MainFrameRepaint()
         }
         nLastRepaintRequest = GetTimeMillis();
 
-        printf("MainFrameRepaint\n");
+//        printf("MainFrameRepaint\n");
         pframeMain->fRefresh = true;
         pframeMain->Refresh(); // Request a paint event
         pframeMain->Update();  // Immediately process the paint event
@@ -948,32 +936,7 @@ void MainFrameRepaint()
 }
 
 
-/*
-void MainFrameRepaint()
-{
-    
-    // This is called by network code that shouldn't access pframeMain
-    // directly because it could still be running after the UI is closed.
-    if (pframeMain)
-    {
-        // Don't repaint too often
-        static int64 nLastRepaintRequest;
-        if (GetTimeMillis() - nLastRepaintRequest < 100)
-        {
-            nNeedRepaint++;
-            return;
-        }
-        nLastRepaintRequest = GetTimeMillis();
 
-        printf("MainFrameRepaint\n");
-        wxPaintEvent event;
-        pframeMain->fRefresh = true;
-        pframeMain->GetEventHandler()->AddPendingEvent(event);
-    }
- 
-}
- 
-*/
 
 void CMainFrame::OnPaintListCtrl(wxPaintEvent& event)
 {
@@ -2550,18 +2513,6 @@ wxMenu* CMyTaskBarIcon::CreatePopupMenu()
 #endif
     return pmenu;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void CreateMainWindow()
 {
