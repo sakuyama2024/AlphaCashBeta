@@ -22,12 +22,6 @@ static const int64 MAX_MONEY = 21000000 * COIN;
 static const int COINBASE_MATURITY = 100;     //ALPHA keep the same number of blocks
 
 static const CBigNum bnProofOfWorkLimit(~uint256(0) >> 28);
-//static const uint256 bnProofOfWorkLimit = (~uint256(0) >> 32);
-
-
-
-
-
 
 extern CCriticalSection cs_main;
 extern map<uint256, CBlockIndex*> mapBlockIndex;
@@ -53,11 +47,6 @@ extern int fMinimizeToTray;
 extern int fMinimizeOnClose;
 
 
-
-
-
-
-
 bool CheckDiskSpace(int64 nAdditionalBytes=0);
 FILE* OpenBlockFile(unsigned int nFile, unsigned int nBlockPos, const char* pszMode="rb");
 FILE* AppendBlockFile(unsigned int& nFileRet);
@@ -80,16 +69,6 @@ string SendMoneyToAlphacashAddress(string strAddress, int64 nValue, CWalletTx& w
 void GenerateAlphas(bool fGenerate);
 void ThreadAlphacashMiner(void* parg);
 void AlphacashMiner();
-
-
-
-
-
-
-
-
-
-
 
 
 class CDiskTxPos
@@ -1265,12 +1244,6 @@ public:
         printf("%s\n", ToString().c_str());
     }
 };
-
-
-
-
-
-
 
 
 //
