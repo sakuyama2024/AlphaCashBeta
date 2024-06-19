@@ -38,11 +38,11 @@ LIBPATHS = -L/usr/lib -L/usr/local/lib -L/lib64 -L/usr/local/wxwidgets/lib -L/us
 LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
 -lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2 
 # Header files
-HEADERS = headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
+HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
 bignum.h script.h db.h base58.h net.h irc.h market.h rpc.h
 
 # Source files
-SRC_FILES = util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
+SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
 init.cpp rpc.cpp
 
 # Object files
@@ -52,11 +52,14 @@ OBJS = $(SRC_FILES:.cpp=.o)
 alphacashd: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
+alphacash: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+
 # Pattern rule for object files
 %.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 # Clean up
 clean:
-	rm -f *.o alphacashd
+	rm -f *.o alphacashd alpahcash
 
