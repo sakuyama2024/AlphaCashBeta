@@ -24,16 +24,6 @@ extern map<string, rpcfn_type> mapCallTable;
 
 
 
-
-
-
-
-///
-/// Note: This interface may still be subject to change.
-///
-
-
-
 Value help(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -97,7 +87,7 @@ Value getblocknumber(const Array& params, bool fHelp)
     return nBestHeight;
 }
 
-
+//updated to show IP addresses
 Value getconnectioncount(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -575,17 +565,6 @@ Value listreceivedbylabel(const Array& params, bool fHelp)
 
     return ListReceived(params, true);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 //
