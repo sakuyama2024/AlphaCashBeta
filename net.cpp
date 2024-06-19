@@ -395,17 +395,6 @@ void CNode::Cleanup()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 void ThreadSocketHandler(void* parg)
 {
     IMPLEMENT_RANDOMIZE_STACK(ThreadSocketHandler(parg));
@@ -874,11 +863,6 @@ void ThreadOpenConnections2(void* parg)
                 if (nSinceLastTry < nDelay)
                     continue;
 
-                // If we have IRC, we'll be notified when they first come online,
-                // and again every 24 hours by the refresh broadcast.
-                //if (nGotIRCAddresses > 0 && vNodes.size() >= 2 && nSinceLastSeen > 24 * 60 * 60)
-                //    continue;
-
                 // Only try the old stuff if we don't have enough connections
                 if (vNodes.size() >= 8 && nSinceLastSeen > 24 * 60 * 60)
                     continue;
@@ -1192,9 +1176,6 @@ void StartNode(void* parg)
     // Start threads
     //
 
-    // Get addresses from IRC and advertise ours
-//    if (!CreateThread(ThreadIRCSeed, NULL))
-//        printf("Error: CreateThread(ThreadIRCSeed) failed\n");
 
     // Send and receive from sockets, accept connections
     pthread_t hThreadSocketHandler = CreateThread(ThreadSocketHandler, NULL, true);
