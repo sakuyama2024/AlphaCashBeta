@@ -2576,10 +2576,10 @@ void AlphacashMiner()
 
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
-//        unsigned int nBits = GetNextWorkRequired(pindexPrev);
+        unsigned int nBits = GetNextWorkRequired(pindexPrev);
         //unsigned int nBits = 0x1d00000f;
         //unsigned int nBits = 0x1d00ffff;
-        unsigned int nBits = 0x1d0fffff;
+ //       unsigned int nBits = 0x1d0fffff;
  
 
 
