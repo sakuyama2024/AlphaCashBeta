@@ -13,40 +13,6 @@
 #include <sha.h>
 #include "headers.h"
 
-// Function to convert Unix timestamp to human-readable format with timezone offset
-std::string formatTimestamp(uint32_t timestamp) {
-    std::time_t time = static_cast<std::time_t>(timestamp);
-    std::tm* local_tm = std::localtime(&time);
-    std::tm* utc_tm = std::gmtime(&time);
-
-    // Calculate the timezone offset
-    int local_hour = local_tm->tm_hour;
-    int utc_hour = utc_tm->tm_hour;
-    int timezone_offset = local_hour - utc_hour;
-
-    // Adjust for day wrap-arounds
-    if (timezone_offset < -12) {
-        timezone_offset += 24;
-    } else if (timezone_offset > 12) {
-        timezone_offset -= 24;
-    }
-
-    // Format the timestamp
-    std::stringstream ss;
-    ss << std::put_time(local_tm, "%Y-%m-%d %H:%M:%S");
-
-    // Add the timezone offset
-    if (timezone_offset >= 0) {
-        ss << " UTC+" << timezone_offset;
-    } else {
-        ss << " UTC" << timezone_offset;
-    }
-
-    return ss.str();
-}
-
-int FormatHashBlocks(void* pbuffer, unsigned int len);
-
 
 using CryptoPP::ByteReverse;
 static int detectlittleendian = 1;
