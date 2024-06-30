@@ -902,7 +902,7 @@ void ThreadDelayedRepaint(void* parg)
             nLastRepaint = nNeedRepaint;
             if (pframeMain)
             {
-//                printf("DelayedRepaint\n");
+                printf("DelayedRepaint\n");
                 pframeMain->fRefresh = true;
                 pframeMain->Refresh(); // Request a paint event
                 pframeMain->Update();  // Immediately process the paint event
@@ -1417,8 +1417,7 @@ CTxDetailsDialog::CTxDetailsDialog(wxWindow* parent, CWalletTx wtx) : CTxDetails
 
 void CTxDetailsDialog::OnButtonOK(wxCommandEvent& event)
 {
-    Close();
-    //Destroy();
+    EndModal(false);
 }
 
 
@@ -1524,12 +1523,12 @@ void COptionsDialog::OnKillFocusProxy(wxFocusEvent& event)
 void COptionsDialog::OnButtonOK(wxCommandEvent& event)
 {
     OnButtonApply(event);
-    Close();
+    EndModal(false);
 }
 
 void COptionsDialog::OnButtonCancel(wxCommandEvent& event)
 {
-    Close();
+    EndModal(false);
 }
 
 void COptionsDialog::OnButtonApply(wxCommandEvent& event)
@@ -1615,7 +1614,8 @@ CAboutDialog::CAboutDialog(wxWindow* parent) : CAboutDialogBase(parent)
 
 void CAboutDialog::OnButtonOK(wxCommandEvent& event)
 {
-    Close();
+  //  Close(true);
+    EndModal(false);
 }
 
 
@@ -1912,12 +1912,10 @@ void CSendingDialog::OnPaint(wxPaintEvent& event)
 
 void CSendingDialog::Repaint()
 {
-    
-/*
+
     Refresh();
-    wxPaintEvent event;
-    GetEventHandler()->AddPendingEvent(event);
-*/
+//    wxPaintEvent event;
+//    GetEventHandler()->AddPendingEvent(event);
 }
 
 bool CSendingDialog::Status()
