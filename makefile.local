@@ -8,7 +8,7 @@ BUILD ?= debug
 DEBUGFLAGS = -g
 DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
 -I/opt/homebrew/opt/berkeley-db/include \
--I/usr/local/include/cryptopp \
+-I/opt/homebrew/opt//cryptopp/include/cryptopp \
 -I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
 -I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
@@ -19,7 +19,7 @@ DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) 
 RELEASEFLAGS = -O3
 RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
 -I/opt/homebrew/opt/berkeley-db/include \
--I/usr/local/include/cryptopp \
+-I/opt/homebrew/opt//cryptopp/include/cryptopp \
 -I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
 -I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
@@ -33,7 +33,8 @@ else ifeq ($(BUILD),release)
     CXXFLAGS = $(RELEASE_CXXFLAGS)
 endif
 
-LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/berkeley-db/lib \
+LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/cryptopp/lib  \
+-L/opt/homebrew/opt/berkeley-db/lib \
 -L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
 LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
