@@ -16,9 +16,18 @@ Coinbase maturity 100 blocks
 
 Genesis Block "Financial Times 25/May/2024 What went wrong with capitalism"
 
-Contains all the beauty, flaws and bugs of the original Bitcoin code.
+Integer Overflow bug has been fixed
+Script Interpreter has been removed - supports only P2PK and P2PKH
+
 
 Dependencies: boost, openssl, cryptopp, berkeley-db, wxWidgets
+
+Work to be done
+cross platform build system
+ASICS resistant hash function
+Introduce State Tree and incude state tree root hash in block header
+
+
 
 
 
