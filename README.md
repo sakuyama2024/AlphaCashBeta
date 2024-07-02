@@ -18,6 +18,7 @@ Genesis Block "Financial Times 25/May/2024 What went wrong with capitalism"
 
 Integer Overflow bug has been fixed
 Script Interpreter has been removed - supports only P2PK and P2PKH
+Coinbase scripts restricted to 75 bytes or less
 
 
 Dependencies: boost, openssl, cryptopp, berkeley-db, wxWidgets
