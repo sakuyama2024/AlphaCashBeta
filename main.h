@@ -444,7 +444,10 @@ public:
         // Basic checks that don't depend on any context
         if (vin.empty() || vout.empty())
             return error("CTransaction::CheckTransaction() : vin or vout empty");
-
+        
+        if (vin.size() > 1)
+            return error("CTransaction::CheckTransaction()  : vin cannot be greater than 1");
+            
         // Check for negative values
         int64 nValueOut = 0;
         foreach(const CTxOut& txout, vout)
@@ -462,7 +465,7 @@ public:
 
         if (IsCoinBase())
         {
-            if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 100)
+            if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 75)
                 return error("CTransaction::CheckTransaction() : coinbase script size");
         }
         else
