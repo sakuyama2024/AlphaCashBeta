@@ -903,9 +903,17 @@ void ThreadDelayedRepaint(void* parg)
             if (pframeMain)
             {
                 printf("DelayedRepaint\n");
+//                pframeMain->fRefresh = true;
+//                pframeMain->Refresh(); // Request a paint event
+//                pframeMain->Update();  // Immediately process the paint event
+                
                 pframeMain->fRefresh = true;
-                pframeMain->Refresh(); // Request a paint event
-                pframeMain->Update();  // Immediately process the paint event
+              
+              // Schedule the repaint to be called on the main thread
+                 pframeMain->CallAfter([=] {
+                     pframeMain->Refresh();
+                     pframeMain->Update();
+                 });
             }
         }
         Sleep(nRepaintInterval);
@@ -929,9 +937,17 @@ void MainFrameRepaint()
         nLastRepaintRequest = GetTimeMillis();
 
 //        printf("MainFrameRepaint\n");
-        pframeMain->fRefresh = true;
-        pframeMain->Refresh(); // Request a paint event
-        pframeMain->Update();  // Immediately process the paint event
+//        pframeMain->fRefresh = true;
+//          pframeMain->Refresh(); // Request a paint event
+//          pframeMain->Update();  // Immediately process the paint event
+        
+          pframeMain->fRefresh = true;
+        
+        // Schedule the repaint to be called on the main thread
+           pframeMain->CallAfter([=] {
+               pframeMain->Refresh();
+               pframeMain->Update();
+           });
     }
 }
 
