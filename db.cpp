@@ -3,7 +3,15 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
+
+#ifdef __WXMSW__
+#define pid_t _pid_t
+#include <db_cxx.h>
+#undef pid_t
+#endif
+
 #include "headers.h"
+#include <db_cxx.h>
 
 void ThreadFlushWalletDB(void* parg);
 
@@ -63,7 +71,11 @@ CDB::CDB(const char* pszFile, const char* pszMode) : pdb(NULL)
                 return;
             string strDataDir = GetDataDir();
             string strLogDir = strDataDir + "/database";
+#ifdef __WXMSW__
+            mkdir(strLogDir.c_str());
+#else
             _mkdir(strLogDir.c_str());
+#endif
             string strErrorFile = strDataDir + "/db.log";
             printf("dbenv.open strLogDir=%s strErrorFile=%s\n", strLogDir.c_str(), strErrorFile.c_str());
 
