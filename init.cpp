@@ -275,7 +275,7 @@ bool CMyApp::OnInit()
     return fRet;
 }
 
-extern int g_isPainting;
+int g_isPainting;
 
 bool CMyApp::OnInit2()
 {
