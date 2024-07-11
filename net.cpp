@@ -1161,15 +1161,6 @@ void StartNode(void* parg)
     {
         if (addrIncoming.IsValid())
             addrLocalHost.ip = addrIncoming.ip;
-
- /*       if (GetMyExternalIP(addrLocalHost.ip))
-        {
-            addrIncoming = addrLocalHost;
-            CWalletDB().WriteSetting("addrIncoming", addrIncoming);
-            printf("addrLocalHost = %s\n", addrLocalHost.ToString().c_str());
-        }
-  
-  */
     }
 
     //
@@ -1195,52 +1186,6 @@ void StartNode(void* parg)
     // Thread monitoring
     // Not really needed anymore, the cause of the hanging was fixed
     //
-    loop
-    {
-        Sleep(1000);
-        if (fShutdown)
-            return;
-        if (GetTime() - nThreadSocketHandlerHeartbeat > 15 * 60)
-        {
-            // First see if closing sockets will free it
-            printf("*** ThreadSocketHandler is stopped ***\n");
-            CRITICAL_BLOCK(cs_vNodes)
-            {
-                foreach(CNode* pnode, vNodes)
-                {
-                    bool fGot = false;
-                    TRY_CRITICAL_BLOCK(pnode->cs_vRecv)
-                        TRY_CRITICAL_BLOCK(pnode->cs_vSend)
-                            fGot = true;
-                    if (!fGot)
-                    {
-                        printf("*** closing socket\n");
-                        pnode->CloseSocketDisconnect();
-                    }
-                }
-            }
-            Sleep(10000);
-            if (fShutdown)
-                return;
-            if (GetTime() - nThreadSocketHandlerHeartbeat < 60)
-                continue;
-
-            // Hopefully it never comes to this.
-            // We know it'll always be hung in the recv or send call.
-            // cs_vRecv or cs_vSend may be left permanently unreleased,
-            // but we always only use TRY_CRITICAL_SECTION on them.
-            printf("*** Restarting ThreadSocketHandler ***\n");
-            TerminateThread(hThreadSocketHandler, 0);
-            #ifdef __WXMSW__
-            CloseHandle(hThreadSocketHandler);
-            #endif
-            vnThreadsRunning[0] = 0;
-
-            // Restart
-            hThreadSocketHandler = CreateThread(ThreadSocketHandler, NULL, true);
-            nThreadSocketHandlerHeartbeat = GetTime();
-        }
-    }
 }
 
 bool StopNode()

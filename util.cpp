@@ -529,10 +529,14 @@ void GetDataDir(char* pszDir)
     {
         strlcpy(pszDir, pszSetDataDir, MAX_PATH);
         static bool fMkdirDone;
-        if (!fMkdirDone)
+       if (!fMkdirDone)
         {
             fMkdirDone = true;
-            _mkdir(pszDir);
+            #ifdef _WIN32
+            mkdir(pszDir);
+            #else
+            mkdir(pszDir, 0777); // Use default permissions, modify as necessary
+            #endif
         }
     }
     else
@@ -548,7 +552,11 @@ void GetDataDir(char* pszDir)
         if (pszCachedDir[0] == 0)
         {
             strlcpy(pszCachedDir, wxStandardPaths::Get().GetUserDataDir().c_str(), sizeof(pszCachedDir));
-            _mkdir(pszCachedDir);
+            #ifdef _WIN32
+            mkdir(pszCachedDir);
+            #else
+            mkdir(pszCachedDir, 0777); // Use default permissions, modify as necessary
+            #endif
         }
         strlcpy(pszDir, pszCachedDir, MAX_PATH);
     }

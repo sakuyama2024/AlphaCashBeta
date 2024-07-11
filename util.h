@@ -458,18 +458,10 @@ inline uint160 Hash160(const vector<unsigned char>& vch)
 
 
 
-
-
-
-
-
-
-
-
-// Note: It turns out we might have been able to use boost::thread
-// by using TerminateThread(boost::thread.native_handle(), 0);
 #ifdef __WXMSW__
+#ifndef __MINGW32__  // Check if MinGW is not being used
 typedef HANDLE pthread_t;
+#endif
 
 inline pthread_t CreateThread(void(*pfn)(void*), void* parg, bool fWantHandle=false)
 {
@@ -492,7 +484,7 @@ inline pthread_t CreateThread(void(*pfn)(void*), void* parg, bool fWantHandle=fa
         CloseHandle(hthread);
         return (pthread_t)-1;
     }
-    return hthread;
+    return (pthread_t)hthread;
 }
 
 inline void SetThreadPriority(int nPriority)
@@ -511,7 +503,7 @@ inline pthread_t CreateThread(void(*pfn)(void*), void* parg, bool fWantHandle=fa
     }
     if (!fWantHandle)
         return (pthread_t)-1;
-    return hthread;
+    return (pthread_t)hthread;
 }
 
 #define THREAD_PRIORITY_LOWEST          PRIO_MIN
