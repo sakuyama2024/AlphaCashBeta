@@ -811,11 +811,6 @@ bool EvalScript(const CScript& script, const CTransaction& txTo, unsigned int nI
 
 
 
-
-
-
-
-
 uint256 SignatureHash(CScript scriptCode, const CTransaction& txTo, unsigned int nIn, int nHashType)
 {
     if (nIn >= txTo.vin.size())
@@ -833,6 +828,8 @@ uint256 SignatureHash(CScript scriptCode, const CTransaction& txTo, unsigned int
     for (int i = 0; i < txTmp.vin.size(); i++)
         txTmp.vin[i].scriptSig = CScript();
     txTmp.vin[nIn].scriptSig = scriptCode;
+    
+    scriptCode.print();
 
     // Blank out some of the outputs
     if ((nHashType & 0x1f) == SIGHASH_NONE)
@@ -875,7 +872,10 @@ uint256 SignatureHash(CScript scriptCode, const CTransaction& txTo, unsigned int
     CDataStream ss(SER_GETHASH);
     ss.reserve(10000);
     ss << txTmp << nHashType;
-    return Hash(ss.begin(), ss.end());
+    printf("ss: %s\n", ss.str().c_str());
+    uint256 u = Hash(ss.begin(), ss.end());
+    printf("hash: %s\n",u.ToString().c_str());
+    return u;
 }
 
 
@@ -894,6 +894,11 @@ bool CheckSig(vector<unsigned char> vchSig, vector<unsigned char> vchPubKey, CSc
     else if (nHashType != vchSig.back())
         return false;
     vchSig.pop_back();
+    
+    ////// debug print
+    //PrintHex(vchSig.begin(), vchSig.end(), "sig: %s\n");
+    //PrintHex(vchPubKey.begin(), vchPubKey.end(), "pubkey: %s\n");
+    //scriptCode.print();
 
     if (key.Verify(SignatureHash(scriptCode, txTo, nIn, nHashType), vchSig))
         return true;
@@ -1104,6 +1109,7 @@ bool SignSignature(const CTransaction& txFrom, CTransaction& txTo, unsigned int 
     txin.scriptSig = scriptPrereq + txin.scriptSig;
 
     // Test solution
+    //ALPHA replace this with VerifiySignature;
     if (scriptPrereq.empty())
         if (!EvalScript(txin.scriptSig + CScript(OP_CODESEPARATOR) + txout.scriptPubKey, txTo, nIn))
             return false;
@@ -1112,8 +1118,158 @@ bool SignSignature(const CTransaction& txFrom, CTransaction& txTo, unsigned int 
 }
 
 
+
+
+
+
+
+
+
+bool VerifySignature2(const CTransaction& txFrom, const CTransaction& txTo, unsigned int nIn, int nHashType)
+{
+    assert(nIn < txTo.vin.size());
+    const CTxIn& txin = txTo.vin[nIn];
+    if (txin.prevout.n >= txFrom.vout.size())
+        return false;
+
+    const CTxOut& txout = txFrom.vout[txin.prevout.n];
+
+    if (txin.prevout.hash != txFrom.GetHash())
+        return false;
+    
+    CScript ScriptSig = txin.scriptSig;
+    CScript ScriptPK  = txout.scriptPubKey;
+    
+//    vector<unsigned char> vchPubKey;
+//    bool b = ExtractPubKey(ScriptPK, 0, vchPubKey);
+//    if (!b) return false;
+    
+//    ScriptSig.print();
+ 
+
+    // Extract the signature
+    valtype vchSig;
+    CScript::const_iterator pc = ScriptSig.begin();
+    opcodetype opcode;
+    if (!ScriptSig.GetOp(pc, opcode, vchSig))
+      return false;
+    
+    if (vchSig.empty())
+        return false;
+      
+    int nHashTypeFromSig = vchSig.back();
+    vchSig.pop_back();
+
+//        valtype vchPubKey;
+//        pc = ScriptPK.begin();
+//            while (pc != ScriptPK.end()) {
+//                vchSig.push_back(*pc++);
+//        }
+    
+    valtype vchPushValue;
+    valtype vchPubKeyHash;
+    
+    vector<unsigned char> vchPubKey;
+    pc = ScriptPK.begin();
+
+    // Check if the scriptPubKey is P2PK or P2PKH
+    if (!ScriptPK.GetOp(pc, opcode,vchPubKey))
+       return false;
+
+    if (opcode == OP_DUP)
+    {
+        // Possibly P2PKH: OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+        
+        valtype v;
+        
+        if (!ScriptPK.GetOp(pc, opcode,v) || opcode != OP_HASH160)
+            return false;
+        if (!ScriptPK.GetOp(pc, opcode, vchPubKeyHash) || vchPubKeyHash.size() != 20)
+            return false; // pubKeyHash should be 20 bytes
+        if (!ScriptPK.GetOp(pc, opcode,v) || opcode != OP_EQUALVERIFY)
+            return false;
+        if (!ScriptPK.GetOp(pc, opcode,v) || opcode != OP_CHECKSIG)
+            return false;
+        
+        // Verify that we have reached the end of the script
+        if (pc != ScriptPK.end())
+            return false;
+        
+        CScript::const_iterator pc = ScriptSig.begin();
+        opcodetype opcode;
+        valtype vchPushValue;
+        
+        // Extract the signature
+        if (!ScriptSig.GetOp(pc, opcode, vchPushValue))
+            return false;
+    
+        // Extract the public key
+        if (!ScriptSig.GetOp(pc, opcode, vchPushValue))
+            return false;
+        vchPubKey = vchPushValue;
+        
+        // Verify that we have reached the end of the script
+        if (pc != ScriptSig.end())
+            return false;
+        
+        // Verify that the public key hashes to the expected public key hash
+        uint160 pubKeyHash = Hash160(vchPubKey);
+        if (vchPubKeyHash != valtype(pubKeyHash.begin(), pubKeyHash.end()))
+            return false;
+        
+        // Verify the signature
+        uint256 hash = SignatureHash(ScriptPK, txTo, nIn, nHashTypeFromSig);
+        CKey key;
+        if (!key.SetPubKey(vchPubKey))
+            return false;
+        if (key.Verify(hash, vchSig))
+            return true;
+        
+        return false;
+    }
+    else
+    {
+        // Possibly P2PK: <pubKey> OP_CHECKSIG
+        vchPubKey.clear();
+        
+        pc = ScriptPK.begin();
+      
+        if (!ScriptPK.GetOp(pc, opcode,vchPubKey))
+            return false;
+        
+        //Check the size of the public key only uncompressed keys used
+        if (vchPubKey.size() != 65)
+            return false;
+        
+        valtype v;
+        if (!ScriptPK.GetOp(pc, opcode,v) || opcode != OP_CHECKSIG)
+            return false;
+        
+        // Verify that we have reached the end of the script
+        if (pc != ScriptPK.end())
+            return false;
+        
+        CKey key;
+        if (!key.SetPubKey(vchPubKey))
+        return false;
+        
+        if (key.Verify(SignatureHash(ScriptPK, txTo, nIn, nHashTypeFromSig), vchSig))
+            return true;
+        else
+            return false;
+        
+
+    }
+    return false;
+}
+
+
+
 bool VerifySignature(const CTransaction& txFrom, const CTransaction& txTo, unsigned int nIn, int nHashType)
 {
+    
+    bool b1 = VerifySignature2(txFrom,txTo,nIn,nHashType);
+    
     assert(nIn < txTo.vin.size());
     const CTxIn& txin = txTo.vin[nIn];
     if (txin.prevout.n >= txFrom.vout.size())
@@ -1122,9 +1278,17 @@ bool VerifySignature(const CTransaction& txFrom, const CTransaction& txTo, unsig
 
     if (txin.prevout.hash != txFrom.GetHash())
         return false;
-
-    if (!EvalScript(txin.scriptSig + CScript(OP_CODESEPARATOR) + txout.scriptPubKey, txTo, nIn, nHashType))
+    
+    bool b2 = EvalScript(txin.scriptSig + CScript(OP_CODESEPARATOR) + txout.scriptPubKey, txTo, nIn, nHashType);
+    
+    if (b2 == false)
         return false;
+   
+    assert (b1 == b2);
+        
+
+  //  if (!EvalScript(txin.scriptSig + CScript(OP_CODESEPARATOR) + txout.scriptPubKey, txTo, nIn, nHashType))
+  //      return false;
 
     // Anytime a signature is successfully verified, it's proof the outpoint is spent,
     // so lets update the wallet spent flag if it doesn't know due to wallet.dat being
@@ -1133,3 +1297,8 @@ bool VerifySignature(const CTransaction& txFrom, const CTransaction& txTo, unsig
 
     return true;
 }
+
+
+
+
+
