@@ -1,0 +1,73 @@
+# Assuming MSYS2 is used 
+# export PATH=$PATH:/c/wxWidgets-3.2.5/build-debug/lib
+
+# Compiler and flags
+CXX = g++
+
+# Default build mode
+BUILD ?= debug
+
+
+INCLUDEPATHS= \
+  -I"/mingw64/include" \
+  -I"/mingw64/include/cryptopp" \
+  -I"c:/msys64/mingw64/lib/wx/include/msw-unicode-3.2" \
+  -I"c:/msys64/mingw64/include/wx-3.2" \
+
+LIBPATHS= \
+  -L"/mingw64/lib" \
+  -L"c:/cryptopp" \
+  -L"c:/wxWidgets-3.2.5/build-debug/lib/"
+
+
+LIBS= \
+  -lcrypto -lssl \
+  -lboost_system-mt -lboost_filesystem-mt \
+  -ldb -ldb_cxx -lcryptopp \
+  -lwx_mswu_xrc-3.2 -lwx_mswu_html-3.2 -lwx_mswu_qa-3.2 -lwx_mswu_core-3.2 \
+  -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2 \
+  -lz -lrpcrt4 -loleaut32 -lole32 -luuid -luxtheme -lwinspool -lwinmm -lshell32 -lshlwapi \
+  -lcomctl32 -lcomdlg32 -ladvapi32 -lversion -lws2_32 -lgdi32 -loleacc -lwinhttp \
+  -Wl,--subsystem,windows -mwindows
+  
+
+WXDEFS=-Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -g -O0 
+DEBUG_CXXFLAGS=-g -O0 -D__WXDEBUG__ -Wfatal-errors -static
+RELEASE_CXXFLAGS= -O3 -Wfatal-errors -static
+
+
+# Choose the appropriate flags
+ifeq ($(BUILD),debug)
+    B_CXXFLAGS = $(DEBUG_CXXFLAGS)
+else ifeq ($(BUILD),release)
+    B_CXXFLAGS = $(RELEASE_CXXFLAGS)
+endif
+
+CXXFLAGS = -Wall -std=c++11 $(B_CXXFLAGS) $(WXDEFS) $(INCLUDEPATHS) -fexceptions -frtti -mwindows -g
+
+# Header files
+HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
+bignum.h script.h db.h base58.h net.h market.h rpc.h
+
+# Source files
+SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
+init.cpp rpc.cpp
+
+
+# Object files
+OBJS = $(SRC_FILES:.cpp=.o)
+
+# Target to build the executable
+alphacashd: $(OBJS)
+	echo $(LIBPATHS)
+	echo $(LIBS)
+	$(CXX) -o $@ $(OBJS) $(LIBPATHS)  $(LIBS)
+
+# Pattern rule for object files
+%.o: %.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+
+clean:
+	rm -f *.o
+	rm alphacashd
