@@ -21,7 +21,7 @@ git clone https://github.com/sakuyama2024/alphacashbeta
 
 cd alphacashbeta
 cp makefile.unix makefile
-make alphcashd
+make alphacashd
 
 ./alphacashd -server -daemon &
 
