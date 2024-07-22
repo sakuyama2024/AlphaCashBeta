@@ -18,7 +18,7 @@ INCLUDE_DIRS = \
 -I/usr/local/include/openssl \
 
 # Common flags
-COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat -DHAVE_STRLCPY -DHAVE_STRLCAT
 
 
 # Debug mode settings
@@ -49,7 +49,7 @@ HEADERS = base58.h bignum.h byteswap.h common.h db.h endian.h headers.h key.h al
 main.h market.h net.h rpc.h script.h serialize.h sha256.h ui.h uibase.h uint256.h util.h
 
 # Source files
-SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp \
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp \
 ui.cpp uibase.cpp util.cpp
 
 # Object files
@@ -71,5 +71,5 @@ all: alphacash alphacashd
 
 # Clean up
 clean:
-	rm -f *.o alphacashd alpahcash
+	rm -f *.o alphacashd alphacash
 
