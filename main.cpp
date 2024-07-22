@@ -1531,7 +1531,7 @@ FILE* AppendBlockFile(unsigned int& nFileRet)
 
 bool LoadBlockIndex(bool fAllowNew)
 {
- //      RegenerateGenesisBlock();
+//    RegenerateGenesisBlock();
     
     //
     // Load block index
@@ -2149,7 +2149,7 @@ bool ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "block")
     {
-        auto_ptr<CBlock> pblock(new CBlock);
+        std::unique_ptr<CBlock> pblock = std::make_unique<CBlock>();
         vRecv >> *pblock;
 
         //// debug print
@@ -2540,7 +2540,7 @@ void AlphacashMiner()
         //
         // Create new block
         //
-        auto_ptr<CBlock> pblock(new CBlock());
+        std::unique_ptr<CBlock> pblock = std::make_unique<CBlock>();
         if (!pblock.get())
             return;
 
@@ -2631,8 +2631,15 @@ void AlphacashMiner()
 //        printf("hash target:  %s\n", hashTarget.GetHex().c_str());
         loop
         {
+            
+#if defined(__APPLE__) && defined(ENABLE_ARM_SHANI)
+            
+            BlockSHA256_ARM(&tmp.block, nBlocks0, &tmp.hash1);
+            BlockSHA256_ARM(&tmp.hash1, nBlocks1, &hash);
+#else 
             BlockSHA256(&tmp.block, nBlocks0, &tmp.hash1);
             BlockSHA256(&tmp.hash1, nBlocks1, &hash);
+#endif
 
             if (hash <= hashTarget)
             {
