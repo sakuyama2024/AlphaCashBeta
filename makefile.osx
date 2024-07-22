@@ -43,8 +43,8 @@ LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl 
 
 
 # Header files
-HEADERS = base58.h bignum.h db.h headers.h key.h alphautil.h main.h market.h net.h rpc.h script.h serialize.h sha256.h \
-ui.h uibase.h uint256.h util.h
+HEADERS = base58.h bignum.h byteswap.h common.h db.h endian.h headers.h key.h alphautil.h \
+main.h market.h net.h rpc.h script.h serialize.h sha256.h ui.h uibase.h uint256.h util.h
 
 # Source files
 SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp \
