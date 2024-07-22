@@ -781,32 +781,33 @@ void SHA256D64(unsigned char* out, const unsigned char* in, size_t blocks)
         --blocks;
     }
 }
-
-void benchmark_sha256(const unsigned char* data, size_t data_size) {
-   
-    
-    uint32_t state_generic[8];
-    uint32_t state_optimized[8];
-    
-    // Initialize states
-    sha256::Initialize(state_generic);
-    sha256::Initialize(state_optimized);
-
-    // Measure time for generic implementation
-    auto start_generic = std::chrono::high_resolution_clock::now();
-    sha256::Transform(state_generic, data, data_size / 64); // Assuming 64-byte blocks
-    auto end_generic = std::chrono::high_resolution_clock::now();
-
-    // Measure time for ARM-optimized implementation
-    auto start_optimized = std::chrono::high_resolution_clock::now();
-    sha256_arm_shani::Transform(state_optimized, data, data_size / 64); // Assuming 64-byte blocks
-    auto end_optimized = std::chrono::high_resolution_clock::now();
-
-    // Calculate durations
-    std::chrono::duration<double> duration_generic = end_generic - start_generic;
-    std::chrono::duration<double> duration_optimized = end_optimized - start_optimized;
-
-    // Output results
-    std::cout << "Generic SHA-256 duration: " << duration_generic.count() << " seconds" << std::endl;
-    std::cout << "ARM-optimized SHA-256 duration: " << duration_optimized.count() << " seconds" << std::endl;
-}
+/*
+ void benchmark_sha256(const unsigned char* data, size_t data_size) {
+ 
+ 
+ uint32_t state_generic[8];
+ uint32_t state_optimized[8];
+ 
+ // Initialize states
+ sha256::Initialize(state_generic);
+ sha256::Initialize(state_optimized);
+ 
+ // Measure time for generic implementation
+ auto start_generic = std::chrono::high_resolution_clock::now();
+ sha256::Transform(state_generic, data, data_size / 64); // Assuming 64-byte blocks
+ auto end_generic = std::chrono::high_resolution_clock::now();
+ 
+ // Measure time for ARM-optimized implementation
+ auto start_optimized = std::chrono::high_resolution_clock::now();
+ sha256_arm_shani::Transform(state_optimized, data, data_size / 64); // Assuming 64-byte blocks
+ auto end_optimized = std::chrono::high_resolution_clock::now();
+ 
+ // Calculate durations
+ std::chrono::duration<double> duration_generic = end_generic - start_generic;
+ std::chrono::duration<double> duration_optimized = end_optimized - start_optimized;
+ 
+ // Output results
+ std::cout << "Generic SHA-256 duration: " << duration_generic.count() << " seconds" << std::endl;
+ std::cout << "ARM-optimized SHA-256 duration: " << duration_optimized.count() << " seconds" << std::endl;
+ }
+ */
