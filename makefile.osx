@@ -25,7 +25,7 @@ DEBUGFLAGS = -g -O0
 DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Release mode settings
-RELEASEFLAGS = -O3 -march=armv8.4-a+crypto
+RELEASEFLAGS = -O3 
 RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Choose the appropriate flags
@@ -56,11 +56,11 @@ OBJS = $(SRC_FILES:.cpp=.o)
 
 # Target to build the command line executable
 alphacash: $(OBJS)
-        $(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
 # Target to build the executable
 alphacashd: $(OBJS)
-        $(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
 # Target to build all executables
 all: alphacash alphacashd
@@ -70,10 +70,10 @@ all: alphacash alphacashd
 
 # Pattern rule for object files
 %.o: %.cpp $(HEADERS)
-        $(CXX) -c $(CXXFLAGS) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 # Clean up
 clean:
-        rm -f *.o alphacashd alphacash
+	rm -f *.o alphacashd alphacash
 
 
