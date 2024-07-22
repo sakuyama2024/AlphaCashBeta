@@ -4,27 +4,29 @@ CXX = g++
 # Default build mode
 BUILD ?= debug
 
-# Debug mode settings
-DEBUGFLAGS = -g
-DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
+# Common include directories and flags from wx-config
+WX_CXXFLAGS = $(shell wx-config --cxxflags)
+WX_LDFLAGS = $(shell wx-config --libs)
+
+
+# Common include directories
+INCLUDE_DIRS = \
 -I/usr/local/opt/berkeley-db/include \
 -I/usr/local/opt/crypto++/include/cryptopp \
 -I/usr/local/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
--I/usr/local/lib//wx/include/osx_cocoa-unicode-3.2 \
--I/usr/local/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
+
+# Common flags
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat 
+
+
+# Debug mode settings
+DEBUGFLAGS = -g -O0
+DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Release mode settings
-RELEASEFLAGS = -O3
-RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
--I/usr/local/opt/berkeley-db/include \
--I/usr/local/opt/crypto++/include/cryptopp \
--I/usr/local/include/boost -I/opt/homebrew/opt/boost/include/boost \
--I/opt/homebrew/opt/openssl@3/include \
--I/usr/local/lib/wx/include/osx_cocoa-unicode-3.2 \
--I/usr/local/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
+RELEASEFLAGS = -O3 -march=armv8.4-a+crypto
+RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Choose the appropriate flags
 ifeq ($(BUILD),debug)
@@ -33,35 +35,45 @@ else ifeq ($(BUILD),release)
     CXXFLAGS = $(RELEASE_CXXFLAGS)
 endif
 
+
 LIBPATHS = -L/usr/lib -L/usr/local/lib -L/usr/local/opt/crypto++/lib -L/usr/local/opt/berkeley-db/lib \
 -L/usr/local/opt/boost/lib  -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
-LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
--framework CoreFoundation  -framework IOKit -framework Carbon -framework Cocoa \
--framework QuartzCore -framework AudioToolbox -framework System -framework OpenGL \
--lwx_osx_cocoau_xrc-3.2 -lwx_osx_cocoau_html-3.2 -lwx_osx_cocoau_qa-3.2 \
--lwx_osx_cocoau_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
+LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl $(WX_LDFLAGS)\
+
 
 # Header files
-HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
-bignum.h script.h db.h base58.h net.h market.h rpc.h
+HEADERS = base58.h bignum.h db.h headers.h key.h alphautil.h main.h market.h net.h rpc.h script.h serialize.h sha256.h \
+ui.h uibase.h uint256.h util.h
 
 # Source files
-SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
-init.cpp rpc.cpp
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp sha256_arm_shani.cpp \
+ui.cpp uibase.cpp util.cpp
 
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
 
+
+# Target to build the command line executable
+alphacash: $(OBJS)
+        $(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+
 # Target to build the executable
 alphacashd: $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+        $(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+
+# Target to build all executables
+all: alphacash alphacashd
+
+# Target to build all executables
+all: alphacash alphacashd
 
 # Pattern rule for object files
 %.o: %.cpp $(HEADERS)
-	$(CXX) -c $(CXXFLAGS) -o $@ $<
+        $(CXX) -c $(CXXFLAGS) -o $@ $<
 
 # Clean up
 clean:
-	rm -f *.o alphacashd
+        rm -f *.o alphacashd alphacash
+
 
