@@ -655,33 +655,52 @@ struct ser_streamplaceholder
     int nVersion;
 };
 
-//
-// Allocator that clears its contents before deletion
-//
 template<typename T>
-struct secure_allocator : public std::allocator<T>
-{
-    // MSVC8 default copy constructor is broken
-    typedef std::allocator<T> base;
-    typedef typename base::size_type size_type;
-    typedef typename base::difference_type  difference_type;
-    typedef typename base::pointer pointer;
-    typedef typename base::const_pointer const_pointer;
-    typedef typename base::reference reference;
-    typedef typename base::const_reference const_reference;
-    typedef typename base::value_type value_type;
-    secure_allocator() throw() {}
-    secure_allocator(const secure_allocator& a) throw() : base(a) {}
-    ~secure_allocator() throw() {}
-    template<typename _Other> struct rebind
-    { typedef secure_allocator<_Other> other; };
+struct secure_allocator {
+    using value_type = T;
 
-    void deallocate(T* p, std::size_t n)
-    {
-        if (p != NULL)
-            memset(p, 0, sizeof(T) * n);
-        allocator<T>::deallocate(p, n);
+    secure_allocator() noexcept = default;
+
+    template<typename U>
+    constexpr secure_allocator(const secure_allocator<U>&) noexcept {}
+
+    T* allocate(std::size_t n) {
+        if (n > std::numeric_limits<std::size_t>::max() / sizeof(T))
+            throw std::bad_alloc();
+        return static_cast<T*>(::operator new(n * sizeof(T)));
     }
+
+    void deallocate(T* p, std::size_t n) noexcept {
+        if (p) {
+            std::memset(p, 0, n * sizeof(T)); // Clear memory
+            ::operator delete(p);
+        }
+    }
+
+    template<typename U>
+    struct rebind {
+        using other = secure_allocator<U>;
+    };
+
+    // Equality operators
+    template<typename U>
+    bool operator==(const secure_allocator<U>&) const noexcept { return true; }
+
+    template<typename U>
+    bool operator!=(const secure_allocator<U>&) const noexcept { return false; }
+};
+
+// Specialization for void
+template <>
+struct secure_allocator<void> {
+    using value_type = void;
+    using pointer = void*;
+    using const_pointer = const void*;
+
+    template<typename U>
+    struct rebind {
+        using other = secure_allocator<U>;
+    };
 };
 
 
