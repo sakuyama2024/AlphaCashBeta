@@ -403,6 +403,8 @@ inline uint256 Hash(const T1 pbegin, const T1 pend)
     return hash2;
 }
 
+
+
 template<typename T1, typename T2>
 inline uint256 Hash(const T1 p1begin, const T1 p1end,
                     const T2 p2begin, const T2 p2end)
