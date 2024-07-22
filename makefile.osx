@@ -47,7 +47,7 @@ HEADERS = base58.h bignum.h db.h headers.h key.h alphautil.h main.h market.h net
 ui.h uibase.h uint256.h util.h
 
 # Source files
-SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp sha256_arm_shani.cpp \
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp \
 ui.cpp uibase.cpp util.cpp
 
 # Object files
