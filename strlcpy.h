@@ -19,6 +19,9 @@
  * will be copied.  Always NUL terminates (unless siz == 0).
  * Returns strlen(src); if retval >= siz, truncation occurred.
  */
+#ifndef STRLCPY_H
+#define STRLCPY_H
+
 inline __attribute__((gnu_inline)) size_t strlcpy(char *dst, const char *src, size_t siz)
 {
     char *d = dst;
@@ -82,3 +85,5 @@ inline __attribute__((gnu_inline)) size_t strlcat(char *dst, const char *src, si
 
     return(dlen + (s - src)); /* count does not include NUL */
 }
+
+#endif STRLCPY_H
