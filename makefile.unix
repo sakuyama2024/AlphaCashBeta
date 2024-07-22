@@ -13,7 +13,7 @@ WX_LDFLAGS = $(shell wx-config --libs)
 # Common include directories
 INCLUDE_DIRS = \
 -I/usr/local/opt/berkeley-db/include \
--I/usr/local/opt/crypto++/include/cryptopp \
+-I/usr/include/cryptopp \
 -I/usr/local/include/boost \
 -I/usr/local/include/openssl \
 
