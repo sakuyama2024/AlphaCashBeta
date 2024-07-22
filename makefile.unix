@@ -4,27 +4,31 @@ CXX = g++
 # Default build mode
 BUILD ?= debug
 
-# Debug mode settings
-DEBUGFLAGS = -g
-DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
--I/usr/local/berkeley-db/include \
--I/usr/local/include/cryptopp \
+
+# Common include directories and flags from wx-config
+WX_CXXFLAGS = $(shell wx-config --cxxflags)
+WX_LDFLAGS = $(shell wx-config --libs)
+
+
+# Common include directories
+INCLUDE_DIRS = \
+-I/usr/local/opt/berkeley-db/include \
+-I/usr/local/opt/crypto++/include/cryptopp \
 -I/usr/local/include/boost \
--I/usr/include/openssl\
--I/usr/local/wxwidgets/lib/wx/include/gtk3-unicode-3.2 \
--I/usr/local/wxwidgets/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -DHAVE_CXX_STDHEADERS
+-I/usr/local/include/openssl \
+
+# Common flags
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat
+
+
+# Debug mode settings
+DEBUGFLAGS = -g -O0
+DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
+
 
 # Release mode settings
 RELEASEFLAGS = -O3
-RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
--I/usr/local/berkeley-db/include \
--I/usr/local/include/cryptopp \
--I/usr/local/include/boost \
--I/usr/include/openssl \
--I/usr/local/wxwidgets/lib/wx/include/gtk3-unicode-3.2 \
--I/usr/local/wxwidgets/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -DHAVE_CXX_STDHEADERS
+RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Choose the appropriate flags
 ifeq ($(BUILD),debug)
@@ -33,17 +37,20 @@ else ifeq ($(BUILD),release)
     CXXFLAGS = $(RELEASE_CXXFLAGS)
 endif
 
-LIBPATHS = -L/usr/lib -L/usr/local/lib -L/lib64 -L/usr/local/wxwidgets/lib -L/usr/local/berkeleydb/lib
 
-LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
--lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2 
+LIBPATHS = -L/usr/lib -L/usr/local/lib -L/lib64 -L/usr/local/berkeleydb/lib
+
+
+LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl $(WX_LDFLAGS)\
+
+
 # Header files
-HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
-bignum.h script.h db.h base58.h net.h irc.h market.h rpc.h
+HEADERS = base58.h bignum.h byteswap.h common.h db.h endian.h headers.h key.h alphautil.h \
+main.h market.h net.h rpc.h script.h serialize.h sha256.h ui.h uibase.h uint256.h util.h
 
 # Source files
-SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
-init.cpp rpc.cpp
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp \
+ui.cpp uibase.cpp util.cpp
 
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
@@ -54,6 +61,9 @@ alphacashd: $(OBJS)
 
 alphacash: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+
+# Target to build all executables
+all: alphacash alphacashd
 
 # Pattern rule for object files
 %.o: %.cpp $(HEADERS)

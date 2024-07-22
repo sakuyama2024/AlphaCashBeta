@@ -4,6 +4,10 @@ CXX = g++
 # Default build mode
 BUILD ?= debug
 
+# Common include directories and flags from wx-config
+WX_CXXFLAGS = $(shell wx-config --cxxflags)
+WX_LDFLAGS = $(shell wx-config --libs)
+
 # Common include directories
 INCLUDE_DIRS = \
 -I/opt/homebrew/opt/berkeley-db/include \
@@ -11,21 +15,18 @@ INCLUDE_DIRS = \
 -I/opt/homebrew/opt/boost/include \
 -I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
--I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
--I/opt/homebrew/include/wx-3.2
 
 # Common flags
-COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__ \
--DENABLE_ARM_SHANI
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat -DENABLE_ARM_SHANI 
+
 
 # Debug mode settings
 DEBUGFLAGS = -g -O0
-DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS)
+DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Release mode settings
 RELEASEFLAGS = -O3 -march=armv8.4-a+crypto
-RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS)
+RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
 
 # Choose the appropriate flags
 ifeq ($(BUILD),debug)
@@ -35,17 +36,13 @@ else ifeq ($(BUILD),release)
 endif
 
 LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/berkeley-db/lib \
--L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
+-L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib \
 
-LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
--framework CoreFoundation  -framework IOKit -framework Carbon -framework Cocoa \
--framework QuartzCore -framework AudioToolbox -framework System -framework OpenGL \
--lwx_osx_cocoau_xrc-3.2 -lwx_osx_cocoau_html-3.2 -lwx_osx_cocoau_qa-3.2 \
--lwx_osx_cocoau_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
+LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl $(WX_LDFLAGS)\
 
 # Header files
-HEADERS = base58.h bignum.h db.h headers.h key.h alphautil.h main.h market.h net.h rpc.h script.h serialize.h sha256.h \
-ui.h uibase.h uint256.h util.h 
+HEADERS = base58.h bignum.h byteswap.h common.h db.h endian.h headers.h key.h alphautil.h main.h \
+market.h net.h rpc.h script.h serialize.h sha256.h ui.h uibase.h uint256.h util.h 
 
 # Source files
 SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp sha256_arm_shani.cpp \
