@@ -22,6 +22,7 @@
 #ifndef STRLCPY_H
 #define STRLCPY_H
 
+#ifndef HAVE_STRLCPY
 inline __attribute__((gnu_inline)) size_t strlcpy(char *dst, const char *src, size_t siz)
 {
     char *d = dst;
@@ -49,6 +50,7 @@ inline __attribute__((gnu_inline)) size_t strlcpy(char *dst, const char *src, si
 
     return(s - src - 1); /* count does not include NUL */
 }
+#endif
 
 /*
  * Appends src to string dst of size siz (unlike strncat, siz is the
@@ -57,6 +59,8 @@ inline __attribute__((gnu_inline)) size_t strlcpy(char *dst, const char *src, si
  * Returns strlen(src) + MIN(siz, strlen(initial dst)).
  * If retval >= siz, truncation occurred.
  */
+
+#ifndef HAVE_STRLCAT
 inline __attribute__((gnu_inline)) size_t strlcat(char *dst, const char *src, size_t siz)
 {
     char *d = dst;
@@ -85,5 +89,6 @@ inline __attribute__((gnu_inline)) size_t strlcat(char *dst, const char *src, si
 
     return(dlen + (s - src)); /* count does not include NUL */
 }
+#endif
 
 #endif STRLCPY_H
