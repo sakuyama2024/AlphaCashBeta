@@ -1,30 +1,31 @@
-# Compiler and flags
+
 CXX = g++
 
 # Default build mode
 BUILD ?= debug
 
-# Debug mode settings
-DEBUGFLAGS = -g
-DEBUG_CXXFLAGS = -std=c++11 -O0 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) \
+# Common include directories
+INCLUDE_DIRS = \
 -I/opt/homebrew/opt/berkeley-db/include \
--I/opt/homebrew/opt//cryptopp/include/cryptopp \
--I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
+-I/opt/homebrew/opt/cryptopp/include/cryptopp \
+-I/opt/homebrew/opt/boost/include \
+-I/opt/homebrew/opt/boost/include/boost \
 -I/opt/homebrew/opt/openssl@3/include \
 -I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
--I/opt/homebrew/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
+-I/opt/homebrew/include/wx-3.2
+
+# Common flags
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat \
+-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__ \
+-DENABLE_ARM_SHANI
+
+# Debug mode settings
+DEBUGFLAGS = -g -O0
+DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS)
 
 # Release mode settings
-RELEASEFLAGS = -O3
-RELEASE_CXXFLAGS = -std=c++11 -w -Wno-invalid-offsetof -Wformat $(RELEASEFLAGS) \
--I/opt/homebrew/opt/berkeley-db/include \
--I/opt/homebrew/opt//cryptopp/include/cryptopp \
--I/opt/homebrew/opt/boost/include -I/opt/homebrew/opt/boost/include/boost \
--I/opt/homebrew/opt/openssl@3/include \
--I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 \
--I/opt/homebrew/include/wx-3.2 \
--D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXMAC__ -D__WXOSX__ -D__WXOSX_COCOA__
+RELEASEFLAGS = -O3 -march=armv8.4-a+crypto
+RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS)
 
 # Choose the appropriate flags
 ifeq ($(BUILD),debug)
@@ -33,8 +34,7 @@ else ifeq ($(BUILD),release)
     CXXFLAGS = $(RELEASE_CXXFLAGS)
 endif
 
-LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/cryptopp/lib  \
--L/opt/homebrew/opt/berkeley-db/lib \
+LIBPATHS = -L/usr/lib -L/usr/local/lib -L/opt/homebrew/opt/berkeley-db/lib \
 -L/opt/homebrew/opt/boost/lib -L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
 LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl \
@@ -44,24 +44,27 @@ LIBS = -Wl,-lboost_system -lboost_filesystem -ldb_cxx -lcryptopp -lcrypto -lssl 
 -lwx_osx_cocoau_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
 
 # Header files
-HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
-bignum.h script.h db.h base58.h net.h  market.h rpc.h
+HEADERS = base58.h bignum.h db.h headers.h key.h alphautil.h main.h market.h net.h rpc.h script.h serialize.h sha256.h \
+ui.h uibase.h uint256.h util.h 
 
 # Source files
-SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
-init.cpp rpc.cpp
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp sha256_arm_shani.cpp \
+ui.cpp uibase.cpp util.cpp
 
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
 
 
-# Target to build the executable
+# Target to build the command line executable
 alphacash: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
 
 # Target to build the executable
 alphacashd: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(LIBPATHS) $(OBJS) $(LIBS)
+
+# Target to build all executables
+all: alphacash alphacashd
 
 # Pattern rule for object files
 %.o: %.cpp $(HEADERS)
