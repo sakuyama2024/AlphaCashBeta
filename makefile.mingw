@@ -7,52 +7,56 @@ CXX = g++
 # Default build mode
 BUILD ?= debug
 
+# Common include directories and flags from wx-config
+WX_CXXFLAGS = $(shell wx-config --cxxflags)
+WX_LDFLAGS = $(shell wx-config --libs)
 
-INCLUDEPATHS= \
+
+# Common include directories
+INCLUDE_DIRS = \
   -I"/mingw64/include" \
   -I"/mingw64/include/cryptopp" \
-  -I"c:/msys64/mingw64/lib/wx/include/msw-unicode-3.2" \
-  -I"c:/msys64/mingw64/include/wx-3.2" \
+
+# Common flags
+COMMONFLAGS = -std=gnu++2b -w -Wno-invalid-offsetof -Wformat -fexceptions -frtti -mwindows
+
+
+# Debug mode settings
+DEBUGFLAGS = -g -O0 -static
+DEBUG_CXXFLAGS = $(COMMONFLAGS) $(DEBUGFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
+
+# Release mode settings
+RELEASEFLAGS = -O3 -static
+RELEASE_CXXFLAGS = $(COMMONFLAGS) $(RELEASEFLAGS) $(INCLUDE_DIRS) $(WX_CXXFLAGS)
+
+# Choose the appropriate flags
+ifeq ($(BUILD),debug)
+    CXXFLAGS = $(DEBUG_CXXFLAGS)
+else ifeq ($(BUILD),release)
+    CXXFLAGS = $(RELEASE_CXXFLAGS)
+endif
 
 LIBPATHS= \
   -L"/mingw64/lib" \
   -L"c:/cryptopp" \
-  -L"c:/wxWidgets-3.2.5/build-debug/lib/"
 
 
 LIBS= \
   -lcrypto -lssl \
   -lboost_system-mt -lboost_filesystem-mt \
   -ldb -ldb_cxx -lcryptopp \
-  -lwx_mswu_xrc-3.2 -lwx_mswu_html-3.2 -lwx_mswu_qa-3.2 -lwx_mswu_core-3.2 \
-  -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2 \
   -lz -lrpcrt4 -loleaut32 -lole32 -luuid -luxtheme -lwinspool -lwinmm -lshell32 -lshlwapi \
   -lcomctl32 -lcomdlg32 -ladvapi32 -lversion -lws2_32 -lgdi32 -loleacc -lwinhttp \
   -Wl,--subsystem,windows -mwindows
   
 
-WXDEFS=-Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual -g -O0 
-DEBUG_CXXFLAGS=-g -O0 -D__WXDEBUG__ -Wfatal-errors -static
-RELEASE_CXXFLAGS= -O3 -Wfatal-errors -static
-
-
-# Choose the appropriate flags
-ifeq ($(BUILD),debug)
-    B_CXXFLAGS = $(DEBUG_CXXFLAGS)
-else ifeq ($(BUILD),release)
-    B_CXXFLAGS = $(RELEASE_CXXFLAGS)
-endif
-
-CXXFLAGS = -Wall -std=c++11 $(B_CXXFLAGS) $(WXDEFS) $(INCLUDEPATHS) -fexceptions -frtti -mwindows -g
-
 # Header files
-HEADERS = alphautil.h headers.h util.h main.h ui.h uibase.h serialize.h uint256.h key.h \
-bignum.h script.h db.h base58.h net.h market.h rpc.h
+HEADERS = base58.h bignum.h byteswap.h common.h db.h endian.h headers.h key.h alphautil.h main.h \
+market.h net.h rpc.h script.h serialize.h sha256.h ui.h uibase.h uint256.h util.h
 
 # Source files
-SRC_FILES = alphautil.cpp util.cpp uibase.cpp ui.cpp script.cpp db.cpp net.cpp main.cpp \
-init.cpp rpc.cpp
-
+SRC_FILES = alphautil.cpp db.cpp init.cpp main.cpp net.cpp rpc.cpp script.cpp sha256.cpp sha256_arm_shani.cpp \
+ui.cpp uibase.cpp util.cpp
 
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
@@ -67,7 +71,10 @@ alphacashd: $(OBJS)
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
+# Target to build all executables
+all: alphacash alphacashd
 
 clean:
 	rm -f *.o
 	rm alphacashd
+	rm alphacash
