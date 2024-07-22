@@ -62,7 +62,13 @@ ui.cpp uibase.cpp util.cpp
 # Object files
 OBJS = $(SRC_FILES:.cpp=.o)
 
-# Target to build the executable
+# Target to build the command line executable
+alphacash: $(OBJS)
+	echo $(LIBPATHS)
+	echo $(LIBS)
+	$(CXX) -o $@ $(OBJS) $(LIBPATHS)  $(LIBS)
+
+# Target to build the daemon executable
 alphacashd: $(OBJS)
 	echo $(LIBPATHS)
 	echo $(LIBS)
