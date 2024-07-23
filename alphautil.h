@@ -10,5 +10,7 @@ std::string formatTimestamp(uint32_t timestamp);
 int FormatHashBlocks(void* pbuffer, unsigned int len);
 void RegenerateGenesisBlock();
 void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout);
+void BlockSHA256_ARM(const void* pin, int nBlocks, void* pout);
+void GetDifficultyAlpha();
 
 #endif ALPHAUTIL_H

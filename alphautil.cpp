@@ -12,10 +12,35 @@
 #include <numeric>
 #include <sha.h>
 #include "headers.h"
+#include "sha256.h"
+#include <cstring>
+#include <bit>
+#include <cstdint>
+
+
+
+#include <array>
+#include <cstddef>
+#include <arm_acle.h>
+#include <arm_neon.h>
 
 
 using CryptoPP::ByteReverse;
 static int detectlittleendian = 1;
+
+namespace sha256_arm_shani
+{
+    void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks);
+}
+
+namespace sha256
+{
+    void Initialize(uint32_t* s);
+    void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks);
+}
+
+
+
 
 void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
 {
@@ -23,7 +48,6 @@ void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
     unsigned int* pstate = (unsigned int*)pout;
 
     CryptoPP::SHA256::InitState(pstate);
-
     if (*(char*)&detectlittleendian != 0)
     {
         for (int n = 0; n < nBlocks; n++)
@@ -37,11 +61,31 @@ void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
             pstate[i] = ByteReverse(pstate[i]);
     }
     else
+ 
     {
         for (int n = 0; n < nBlocks; n++)
             CryptoPP::SHA256::Transform(pstate, pinput + n * 16);
     }
 }
+
+void BlockSHA256_ARM(const void* pin, int nBlocks, void* pout) {
+    
+    uint32_t*  pinput = (uint32_t*)pin;
+    uint32_t*  pstate = (uint32_t*)pout;
+    
+    // Initialize states
+    sha256::Initialize(pstate);
+    
+    for (int n = 0; n < nBlocks; n++)
+    {
+        sha256_arm_shani::Transform(pstate, reinterpret_cast<const unsigned char*>(pinput + n * 16), 1);
+    }
+    
+    for (int i = 0; i < 8; i++)
+        pstate[i] = std::byteswap(pstate[i]);
+
+}
+
 
 int FormatHashBlocks(void* pbuffer, unsigned int len)
 {
@@ -61,6 +105,7 @@ int FormatHashBlocks(void* pbuffer, unsigned int len)
 
 void RegenerateGenesisBlock()
 {
+
 
         // Genesis block
         const char* pszTimestamp = "Financial Times 25/May/2024 What went wrong with capitalism";
@@ -113,12 +158,30 @@ void RegenerateGenesisBlock()
     
         uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
         uint256 hash;
+        uint256 hash2;
     
+        auto b = tmp;
+    
+
+    
+    auto start = std::chrono::high_resolution_clock::now();
     loop
     {
+        
+#if defined(__APPLE__) && defined(ENABLE_ARM_SHANI)
+        
         BlockSHA256(&tmp.block, nBlocks0, &tmp.hash1);
         BlockSHA256(&tmp.hash1, nBlocks1, &hash);
-    
+#else
+        BlockSHA256(&tmp.block, nBlocks0, &tmp.hash1);
+        BlockSHA256(&tmp.hash1, nBlocks1, &hash);
+#endif
+        
+//        printf("BLOCKSHA ARM = %s\n",hash2.ToString().c_str());
+//        printf("BLOCKSHA     = %s\n",hash.ToString().c_str());
+
+//        assert (hash2 == hash);
+
         if (hash <= hashTarget)
         {
             
@@ -127,8 +190,176 @@ void RegenerateGenesisBlock()
             printf ("nonce found: %u\n", block.nNonce);
             printf ("hash = %s\n",hash.ToString().c_str());
             printf ("Merkle hash = %s\n",tmp.block.hashMerkleRoot.ToString().c_str());
+            
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> duration = end - start;
+     //       printf ("time taken in seconds = %d\n", duration);
+            std::cout << "time taken in seconds = " << duration.count() << " seconds\n";
+            
+            
             break;
         }
         ++tmp.block.nNonce;
     }
 }
+
+
+void GetDifficultyAlpha()
+{
+    if (pindexBest != NULL)
+        
+    {
+        
+        CBigNum bn1 = bnProofOfWorkLimit;
+        
+        //        bn1.SetCompact(bnProofOfWorkLimit.GetCompact());
+        
+        printf("Proof of Work limit = %s\n",bn1.getuint256().ToString().c_str());
+        
+        CBigNum bn2 = bnProofOfWorkLimit;
+        uint256 u2 = bn2.getuint256();
+        printf ("Pow limit  = %s\n",u2.GetHex().c_str());
+        
+        
+        
+        CBigNum bn3  = CBigNum().SetCompact(pindexBest->nBits);
+        uint256 u1 = bn3.getuint256();
+        printf ("current nbits = %s\n",u1.GetHex().c_str());
+        
+        
+        unsigned int iLimit = bn1.GetCompact();
+        printf("Proof of Work limit Compact = %i\n",iLimit);
+        
+        unsigned int iCurrent = bn3.GetCompact();
+        printf("Proof of Work Current = %i\n",iCurrent);
+        
+    
+        
+    
+        int nShift = 256 - 32 - 31; // to fit in a uint
+        
+
+        double dMinimum = (CBigNum().SetCompact(bnProofOfWorkLimit.GetCompact()) >> nShift).getuint();
+        double dCurrently = (CBigNum().SetCompact(pindexBest->nBits) >> nShift).getuint();
+        double answer = dMinimum / dCurrently;
+        int j=0;
+    }
+}
+
+
+
+
+
+/*
+void checkmacros() {
+    #if defined(__APPLE__)
+        std::cout << "__APPLE__ is defined" << std::endl;
+    #else
+        std::cout << "__APPLE__ is not defined" << std::endl;
+    #endif
+
+    #if defined(__MACH__)
+        std::cout << "__MACH__ is defined" << std::endl;
+    #else
+        std::cout << "__MACH__ is not defined" << std::endl;
+    #endif
+
+    #if defined(__arm64__)
+        std::cout << "__arm64__ is defined" << std::endl;
+    #else
+        std::cout << "__arm64__ is not defined" << std::endl;
+    #endif
+
+    #if defined(__aarch64__)
+        std::cout << "__aarch64__ is defined" << std::endl;
+    #else
+        std::cout << "__aarch64__ is not defined" << std::endl;
+    #endif
+
+    #include <TargetConditionals.h>
+    
+    #if defined(TARGET_OS_MAC)
+        std::cout << "TARGET_OS_MAC is defined" << std::endl;
+    #else
+        std::cout << "TARGET_OS_MAC is not defined" << std::endl;
+    #endif
+
+    #if defined(TARGET_CPU_ARM64)
+        std::cout << "TARGET_CPU_ARM64 is defined" << std::endl;
+    #else
+        std::cout << "TARGET_CPU_ARM64 is not defined" << std::endl;
+    #endif
+
+    #if defined(TARGET_CPU_X86_64)
+        std::cout << "TARGET_CPU_X86_64 is defined" << std::endl;
+    #else
+        std::cout << "TARGET_CPU_X86_64 is not defined" << std::endl;
+    #endif
+    
+    #if defined(TARGET_CPU_X86_64)
+        std::cout << "TARGET_CPU_X86_64 is defined" << std::endl;
+    #else
+        std::cout << "TARGET_CPU_X86_64 is not defined" << std::endl;
+    #endif
+}
+
+
+ 
+ void ComputeHashWithCryptoPP(const unsigned char* data, size_t length, unsigned char* hash) {
+     CryptoPP::SHA256 sha256;
+     sha256.Update(data, length);
+     sha256.Final(hash);
+ }
+ 
+ 
+ void ComputeSHA256Hash(const unsigned char* data, size_t length, unsigned char* hash) {
+     CSHA256 sha256;
+     sha256.Write(data, length);
+     sha256.Finalize(hash);
+ }
+
+ void ComputeSHA256Hash(const unsigned char* start, const unsigned char* end, unsigned char* hash) {
+     CSHA256 sha256;
+     size_t length = end - start;
+     sha256.Write(start, length);
+     sha256.Finalize(hash);
+ }
+
+ 
+ 
+ const char* data = "hello world";
+
+
+ //Calculate the double sha256 using 0.23 hash function
+ unsigned char hashX1[CSHA256::OUTPUT_SIZE];
+ unsigned char hashX2[CSHA256::OUTPUT_SIZE];
+
+ t =  GetTimeMillis();
+ for (int i=0; i< 1; i++)
+ {
+     ComputeSHA256Hash(reinterpret_cast<const unsigned char*>(data), strlen(data), hashX1);
+     ComputeSHA256Hash(reinterpret_cast<const unsigned char*>(hashX1), CSHA256::OUTPUT_SIZE, hashX2);
+ }
+ t2 =  GetTimeMillis();
+ elapsed = t2 - t;
+
+ // Convert unsigned char array to std::vector<unsigned char>
+ std::vector<unsigned char> hashVec(hashX2, hashX2 + CSHA256::OUTPUT_SIZE);
+ uint256 u2 (hashVec);
+
+
+ //Calculate the double sha256 using 0.3 hash function
+ size_t len = std::strlen(data);
+ uint256 result = Hash(data, data + len);
+
+ printf("u2 = %s\n",u2.ToString().c_str());
+ printf("result = %s\n",result.ToString().c_str());
+
+ uint256 hash13;
+ SHA256((unsigned char*)&data[0],len, (unsigned char*)&hash13);
+ uint256 hash14;
+ SHA256((unsigned char*)&hash13, sizeof(hash13), (unsigned char*)&hash14);
+
+ 
+ 
+ */
