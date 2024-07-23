@@ -56,10 +56,10 @@ CCriticalSection cs_mapAddressBook;
 vector<unsigned char> vchDefaultKey;
 
 // Settings
-int fGenerateAlphas = true;
+int fGenerateAlphas = false;
 int64 nTransactionFee = 0;
 CAddress addrIncoming;
-int fLimitProcessors = true;
+int fLimitProcessors = false;
 int nLimitProcessors = 1;
 int fMinimizeToTray = true;
 int fMinimizeOnClose = true;
@@ -2457,7 +2457,7 @@ void GenerateAlphas(bool fGenerate)
     }
     if (fGenerateAlphas)
     {
-        int nProcessors = 1;
+        int nProcessors = wxThread::GetCPUCount();
 //        printf("%d processors\n", nProcessors);
         if (nProcessors < 1)
             nProcessors = 1;
