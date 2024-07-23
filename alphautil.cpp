@@ -65,6 +65,7 @@ void BlockSHA256(const void* pin, unsigned int nBlocks, void* pout)
             CryptoPP::SHA256::Transform(pstate, pinput + n * 16);
     }
 }
+#if defined(__APPLE__) && defined(ENABLE_ARM_SHANI)
 
 void BlockSHA256_ARM(const void* pin, int nBlocks, void* pout) {
     
@@ -83,6 +84,8 @@ void BlockSHA256_ARM(const void* pin, int nBlocks, void* pout) {
         pstate[i] = std::byteswap(pstate[i]);
 
 }
+
+#endif
 
 
 int FormatHashBlocks(void* pbuffer, unsigned int len)
