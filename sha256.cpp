@@ -14,7 +14,10 @@
 #include <iostream>
 
 #if !defined(DISABLE_OPTIMIZED_SHA256)
+
+#if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
 #include "cpuid.h"
+#endif
 
 #if defined(__linux__) && defined(ENABLE_ARM_SHANI)
 #include <sys/auxv.h>
