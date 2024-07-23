@@ -21,8 +21,6 @@
 
 #include <array>
 #include <cstddef>
-#include <arm_acle.h>
-#include <arm_neon.h>
 
 
 using CryptoPP::ByteReverse;
