@@ -3,7 +3,138 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
-#include "headers.h"
+#ifdef _MSC_VER
+#pragma warning(disable:4786)
+#pragma warning(disable:4804)
+#pragma warning(disable:4805)
+#pragma warning(disable:4717)
+#endif
+#ifdef _WIN32_WINNT
+#undef _WIN32_WINNT
+#endif
+#define _WIN32_WINNT 0x0400
+#ifdef _WIN32_IE
+#undef _WIN32_IE
+#endif
+#define _WIN32_IE 0x0400
+#define WIN32_LEAN_AND_MEAN 1
+#define __STDC_LIMIT_MACROS // to enable UINT64_MAX from stdint.h
+#include <wx/wx.h>
+#include <wx/stdpaths.h>
+#include <wx/snglinst.h>
+#if wxUSE_GUI
+#include <wx/utils.h>
+#include <wx/clipbrd.h>
+#include <wx/taskbar.h>
+#endif
+#include <openssl/ecdsa.h>
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+#include <openssl/sha.h>
+#include <openssl/ripemd.h>
+#include <db_cxx.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <limits.h>
+#include <float.h>
+#include <assert.h>
+#include <memory>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <list>
+#include <deque>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <numeric>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple_comparison.hpp>
+#include <boost/tuple/tuple_io.hpp>
+#include <boost/array.hpp>
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+
+#ifdef __WXMSW__
+#include <windows.h>
+#include <winsock2.h>
+#include <mswsock.h>
+#include <shlobj.h>
+#include <shlwapi.h>
+#include <io.h>
+#include <process.h>
+#include <malloc.h>
+#else
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <errno.h>
+#include <net/if.h>
+#include <ifaddrs.h>
+#endif
+#ifdef __BSD__
+#include <netinet/in.h>
+#endif
+
+
+#pragma hdrstop
+using namespace std;
+using namespace boost;
+
+#include "strlcpy.h"
+#include "serialize.h"
+#include "uint256.h"
+#include "util.h"
+#include "key.h"
+#include "bignum.h"
+#include "base58.h"
+#include "script.h"
+#include "db.h"
+#include "net.h"
+#include "main.h"
+#include "rpc.h"
+#if wxUSE_GUI
+#include "uibase.h"
+#endif
+#include "ui.h"
+#include "init.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#include "headers.h"
 #undef printf
 #include <boost/asio.hpp>
 #include "json/json_spirit_reader_template.h"
@@ -110,10 +241,23 @@ double GetDifficulty()
     // minimum difficulty = 1.0.
     if (pindexBest == NULL)
         return 1.0;
-    int nShift = 256 - 32 - 31; // to fit in a uint
-    double dMinimum = (CBigNum().SetCompact(bnProofOfWorkLimit.GetCompact()) >> nShift).getuint();
-    double dCurrently = (CBigNum().SetCompact(pindexBest->nBits) >> nShift).getuint();
-    return dMinimum / dCurrently;
+    
+    //Extract the exponent from the compact representation
+    int nShift = (pindexBest->nBits >> 24) & 0xff;
+    // Calculate the initial difficulty using the new minimum difficulty target
+    double dDiff = (double)0x0fffff / (double)(pindexBest->nBits & 0x00ffffff);
+    // Adjust the difficulty based on the exponent difference
+    while (nShift < 29)
+    {
+      dDiff *= 256.0;
+      nShift++;
+    }
+    while (nShift > 29)
+    {
+      dDiff /= 256.0;
+      nShift--;
+    }
+    return dDiff;
 }
 
 Value getdifficulty(const Array& params, bool fHelp)
