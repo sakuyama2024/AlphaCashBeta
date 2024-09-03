@@ -35,9 +35,15 @@ wx-config --cxxflags
 wx-config --libs
 
 
+# Install  boost and berkeley-db
+pacman -S mingw-w64-x86_64-boost mingw-w64-x86_64-db
 
-# Install cryptopp, boost and berkeley-db
-pacman -S mingw-w64-x86_64-crypto++ mingw-w64-x86_64-boost mingw-w64-x86_64-db
+# pacman doesn't support cryptopp so we need to build
+
+git clone https://github.com/weidai11/cryptopp.git
+cd cryptopp
+make
+make install
 
 
 # Get the alphacash source code
@@ -48,4 +54,4 @@ make alphacashd
 
 
 # run the program. Wait until the chain is downloaded and then turn on generate coins in the menu
-./alphacashd -gen-0 -server
+./alphacashd 
