@@ -40,6 +40,7 @@
 #include <float.h>
 #include <assert.h>
 #include <memory>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -107,29 +108,6 @@ using namespace boost;
 #endif
 #include "ui.h"
 #include "init.h"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -318,6 +296,122 @@ Value setgenerate(const Array& params, bool fHelp)
     return Value::null;
 }
 
+
+int extract_private_key_from_hex_der(const CPrivKey& privKey, char** hex_private_key) {
+    // Convert CPrivKey to binary (which it already is)
+    size_t der_len = privKey.size();
+    const unsigned char* der_key = &privKey[0];
+    
+    // Print the size of the DER-encoded private key
+    std::cout << "DER-encoded private key size: " << der_len << " bytes" << std::endl;
+
+    // Deserialize the DER-encoded EC private key
+    EC_KEY* ec_key = NULL;
+    const unsigned char* p = der_key;
+    ec_key = d2i_ECPrivateKey(NULL, &p, der_len);
+    if (ec_key == NULL) {
+        fprintf(stderr, "Failed to deserialize EC private key.\n");
+        return 1;
+    }
+
+    // Extract the private key as a BIGNUM
+    const BIGNUM* bn_private_key = EC_KEY_get0_private_key(ec_key);
+    if (bn_private_key == NULL) {
+        fprintf(stderr, "Failed to extract private key.\n");
+        EC_KEY_free(ec_key);
+        return 1;
+    }
+    
+    // Get the size of the private key in bytes
+       int private_key_size = BN_num_bytes(bn_private_key);
+       std::cout << "Private key size (BIGNUM): " << private_key_size << " bytes" << std::endl;
+
+    // Ensure private key is always 32 bytes (pad with leading zeroes if necessary)
+    unsigned char priv_key_bytes[32] = {0};  // Initialize all bytes to 0
+    int num_bytes = BN_bn2bin(bn_private_key, priv_key_bytes + (32 - private_key_size));
+
+    // Convert the 32-byte private key to a hexadecimal string
+    *hex_private_key = (char*)OPENSSL_malloc(65);  // 32 bytes in hex (64 characters) + null terminator
+    if (*hex_private_key == NULL) {
+        fprintf(stderr, "Failed to allocate memory for hex private key.\n");
+        EC_KEY_free(ec_key);
+        return 1;
+    }
+
+    // Convert each byte to its hexadecimal representation
+    for (int i = 0; i < 32; i++) {
+        sprintf(*hex_private_key + (i * 2), "%02x", priv_key_bytes[i]);
+    }
+    (*hex_private_key)[64] = '\0';  // Null-terminate the string
+
+    std::cout << "Private Key (Hex): " << *hex_private_key << std::endl;
+
+    // Free the memory
+    EC_KEY_free(ec_key);
+
+    return 0; // Success
+}
+
+
+Value printkeys(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "printkeys");
+    
+
+    
+    // Get the full path to the "keys.dat" file in the data directory
+    std::string filePath = GetDataDir() + "/keys.dat";
+
+    
+    // Open the file for writing (overwrites if the file exists)
+    FILE* outFile = fopen(filePath.c_str(), "w");
+    if (outFile == NULL) {
+     std::cerr << "Error: Unable to open file " << filePath << " for writing.\n";
+        return Value::null;
+    }
+
+    // Write header to the file
+//    fprintf(outFile, "Printing all keys in the wallet:\n");
+    
+    CRITICAL_BLOCK(cs_mapKeys)
+    {
+        for (const auto& keyPair : mapKeys)
+        {
+            const vector<unsigned char>& pubKey = keyPair.first;     // Public key
+            const CPrivKey& privKey = keyPair.second;                // Private key
+            
+            // Check if the public key is either 33 bytes (compressed) or 65 bytes (uncompressed)
+            if (pubKey.size() == 33 || (pubKey.size() == 65 && pubKey[0] == 0x04)) {
+//                fprintf(outFile, "Public Key: %s\n", HexStr(pubKey).c_str());
+            } else {
+                fprintf(outFile, "Invalid public key length or format! Public Key size: %zu\n", pubKey.size());
+                return Value::null;
+            }
+            
+            // Extract Private key from DER encoding
+            char* hex_private_key = NULL;
+            int result = extract_private_key_from_hex_der(privKey, &hex_private_key);
+            if (result == 0) {
+                fprintf(outFile, "%s\n", hex_private_key);
+                
+                // Calculate the size of the private key
+                size_t hex_private_key_length = strlen(hex_private_key);
+                size_t private_key_size = hex_private_key_length / 2;  // Each byte is 2 hex chars
+//                fprintf(outFile, "Private Key Size: %zu bytes\n", private_key_size);
+            }
+            
+            // Free the private key after use
+            if (hex_private_key != NULL) {
+                OPENSSL_free(hex_private_key);
+            }
+        }
+    }
+    fclose(outFile);
+    return Value::null;
+    
+}
 
 Value getinfo(const Array& params, bool fHelp)
 {
@@ -739,7 +833,10 @@ pair<string, rpcfn_type> pCallTable[] =
     make_pair("getreceivedbylabel",    &getreceivedbylabel),
     make_pair("listreceivedbyaddress", &listreceivedbyaddress),
     make_pair("listreceivedbylabel",   &listreceivedbylabel),
+    make_pair("printkeys",             &printkeys),
 };
+
+
 map<string, rpcfn_type> mapCallTable(pCallTable, pCallTable + sizeof(pCallTable)/sizeof(pCallTable[0]));
 
 
